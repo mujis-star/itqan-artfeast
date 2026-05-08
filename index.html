@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITQAN Artsfest 2K26 | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#0f2b1f,#1a3a2f,#2c2e3a);min-height:100vh;display:flex;align-items:center;justify-content:center;}
+    .login-container{background:white;border-radius:2rem;padding:2.5rem;max-width:450px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.3);}
+    .logo-icon{font-size:3.5rem;background:linear-gradient(135deg,#1e3a2f,#2c2e3a);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .login-container h1{font-size:1.8rem;color:#1e3a2f;margin-bottom:0.5rem;}
+    .login-container p{color:#8a7a5a;margin-bottom:1.8rem;}
+    .input-group{margin-bottom:1.2rem;text-align:left;}
+    .input-group label{display:block;font-size:0.75rem;font-weight:600;margin-bottom:0.4rem;color:#4a3a28;}
+    .input-group input{width:100%;padding:0.85rem;border:1px solid #ddd2bc;border-radius:1rem;font-size:0.9rem;background:#fefcf8;}
+    .input-group input:focus{outline:none;border-color:#1e3a2f;}
+    .login-btn{background:linear-gradient(135deg,#1e3a2f,#0f2b1f);color:white;width:100%;padding:0.85rem;border:none;border-radius:1rem;font-weight:700;cursor:pointer;font-size:1rem;}
+    .login-btn:hover{transform:translateY(-2px);}
+    .error-msg{background:#fee;color:#c33;padding:0.7rem;border-radius:0.8rem;margin-bottom:1rem;display:none;}
+    .info-cards{display:flex;gap:0.5rem;margin-top:1.5rem;flex-wrap:wrap;justify-content:center;}
+    .info-card{background:#f5ede0;padding:0.3rem 0.8rem;border-radius:2rem;font-size:0.6rem;color:#4a3a28;}
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <div class="logo-icon"><i class="fas fa-trophy"></i></div>
+  <h1>ITQAN Artsfest 2K26</h1>
+  <p>Enter your credentials</p>
+  <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-triangle"></i> <span id="errorText">Invalid credentials</span></div>
+  <div class="input-group"><label>Username</label><input type="text" id="username" placeholder="Enter username"></div>
+  <div class="input-group"><label>Password</label><input type="password" id="password" placeholder="Enter password"></div>
+  <button class="login-btn" onclick="attemptLogin()">Login</button>
+  <div class="info-cards">
+    <div class="info-card">👑 Admin: admin</div>
+    <div class="info-card">🎭 Othello: othello_team</div>
+    <div class="info-card">👑 Macbeth: macbeth_team</div>
+    <div class="info-card">💀 Hamlet: hamlet_team</div>
+  </div>
+</div>
+<script>
+  const CREDENTIALS = {
+    admin: { username: "admin", password: "Admin@2026!itqan", redirect: "admin-portal.html", team: "admin" },
+    othello: { username: "othello_team", password: "Artsfest2026!", redirect: "othello-dashboard.html", team: "othello" },
+    macbeth: { username: "macbeth_team", password: "Macbeth@2026", redirect: "macbeth-dashboard.html", team: "macbeth" },
+    hamlet: { username: "hamlet_team", password: "Hamlet#Arts", redirect: "hamlet-dashboard.html", team: "hamlet" }
+  };
+  function attemptLogin() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    let matched = null;
+    for(let key in CREDENTIALS) if(CREDENTIALS[key].username === username) matched = CREDENTIALS[key];
+    if(matched && password === matched.password) {
+      sessionStorage.setItem("logged_in","true");
+      sessionStorage.setItem("user_team",matched.team);
+      sessionStorage.setItem("login_time",Date.now());
+      window.location.href = matched.redirect;
+    } else {
+      document.getElementById("errorMsg").style.display="block";
+      setTimeout(()=>document.getElementById("errorMsg").style.display="none",3000);
+    }
+  }
+  document.getElementById("password").addEventListener("keypress",e=>{if(e.key==="Enter")attemptLogin();});
+</script>
+</body>
+</html>
