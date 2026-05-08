@@ -3,205 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Macbeth Team | ITQAN Artsfest 2K26</title>
+  <title>Macbeth Team | ITQAN Artsfest</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f5ede0,#e8dbc8);color:#2c1810;}
-    .container{max-width:1600px;margin:0 auto;padding:1.5rem;}
-    .header{background:linear-gradient(135deg,#5a1e2a,#3a0e18);padding:1rem 1.5rem;border-radius:1rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-    .header h1{color:#f5e6c8;font-size:1.5rem;display:flex;align-items:center;gap:10px;}
-    .team-badge{background:#f5e6c8;color:#5a1e2a;padding:0.3rem 1rem;border-radius:2rem;font-weight:600;}
-    .portal-links{display:flex;gap:0.5rem;flex-wrap:wrap;}
-    .portal-btn{background:#f5e6c8;color:#1a3a2a;padding:0.4rem 1rem;border-radius:2rem;text-decoration:none;font-size:0.75rem;font-weight:600;transition:0.2s;}
-    .portal-btn:hover{background:#ffd700;transform:translateY(-2px);}
-    .admin-btn{background:#1a3a2a;color:#f5e6c8;}
-    .stats-bar{background:white;padding:0.7rem 1.2rem;border-radius:1rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;}
-    .info-note{background:#fae6db;padding:0.3rem 1rem;border-radius:2rem;font-size:0.7rem;color:#5a1e2a;}
-    .controls{display:flex;gap:0.8rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
-    .search-box{flex:1;max-width:300px;}
-    .search-box input{width:100%;padding:0.6rem 1rem;border:1px solid #d4bca8;border-radius:2rem;background:white;font-size:0.85rem;outline:none;}
-    .search-box input:focus{border-color:#5a1e2a;box-shadow:0 0 0 2px rgba(90,30,42,0.2);}
-    .filter-buttons{display:flex;gap:0.4rem;flex-wrap:wrap;}
-    .filter-btn{background:#f0e6d8;border:none;padding:0.4rem 1rem;border-radius:2rem;cursor:pointer;font-size:0.75rem;font-weight:500;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f5ede0,#e8dbc8);}
+    .container{max-width:1400px;margin:0 auto;padding:1.5rem;}
+    .header{background:linear-gradient(135deg,#5a1e2a,#3a0e18);padding:1rem 1.5rem;border-radius:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+    .header h1{color:white;}
+    .logout-btn{background:#e8d5c0;color:#5a1e2a;padding:0.4rem 1rem;border-radius:2rem;border:none;cursor:pointer;}
+    .team-points-card{background:white;border-radius:1rem;padding:1.5rem;margin:1rem 0;text-align:center;}
+    .team-points{font-size:3rem;font-weight:800;color:#5a1e2a;}
+    .section-title{font-size:1.2rem;font-weight:700;margin:1.5rem 0 1rem;color:#5a1e2a;border-left:4px solid #5a1e2a;padding-left:1rem;}
+    .controls{display:flex;gap:0.8rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .search-box input{width:250px;padding:0.6rem 1rem;border-radius:2rem;border:1px solid #ccc;}
+    .filter-btn{background:#f0e6d8;border:none;padding:0.4rem 1rem;border-radius:2rem;cursor:pointer;}
     .filter-btn.active{background:#5a1e2a;color:white;}
-    .table-wrapper{overflow-x:auto;background:white;border-radius:1rem;max-height:65vh;overflow-y:auto;border:1px solid #d4c4b0;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
-    table{width:100%;border-collapse:collapse;font-size:0.75rem;}
-    th{text-align:left;padding:0.8rem 0.6rem;background:#faf5eb;position:sticky;top:0;border-bottom:2px solid #e8d5c0;}
-    td{padding:0.7rem 0.6rem;border-bottom:1px solid #f0e6d8;}
-    tr:hover td{background:#fef9f0;}
-    .candidate-tag{background:#f5e6d3;padding:0.2rem 0.6rem;border-radius:1rem;font-size:0.65rem;display:inline-flex;align-items:center;gap:5px;margin:2px;}
-    .badge{display:inline-block;padding:0.15rem 0.6rem;border-radius:2rem;font-size:0.65rem;font-weight:600;}
-    .stage-badge{background:#5a1e2a;color:white;}
-    .nonstage-badge{background:#8a7a5a;color:white;}
-    .group-badge{background:#2c5f8a;color:white;}
-    .sports-badge{background:#c97e2a;color:white;}
-    .edit-cand-btn{background:#e8e0d0;border:none;padding:0.3rem 0.8rem;border-radius:1.5rem;cursor:pointer;font-size:0.7rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;}
-    .edit-cand-btn:hover{background:#d4c4b0;}
-    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
+    .table-wrapper{overflow-x:auto;background:white;border-radius:1rem;max-height:55vh;overflow-y:auto;}
+    table{width:100%;border-collapse:collapse;font-size:0.75rem;min-width:700px;}
+    th,td{padding:0.8rem;text-align:left;border-bottom:1px solid #eee;}
+    th{background:#faf5eb;}
+    .candidate-tag{background:#f5e6d3;padding:0.2rem 0.6rem;border-radius:1rem;font-size:0.65rem;display:inline-block;margin:2px;}
+    .badge{padding:0.15rem 0.6rem;border-radius:2rem;font-size:0.65rem;background:#5a1e2a;color:white;}
+    .edit-cand-btn{background:#e8e0d0;border:none;padding:0.3rem 0.8rem;border-radius:1rem;cursor:pointer;}
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;}
     .modal.active{display:flex;}
-    .modal-content{background:white;border-radius:1rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;}
-    .modal-header{padding:1rem;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;background:#faf5eb;border-radius:1rem 1rem 0 0;}
-    .modal-header h3{color:#5a1e2a;}
-    .modal-body{padding:1.2rem;}
+    .modal-content{background:white;border-radius:1rem;max-width:500px;width:90%;padding:1.5rem;}
     .form-group{margin-bottom:1rem;}
-    .form-group label{display:block;font-size:0.75rem;font-weight:600;margin-bottom:0.3rem;color:#4a3a28;}
-    .form-group input{width:100%;padding:0.6rem;border:1px solid #d4c4b0;border-radius:0.8rem;}
-    .extra-row{display:flex;gap:0.5rem;margin-bottom:0.5rem;align-items:center;}
-    .extra-row input{flex:1;padding:0.5rem;border:1px solid #ddd;border-radius:0.6rem;}
-    .add-btn-small{background:#f0e6d8;border:1px dashed #b8a78d;padding:0.5rem;width:100%;border-radius:2rem;margin-top:0.5rem;cursor:pointer;}
-    .add-btn-small:hover{background:#e3d5c2;}
-    .modal-footer{padding:1rem;border-top:1px solid #ddd;display:flex;justify-content:flex-end;gap:0.5rem;background:#fefcf8;border-radius:0 0 1rem 1rem;}
+    .form-group label{display:block;font-size:0.75rem;font-weight:600;margin-bottom:0.3rem;}
+    .form-group input{width:100%;padding:0.6rem;border:1px solid #ddd2bc;border-radius:1rem;}
     .btn-save{background:#5a1e2a;color:white;padding:0.5rem 1rem;border:none;border-radius:2rem;cursor:pointer;}
-    .btn-cancel{background:#e2d5c2;border:none;padding:0.5rem 1rem;border-radius:2rem;cursor:pointer;}
-    footer{margin-top:1.5rem;text-align:center;font-size:0.7rem;color:#8a7a5a;}
+    .btn-cancel{background:#e2d5c2;padding:0.5rem 1rem;border-radius:2rem;border:none;cursor:pointer;}
+    footer{text-align:center;margin-top:1.5rem;font-size:0.7rem;}
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <h1><i class="fas fa-crown"></i> Macbeth Team · ITQAN Artsfest 2K26</h1>
-    <div class="team-badge"><i class="fas fa-users"></i> Macbeth Division</div>
-    <div class="portal-links">
-      <a href="admin-portal.html" class="portal-btn admin-btn"><i class="fas fa-user-shield"></i> Admin</a>
-      <a href="othello.html" class="portal-btn"><i class="fas fa-mask"></i> Othello</a>
-      <a href="hamlet.html" class="portal-btn"><i class="fas fa-skull"></i> Hamlet</a>
-    </div>
-  </div>
-  <div class="stats-bar">
-    <span><i class="fas fa-calendar-alt"></i> ARTSFEST 2K26 · Macbeth Roster</span>
-    <div class="info-note"><i class="fas fa-edit"></i> Editing Macbeth participants only</div>
-    <span id="totalCount">0 Programs</span>
-  </div>
-  <div class="controls">
-    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search by code or name..."></div>
-    <div class="filter-buttons" id="filterGroup">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="Stage">Stage</button>
-      <button class="filter-btn" data-filter="Non-Stage">Non-Stage</button>
-      <button class="filter-btn" data-filter="Group">Group</button>
-      <button class="filter-btn" data-filter="Sports">Sports</button>
-    </div>
-  </div>
-  <div class="table-wrapper">
-    <table>
-      <thead><tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Macbeth Participants</th><th>Action</th></tr></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
-  <footer><i class="fas fa-sync-alt"></i> Changes sync live with Admin Portal</footer>
+  <div class="header"><h1><i class="fas fa-crown"></i> Macbeth Team Dashboard</h1><button class="logout-btn" onclick="logout()">Logout</button></div>
+  <div class="team-points-card" id="teamPointsCard"></div>
+  <div class="section-title"><i class="fas fa-users"></i> YOUR TEAM MEMBERS (10 Students)</div>
+  <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Name</th><th>Total Points</th><th>Programs</th></tr></thead><tbody id="teamMembersTable"></tbody>}</div>
+  <div class="section-title"><i class="fas fa-list"></i> PROGRAMS & YOUR CANDIDATES</div>
+  <div class="controls"><div class="search-box"><input type="text" id="searchInput" placeholder="Search..."></div><div class="filter-buttons" id="filterGroup"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="Stage">Stage</button><button class="filter-btn" data-filter="Non-Stage">Non-Stage</button><button class="filter-btn" data-filter="Group">Group</button><button class="filter-btn" data-filter="Sports">Sports</button></div></div>
+  <div class="table-wrapper"><table><thead><tr><th>Code</th><th>Program</th><th>Category</th><th>Your Candidates</th><th>Points</th><th>Action</th></tr></thead><tbody id="tableBody"></tbody>}</div>
+  <footer>Add your team members as candidates</footer>
 </div>
-
-<div id="candidateModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header"><h3><i class="fas fa-user-edit"></i> Edit Macbeth Candidates</h3><button onclick="closeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button></div>
-    <div class="modal-body">
-      <div class="form-group"><label>Candidate 1</label><input type="text" id="editCand1"></div>
-      <div class="form-group"><label>Candidate 2</label><input type="text" id="editCand2"></div>
-      <div><label>Additional Members</label><div id="extraContainer"></div><button type="button" onclick="addExtraRow()" class="add-btn-small">+ Add Member</button></div>
-    </div>
-    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button onclick="saveCandidates()" class="btn-save">Save Changes</button></div>
-  </div>
-</div>
-
+<div id="candidatesModal" class="modal"><div class="modal-content"><h3>Edit Macbeth Candidates</h3><div class="form-group"><label>Program</label><input type="text" id="progName" readonly></div><div class="form-group"><label>Candidates (comma-separated)</label><input type="text" id="candList" placeholder="e.g., MCB001, Hamza"></div><div style="display:flex;gap:10px;margin-top:1rem;justify-content:flex-end;"><button onclick="closeModal()" class="btn-cancel">Cancel</button><button onclick="saveCandidates()" class="btn-save">Save</button></div></div></div>
 <script>
-  const STORAGE_KEY = "itqan_artsfest_complete_data";
-  const TEAM_NAME = "macbeth";
-
-  let programs = [];
-  let currentFilter = "all";
-  let currentSearch = "";
-  let currentCode = null;
-
-  function loadData() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const d = JSON.parse(saved);
-        programs = d[TEAM_NAME] || [];
-      } catch(e) { console.error(e); }
-    }
-    renderTable();
-  }
-
-  function renderTable() {
-    const tbody = document.getElementById("tableBody");
-    if (!tbody) return;
-    const filtered = programs.filter(p => {
-      if (currentFilter !== "all" && p.category !== currentFilter) return false;
-      if (currentSearch && !p.code.toLowerCase().includes(currentSearch) && !p.name.toLowerCase().includes(currentSearch)) return false;
-      return true;
-    });
-    document.getElementById("totalCount").innerHTML = filtered.length + (filtered.length === 1 ? " Program" : " Programs");
-    if (filtered.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">📭 No programs for Macbeth</td></tr>';
-      return;
-    }
-    tbody.innerHTML = filtered.map(p => {
-      const catClass = p.category === "Stage" ? "stage-badge" : (p.category === "Non-Stage" ? "nonstage-badge" : (p.category === "Group" ? "group-badge" : "sports-badge"));
-      return `<tr>
-        <td><strong>${escapeHtml(p.code)}</strong></td>
-        <td>${escapeHtml(p.name)}</td>
-        <td><span class="badge" style="background:#e8e0d0;">${p.time || "-"}</span></td>
-        <td><span class="badge ${catClass}">${p.category}</span></td>
-        <td><div style="display:flex;flex-wrap:wrap;gap:4px;">${p.candidates.map(c => `<span class="candidate-tag"><i class="fas fa-user"></i> ${escapeHtml(c)}</span>`).join('')}</div></td>
-        <td><button class="edit-cand-btn" onclick="openModal('${p.code}')"><i class="fas fa-pen"></i> Edit</button></td>
-      </tr>`;
-    }).join('');
-  }
-
-  function openModal(code) {
-    const prog = programs.find(p => p.code === code);
-    if (!prog) return;
-    currentCode = code;
-    document.getElementById("editCand1").value = prog.candidates[0] || "";
-    document.getElementById("editCand2").value = prog.candidates[1] || "";
-    document.getElementById("extraContainer").innerHTML = "";
-    for (let i = 2; i < prog.candidates.length; i++) addExtraRow(prog.candidates[i]);
-    document.getElementById("candidateModal").classList.add("active");
-  }
-
-  function addExtraRow(val = "") {
-    const container = document.getElementById("extraContainer");
-    const div = document.createElement("div");
-    div.className = "extra-row";
-    div.innerHTML = `<input type="text" class="extra-input" value="${escapeHtml(val)}" placeholder="Member name"><button type="button" style="background:#e6dbcc; border:none; border-radius:2rem; width:28px; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>`;
-    container.appendChild(div);
-  }
-
-  function saveCandidates() {
-    if (!currentCode) return;
-    const idx = programs.findIndex(p => p.code === currentCode);
-    if (idx === -1) return;
-    const cand1 = document.getElementById("editCand1").value.trim();
-    const cand2 = document.getElementById("editCand2").value.trim();
-    const extras = [];
-    document.querySelectorAll("#extraContainer .extra-input").forEach(inp => { const v = inp.value.trim(); if (v) extras.push(v); });
-    programs[idx].candidates = [cand1, cand2, ...extras].filter(v => v);
-    const saved = localStorage.getItem(STORAGE_KEY);
-    let allData = { othello: [], macbeth: [], hamlet: [] };
-    if (saved) allData = JSON.parse(saved);
-    allData[TEAM_NAME] = programs;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
-    renderTable();
-    closeModal();
-  }
-
-  function closeModal() { document.getElementById("candidateModal").classList.remove("active"); currentCode = null; }
-  function escapeHtml(str) { if (!str) return ""; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
-
-  document.getElementById("searchInput").addEventListener("input", (e) => { currentSearch = e.target.value.toLowerCase(); renderTable(); });
-  document.querySelectorAll("#filterGroup .filter-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll("#filterGroup .filter-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentFilter = btn.dataset.filter;
-      renderTable();
-    });
-  });
-  window.addEventListener("storage", (e) => { if (e.key === STORAGE_KEY) loadData(); });
-  loadData();
+if(sessionStorage.getItem("user_team") !== "macbeth") { sessionStorage.clear(); window.location.href="index.html"; }
+const STORAGE_KEY = "itqan_artsfest_v4"; const TEAM_NAME = "macbeth";
+let programs = [], assignments = {}, students = [], currentFilter = "all", currentSearch = "", currentCode = null;
+function loadData() { const saved = localStorage.getItem(STORAGE_KEY); if(saved) { try { const d = JSON.parse(saved); programs = d.programs || []; assignments = d[`${TEAM_NAME}Assignments`] || {}; students = d.students || []; } catch(e){} } renderAll(); }
+function renderAll() {
+  let totalPoints = 0; for(let code in assignments) totalPoints += assignments[code]?.pointsEarned || 0;
+  document.getElementById("teamPointsCard").innerHTML = `<h3>🏆 TEAM TOTAL POINTS</h3><div class="team-points">${totalPoints}</div>`;
+  const teamStudents = students.filter(s => s.team === "macbeth");
+  document.getElementById("teamMembersTable").innerHTML = teamStudents.map(s => `<tr><td>${s.id}</td><td><strong>${s.name}</strong></td><td><strong>${s.points}</strong></td><td>${s.programs.length}</td>)`).join('');
+  const filtered = programs.filter(p => { if(currentFilter !== "all" && p.category !== currentFilter) return false; if(currentSearch && !p.code.toLowerCase().includes(currentSearch) && !p.name.toLowerCase().includes(currentSearch)) return false; return true; });
+  const tbody = document.getElementById("tableBody");
+  if(filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="6">No programs found. Contact admin. </td></tr>'; return; }
+  tbody.innerHTML = filtered.map(p => { const assign = assignments[p.code] || { candidates: [], pointsEarned: 0 }; return `<tr><td><strong>${p.code}</strong></td><td>${p.name}</td><td><span class="badge">${p.category}</span></td><td>${assign.candidates.length > 0 ? assign.candidates.map(c=>`<span class="candidate-tag">${c}</span>`).join('') : '-'}</td><td><strong>${assign.pointsEarned || 0}</strong>/${p.maxPoints}</td><td><button class="edit-cand-btn" onclick="openModal('${p.code}','${p.name}')">Edit</button></td></tr>`; }).join('');
+}
+function openModal(code,name) { currentCode=code; document.getElementById("progName").value=`${code} - ${name}`; const assign=assignments[code]||{candidates:[]}; document.getElementById("candList").value=(assign.candidates||[]).join(", "); document.getElementById("candidatesModal").classList.add("active"); }
+function saveCandidates() { if(!currentCode) return; if(!assignments[currentCode]) assignments[currentCode]={candidates:[],pointsEarned:0}; assignments[currentCode].candidates=document.getElementById("candList").value.split(",").map(s=>s.trim()).filter(s=>s); const saved=localStorage.getItem(STORAGE_KEY); let allData=saved?JSON.parse(saved):{}; allData[`${TEAM_NAME}Assignments`]=assignments; localStorage.setItem(STORAGE_KEY,JSON.stringify(allData)); loadData(); closeModal(); }
+function closeModal() { document.getElementById("candidatesModal").classList.remove("active"); currentCode=null; }
+function logout() { sessionStorage.clear(); window.location.href="index.html"; }
+document.getElementById("searchInput").addEventListener("input",(e)=>{currentSearch=e.target.value.toLowerCase();renderAll();});
+document.querySelectorAll("#filterGroup .filter-btn").forEach(btn=>{btn.addEventListener("click",()=>{document.querySelectorAll("#filterGroup .filter-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); currentFilter=btn.dataset.filter; renderAll();});});
+window.addEventListener("storage",()=>loadData());
+loadData();
 </script>
 </body>
 </html>
