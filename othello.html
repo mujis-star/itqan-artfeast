@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Othello Team | ITQAN Artsfest 2K26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f5ede0,#e8dbc8);color:#2c1810;}
+    .container{max-width:1600px;margin:0 auto;padding:1.5rem;}
+    .header{background:linear-gradient(135deg,#1e5f4b,#0e3a2a);padding:1rem 1.5rem;border-radius:1rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    .header h1{color:#f5e6c8;font-size:1.5rem;display:flex;align-items:center;gap:10px;}
+    .team-badge{background:#f5e6c8;color:#1e5f4b;padding:0.3rem 1rem;border-radius:2rem;font-weight:600;}
+    .portal-links{display:flex;gap:0.5rem;flex-wrap:wrap;}
+    .portal-btn{background:#f5e6c8;color:#1a3a2a;padding:0.4rem 1rem;border-radius:2rem;text-decoration:none;font-size:0.75rem;font-weight:600;transition:0.2s;}
+    .portal-btn:hover{background:#ffd700;}
+    .admin-btn{background:#1a3a2a;color:#f5e6c8;}
+    .stats-bar{background:white;padding:0.7rem 1.2rem;border-radius:1rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;}
+    .info-note{background:#e0f0ea;padding:0.3rem 1rem;border-radius:2rem;font-size:0.7rem;color:#1e5f4b;}
+    .controls{display:flex;gap:0.8rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .search-box{flex:1;max-width:300px;}
+    .search-box input{width:100%;padding:0.6rem 1rem;border:1px solid #c9bfac;border-radius:2rem;}
+    .filter-buttons{display:flex;gap:0.4rem;flex-wrap:wrap;}
+    .filter-btn{background:#f0e6d8;border:none;padding:0.4rem 1rem;border-radius:2rem;cursor:pointer;font-size:0.75rem;}
+    .filter-btn.active{background:#1e5f4b;color:white;}
+    .table-wrapper{overflow-x:auto;background:white;border-radius:1rem;max-height:65vh;overflow-y:auto;border:1px solid #d4c9b8;}
+    table{width:100%;border-collapse:collapse;font-size:0.75rem;}
+    th{text-align:left;padding:0.8rem 0.6rem;background:#faf5eb;position:sticky;top:0;border-bottom:2px solid #e8d5c0;}
+    td{padding:0.7rem 0.6rem;border-bottom:1px solid #f0e6d8;}
+    tr:hover td{background:#fef9f0;}
+    .candidate-tag{background:#f5e6d3;padding:0.2rem 0.6rem;border-radius:1rem;font-size:0.65rem;display:inline-flex;align-items:center;gap:5px;margin:2px;}
+    .badge{display:inline-block;padding:0.15rem 0.6rem;border-radius:2rem;font-size:0.65rem;font-weight:600;}
+    .stage-badge{background:#1e5f4b;color:white;}
+    .nonstage-badge{background:#8a7a5a;color:white;}
+    .group-badge{background:#2c5f8a;color:white;}
+    .sports-badge{background:#c97e2a;color:white;}
+    .edit-cand-btn{background:#e8e0d0;border:none;padding:0.3rem 0.8rem;border-radius:1.5rem;cursor:pointer;font-size:0.7rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;}
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
+    .modal.active{display:flex;}
+    .modal-content{background:white;border-radius:1rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;}
+    .modal-header{padding:1rem;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;background:#faf5eb;}
+    .modal-header h3{color:#1e5f4b;}
+    .modal-body{padding:1.2rem;}
+    .form-group{margin-bottom:1rem;}
+    .form-group label{display:block;font-size:0.75rem;font-weight:600;margin-bottom:0.3rem;color:#4a3a28;}
+    .form-group input{width:100%;padding:0.6rem;border:1px solid #d4c9b8;border-radius:0.8rem;}
+    .extra-row{display:flex;gap:0.5rem;margin-bottom:0.5rem;align-items:center;}
+    .extra-row input{flex:1;padding:0.5rem;border:1px solid #ddd;border-radius:0.6rem;}
+    .add-btn-small{background:#f0e6d8;border:1px dashed #b8a78d;padding:0.5rem;width:100%;border-radius:2rem;margin-top:0.5rem;cursor:pointer;}
+    .modal-footer{padding:1rem;border-top:1px solid #ddd;display:flex;justify-content:flex-end;gap:0.5rem;background:#fefcf8;}
+    .btn-save{background:#1e5f4b;color:white;padding:0.5rem 1rem;border:none;border-radius:2rem;cursor:pointer;}
+    .btn-cancel{background:#e2d5c2;border:none;padding:0.5rem 1rem;border-radius:2rem;cursor:pointer;}
+    footer{margin-top:1.5rem;text-align:center;font-size:0.7rem;color:#8a7a5a;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><i class="fas fa-mask"></i> Othello Team · ITQAN Artsfest 2K26</h1>
+    <div class="team-badge"><i class="fas fa-users"></i> Othello Division</div>
+    <div class="portal-links">
+      <a href="admin-portal.html" class="portal-btn admin-btn"><i class="fas fa-user-shield"></i> Admin</a>
+      <a href="macbeth.html" class="portal-btn"><i class="fas fa-crown"></i> Macbeth</a>
+      <a href="hamlet.html" class="portal-btn"><i class="fas fa-skull"></i> Hamlet</a>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <span><i class="fas fa-calendar-alt"></i> ARTSFEST 2K26 · Othello Roster</span>
+    <div class="info-note"><i class="fas fa-edit"></i> Editing Othello participants only</div>
+    <span id="totalCount">0 Programs</span>
+  </div>
+  <div class="controls">
+    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search by code or name..."></div>
+    <div class="filter-buttons" id="filterGroup">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Stage">Stage</button>
+      <button class="filter-btn" data-filter="Non-Stage">Non-Stage</button>
+      <button class="filter-btn" data-filter="Group">Group</button>
+      <button class="filter-btn" data-filter="Sports">Sports</button>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Othello Participants</th><th>Action</th></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <footer><i class="fas fa-sync-alt"></i> Changes sync live with Admin Portal</footer>
+</div>
+
+<div id="candidateModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><h3><i class="fas fa-user-edit"></i> Edit Othello Candidates</h3><button onclick="closeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Candidate 1</label><input type="text" id="editCand1"></div>
+      <div class="form-group"><label>Candidate 2</label><input type="text" id="editCand2"></div>
+      <div><label>Additional Members</label><div id="extraContainer"></div><button type="button" onclick="addExtraRow()" class="add-btn-small">+ Add Member</button></div>
+    </div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button onclick="saveCandidates()" class="btn-save">Save Changes</button></div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "itqan_artsfest_complete_data";
+  const TEAM_NAME = "othello";
+
+  let programs = [];
+  let currentFilter = "all";
+  let currentSearch = "";
+  let currentCode = null;
+
+  function loadData() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const d = JSON.parse(saved);
+        programs = d[TEAM_NAME] || [];
+      } catch(e) { console.error(e); }
+    }
+    renderTable();
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById("tableBody");
+    if (!tbody) return;
+    const filtered = programs.filter(p => {
+      if (currentFilter !== "all" && p.category !== currentFilter) return false;
+      if (currentSearch && !p.code.toLowerCase().includes(currentSearch) && !p.name.toLowerCase().includes(currentSearch)) return false;
+      return true;
+    });
+    document.getElementById("totalCount").innerHTML = filtered.length + (filtered.length === 1 ? " Program" : " Programs");
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">📭 No programs for Othello team</td></tr>';
+      return;
+    }
+    tbody.innerHTML = filtered.map(p => {
+      const catClass = p.category === "Stage" ? "stage-badge" : (p.category === "Non-Stage" ? "nonstage-badge" : (p.category === "Group" ? "group-badge" : "sports-badge"));
+      return `<tr>
+        <td><strong>${escapeHtml(p.code)}</strong></td>
+        <td>${escapeHtml(p.name)}</td>
+        <td><span class="badge" style="background:#e8e0d0;">${p.time || "-"}</span></td>
+        <td><span class="badge ${catClass}">${p.category}</span></td>
+        <td><div style="display:flex;flex-wrap:wrap;gap:4px;">${p.candidates.map(c => `<span class="candidate-tag"><i class="fas fa-user"></i> ${escapeHtml(c)}</span>`).join('')}</div></td>
+        <td><button class="edit-cand-btn" onclick="openModal('${p.code}')"><i class="fas fa-pen"></i> Edit Candidates</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function openModal(code) {
+    const prog = programs.find(p => p.code === code);
+    if (!prog) return;
+    currentCode = code;
+    document.getElementById("editCand1").value = prog.candidates[0] || "";
+    document.getElementById("editCand2").value = prog.candidates[1] || "";
+    document.getElementById("extraContainer").innerHTML = "";
+    for (let i = 2; i < prog.candidates.length; i++) addExtraRow(prog.candidates[i]);
+    document.getElementById("candidateModal").classList.add("active");
+  }
+
+  function addExtraRow(val = "") {
+    const container = document.getElementById("extraContainer");
+    const div = document.createElement("div");
+    div.className = "extra-row";
+    div.innerHTML = `<input type="text" class="extra-input" value="${escapeHtml(val)}" placeholder="Member name/ID"><button type="button" style="background:#e6dbcc; border:none; border-radius:2rem; width:28px; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>`;
+    container.appendChild(div);
+  }
+
+  function saveCandidates() {
+    if (!currentCode) return;
+    const idx = programs.findIndex(p => p.code === currentCode);
+    if (idx === -1) return;
+    const cand1 = document.getElementById("editCand1").value.trim();
+    const cand2 = document.getElementById("editCand2").value.trim();
+    const extras = [];
+    document.querySelectorAll("#extraContainer .extra-input").forEach(inp => { const v = inp.value.trim(); if (v) extras.push(v); });
+    programs[idx].candidates = [cand1, cand2, ...extras].filter(v => v);
+    const saved = localStorage.getItem(STORAGE_KEY);
+    let allData = { othello: [], macbeth: [], hamlet: [] };
+    if (saved) allData = JSON.parse(saved);
+    allData[TEAM_NAME] = programs;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+    renderTable();
+    closeModal();
+  }
+
+  function closeModal() { document.getElementById("candidateModal").classList.remove("active"); currentCode = null; }
+  function escapeHtml(str) { if (!str) return ""; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
+
+  document.getElementById("searchInput").addEventListener("input", (e) => { currentSearch = e.target.value.toLowerCase(); renderTable(); });
+  document.querySelectorAll("#filterGroup .filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#filterGroup .filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.dataset.filter;
+      renderTable();
+    });
+  });
+  window.addEventListener("storage", (e) => { if (e.key === STORAGE_KEY) loadData(); });
+  loadData();
+</script>
+</body>
+</html>
