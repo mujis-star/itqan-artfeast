@@ -2,1129 +2,518 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>ITQAN Artsfest 2K26 · Supreme Admin Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITQAN Artsfest 2K26 · Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f4efe3;
-      color: #2c2418;
-    }
-
-    .container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 1.5rem;
-    }
-
-    /* Header */
-    .header {
-      background: linear-gradient(135deg, #1e3a2f, #0a2a1a);
-      padding: 1rem 1.8rem;
-      border-radius: 1.5rem;
-      margin-bottom: 1.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .header h1 {
-      color: #f9efda;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .portal-links {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
-    .portal-btn {
-      background: #f9efda;
-      color: #1e3a2f;
-      padding: 0.45rem 1.2rem;
-      border-radius: 2rem;
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 700;
-      transition: all 0.2s;
-    }
-
-    .portal-btn:hover {
-      background: #ffdfa5;
-      transform: translateY(-2px);
-    }
-
-    /* Team Tabs */
-    .team-tabs {
-      display: flex;
-      gap: 0.8rem;
-      margin-bottom: 1.8rem;
-      flex-wrap: wrap;
-      background: #e9e2d4;
-      padding: 0.5rem;
-      border-radius: 3rem;
-      width: fit-content;
-    }
-
-    .team-tab {
-      padding: 0.65rem 2rem;
-      background: transparent;
-      border: none;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      border-radius: 2rem;
-      transition: 0.2s;
-      color: #3e2e1f;
-    }
-
-    .team-tab.active {
-      background: #1e3a2f;
-      color: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Tab Content */
-    .tab-content {
-      display: none;
-      animation: fade 0.2s ease;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    @keyframes fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Stats Bar */
-    .stats-bar {
-      background: white;
-      padding: 0.7rem 1.2rem;
-      border-radius: 1rem;
-      margin-bottom: 1.2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      font-weight: 600;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Controls */
-    .controls {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.2rem;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .search-box {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 0.65rem 1rem;
-      border: 1px solid #ddd2bc;
-      border-radius: 2rem;
-      background: white;
-      font-size: 0.85rem;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    .search-box input:focus {
-      border-color: #1e3a2f;
-      box-shadow: 0 0 0 2px rgba(30, 58, 47, 0.2);
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      background: #f0eade;
-      border: none;
-      padding: 0.45rem 1.2rem;
-      border-radius: 2rem;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-      transition: 0.15s;
-    }
-
-    .filter-btn.active {
-      background: #1e3a2f;
-      color: white;
-    }
-
-    .add-btn {
-      background: #1e3a2f;
-      color: white;
-      border: none;
-      padding: 0.5rem 1.3rem;
-      border-radius: 2rem;
-      cursor: pointer;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: 0.2s;
-    }
-
-    .add-btn:hover {
-      background: #0f2b1f;
-      transform: scale(0.97);
-    }
-
-    /* Table */
-    .table-wrapper {
-      overflow-x: auto;
-      background: white;
-      border-radius: 1rem;
-      max-height: 65vh;
-      overflow-y: auto;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      border: 1px solid #ede3d2;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-      min-width: 900px;
-    }
-
-    th {
-      text-align: left;
-      padding: 1rem 0.8rem;
-      background: #faf6ef;
-      position: sticky;
-      top: 0;
-      border-bottom: 2px solid #e9dfcf;
-      z-index: 10;
-      font-weight: 700;
-    }
-
-    td {
-      padding: 0.85rem 0.8rem;
-      border-bottom: 1px solid #f1e9dd;
-      vertical-align: middle;
-    }
-
-    tr:hover td {
-      background: #fefaf2;
-    }
-
-    /* Badges */
-    .candidate-tag {
-      background: #f3ede3;
-      padding: 0.2rem 0.7rem;
-      border-radius: 2rem;
-      font-size: 0.7rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin: 3px 4px 3px 0;
-      font-weight: 500;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.2rem 0.8rem;
-      border-radius: 2rem;
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-
-    .stage-badge {
-      background: #236b4c;
-      color: white;
-    }
-
-    .nonstage-badge {
-      background: #9b7b5c;
-      color: white;
-    }
-
-    .group-badge {
-      background: #2c6b8f;
-      color: white;
-    }
-
-    .sports-badge {
-      background: #d97c2b;
-      color: white;
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .btn-edit, .btn-delete, .btn-candidates {
-      padding: 0.3rem 0.8rem;
-      border-radius: 1.5rem;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.15s;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .btn-edit {
-      background: #e8e0d0;
-      color: #4a3922;
-    }
-
-    .btn-edit:hover {
-      background: #d4c9b8;
-      transform: scale(0.96);
-    }
-
-    .btn-delete {
-      background: #f5e0d8;
-      color: #b33a2a;
-    }
-
-    .btn-delete:hover {
-      background: #e8c8bc;
-      transform: scale(0.96);
-    }
-
-    .btn-candidates {
-      background: #1e3a2f;
-      color: white;
-    }
-
-    .btn-candidates:hover {
-      background: #0f2b1f;
-      transform: scale(0.96);
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(3px);
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: white;
-      border-radius: 1.5rem;
-      max-width: 550px;
-      width: 92%;
-      max-height: 85vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
-      animation: fadeUp 0.2s;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .modal-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid #ece2d4;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fefbf6;
-      border-radius: 1.5rem 1.5rem 0 0;
-    }
-
-    .modal-header h3 {
-      font-weight: 800;
-      color: #1e3a2f;
-    }
-
-    .modal-body {
-      padding: 1.5rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      color: #4a3922;
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 0.7rem;
-      border: 1px solid #ddd2bc;
-      border-radius: 1rem;
-      font-size: 0.85rem;
-      background: #fffefc;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
-
-    .category-options {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
-      flex-wrap: wrap;
-      background: #fcf9f3;
-      padding: 0.6rem;
-      border-radius: 1rem;
-    }
-
-    .category-options label {
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .extra-row {
-      display: flex;
-      gap: 0.6rem;
-      margin-bottom: 0.7rem;
-      align-items: center;
-    }
-
-    .extra-row input {
-      flex: 1;
-      padding: 0.6rem;
-      border-radius: 1rem;
-      border: 1px solid #ddd;
-    }
-
-    .add-btn-small {
-      background: #f4ede3;
-      border: 1px dashed #b8a78d;
-      padding: 0.6rem;
-      width: 100%;
-      border-radius: 2rem;
-      margin-top: 0.5rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.1s;
-    }
-
-    .add-btn-small:hover {
-      background: #e8dfd0;
-    }
-
-    .modal-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid #ece2d4;
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.8rem;
-      background: #fefbf6;
-      border-radius: 0 0 1.5rem 1.5rem;
-    }
-
-    .btn-save {
-      background: #1e3a2f;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 2rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-cancel {
-      background: #e2d5c2;
-      padding: 0.6rem 1.2rem;
-      border-radius: 2rem;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    footer {
-      margin-top: 1.8rem;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #a48e72;
-    }
-
-    @media (max-width: 700px) {
-      .container {
-        padding: 1rem;
-      }
-
-      .team-tab {
-        padding: 0.4rem 1rem;
-        font-size: 0.8rem;
-      }
-
-      .action-buttons {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:#f4efe3;}
+    .container{max-width:1600px;margin:0 auto;padding:1.5rem;}
+    .header{background:linear-gradient(135deg,#1e3a2f,#0a2a1a);padding:1rem 1.8rem;border-radius:1.5rem;margin-bottom:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+    .header h1{color:#f9efda;font-size:1.5rem;}
+    .logout-btn{background:#e8d5c0;color:#5a2d0e;padding:0.4rem 1rem;border-radius:2rem;border:none;cursor:pointer;}
+    .reset-btn{background:#f5e0d8;color:#b33a2a;padding:0.4rem 1rem;border-radius:2rem;border:none;cursor:pointer;margin-left:0.5rem;}
+    .main-tabs{display:flex;gap:0.8rem;margin-bottom:1.8rem;flex-wrap:wrap;background:#e9e2d4;padding:0.5rem;border-radius:3rem;width:fit-content;}
+    .main-tab{padding:0.65rem 2rem;background:transparent;border:none;font-size:1rem;font-weight:700;cursor:pointer;border-radius:2rem;color:#3e2e1f;}
+    .main-tab.active{background:#1e3a2f;color:white;}
+    .tab-content{display:none;animation:fade 0.2s;}
+    .tab-content.active{display:block;}
+    @keyframes fade{from{opacity:0;}to{opacity:1;}}
+    .stats-bar{background:white;padding:0.7rem 1.2rem;border-radius:1rem;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+    .controls{display:flex;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+    .search-box{flex:1;min-width:250px;}
+    .search-box input{width:100%;padding:0.65rem 1rem;border:1px solid #ddd2bc;border-radius:2rem;}
+    .filter-buttons{display:flex;gap:0.5rem;flex-wrap:wrap;}
+    .filter-btn{background:#f0eade;border:none;padding:0.45rem 1.2rem;border-radius:2rem;cursor:pointer;font-size:0.75rem;font-weight:600;}
+    .filter-btn.active{background:#1e3a2f;color:white;}
+    .add-btn{background:#1e3a2f;color:white;border:none;padding:0.5rem 1.3rem;border-radius:2rem;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+    .table-wrapper{overflow-x:auto;background:white;border-radius:1rem;max-height:60vh;overflow-y:auto;border:1px solid #ede3d2;}
+    table{width:100%;border-collapse:collapse;font-size:0.75rem;min-width:900px;}
+    th{text-align:left;padding:0.8rem 0.6rem;background:#faf6ef;position:sticky;top:0;border-bottom:2px solid #e9dfcf;}
+    td{padding:0.7rem 0.6rem;border-bottom:1px solid #f1e9dd;}
+    tr:hover td{background:#fefaf2;}
+    .candidate-tag{background:#f3ede3;padding:0.15rem 0.5rem;border-radius:1rem;font-size:0.65rem;display:inline-block;margin:2px;}
+    .badge{display:inline-block;padding:0.15rem 0.6rem;border-radius:2rem;font-size:0.65rem;font-weight:600;}
+    .stage-badge{background:#236b4c;color:white;}
+    .nonstage-badge{background:#9b7b5c;color:white;}
+    .group-badge{background:#2c6b8f;color:white;}
+    .sports-badge{background:#d97c2b;color:white;}
+    .action-buttons{display:flex;gap:6px;flex-wrap:wrap;}
+    .btn-edit,.btn-result{padding:0.25rem 0.7rem;border-radius:1.5rem;font-size:0.65rem;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:4px;}
+    .btn-edit{background:#e8e0d0;color:#4a3922;}
+    .btn-result{background:#d4a574;color:white;}
+    .team-subtabs{display:flex;gap:0.8rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+    .team-subtab{padding:0.5rem 1.5rem;background:#e9e2d4;border:none;border-radius:2rem;cursor:pointer;font-weight:600;}
+    .team-subtab.active{background:#1e3a2f;color:white;}
+    .team-panel{display:none;}
+    .team-panel.active{display:block;}
+    .team-points-card{background:white;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:space-around;}
+    .team-card{text-align:center;padding:1rem;border-radius:1rem;min-width:150px;background:linear-gradient(135deg,#f9efda,#f0eade);}
+    .team-card .points{font-size:2rem;font-weight:800;color:#1e3a2f;}
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;}
+    .modal.active{display:flex;}
+    .modal-content{background:white;border-radius:1.5rem;max-width:500px;width:92%;padding:1.5rem;}
+    .modal-header{display:flex;justify-content:space-between;margin-bottom:1rem;}
+    .modal-header h3{color:#1e3a2f;}
+    .form-group{margin-bottom:1rem;}
+    .form-group label{display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.3rem;}
+    .form-group input{width:100%;padding:0.6rem;border:1px solid #ddd2bc;border-radius:1rem;}
+    .modal-footer{display:flex;justify-content:flex-end;gap:0.8rem;margin-top:1rem;}
+    .btn-save{background:#1e3a2f;color:white;padding:0.5rem 1rem;border:none;border-radius:2rem;cursor:pointer;}
+    .btn-cancel{background:#e2d5c2;padding:0.5rem 1rem;border-radius:2rem;border:none;cursor:pointer;}
+    footer{text-align:center;margin-top:1.5rem;font-size:0.7rem;color:#a48e72;}
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1><i class="fas fa-crown"></i> ITQAN Artsfest 2K26 · Supreme Admin</h1>
-    <div class="portal-links">
-      <a href="othello.html" class="portal-btn" id="othelloLink"><i class="fas fa-mask"></i> Othello Team</a>
-      <a href="macbeth.html" class="portal-btn" id="macbethLink"><i class="fas fa-crown"></i> Macbeth Team</a>
-      <a href="hamlet.html" class="portal-btn" id="hamletLink"><i class="fas fa-skull"></i> Hamlet Team</a>
+    <h1><i class="fas fa-trophy"></i> ITQAN Artsfest 2K26 · Admin Dashboard</h1>
+    <div>
+      <button class="reset-btn" onclick="resetAllData()"><i class="fas fa-undo"></i> Reset Data</button>
+      <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
   </div>
 
-  <div class="team-tabs">
-    <button class="team-tab active" data-team="othello"><i class="fas fa-mask"></i> Othello Team</button>
-    <button class="team-tab" data-team="macbeth"><i class="fas fa-feather-alt"></i> Macbeth Team</button>
-    <button class="team-tab" data-team="hamlet"><i class="fas fa-skull"></i> Hamlet Team</button>
+  <div class="main-tabs">
+    <button class="main-tab active" data-tab="programs"><i class="fas fa-list"></i> Programs & Candidates</button>
+    <button class="main-tab" data-tab="results"><i class="fas fa-chart-line"></i> Results & Points</button>
+    <button class="main-tab" data-tab="standings"><i class="fas fa-medal"></i> Team Standings</button>
+    <button class="main-tab" data-tab="students"><i class="fas fa-users"></i> Student Profiles</button>
   </div>
 
-  <!-- OTHELLO TAB -->
-  <div id="othelloTab" class="tab-content active">
-    <div class="stats-bar">
-      <span><i class="fas fa-chalkboard-user"></i> Othello Management</span>
-      <span id="othelloCount">0 Programs</span>
+  <div id="programsTab" class="tab-content active">
+    <div class="team-subtabs">
+      <button class="team-subtab active" data-team="othello"><i class="fas fa-mask"></i> Othello Team</button>
+      <button class="team-subtab" data-team="macbeth"><i class="fas fa-crown"></i> Macbeth Team</button>
+      <button class="team-subtab" data-team="hamlet"><i class="fas fa-skull"></i> Hamlet Team</button>
     </div>
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="searchOthello" placeholder="🔍 Search by code or name...">
-      </div>
-      <div class="filter-buttons" id="filterOthelloGroup">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Stage">Stage</button>
-        <button class="filter-btn" data-filter="Non-Stage">Non-Stage</button>
-        <button class="filter-btn" data-filter="Group">Group</button>
-        <button class="filter-btn" data-filter="Sports">Sports</button>
-      </div>
-      <button class="add-btn" onclick="openAddProgram('othello')"><i class="fas fa-plus-circle"></i> New Program</button>
+    
+    <div id="othelloPanel" class="team-panel active">
+      <div class="stats-bar"><span>🎭 OTHELLO TEAM</span><span id="othelloCount">0 programs</span><button class="add-btn" onclick="addNewProgram()"><i class="fas fa-plus"></i> Add Program</button></div>
+      <div class="controls"><div class="search-box"><input type="text" id="searchOthello" placeholder="Search programs..."></div><div class="filter-buttons" id="filterOthello"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="Stage">Stage</button><button class="filter-btn" data-filter="Non-Stage">Non-Stage</button><button class="filter-btn" data-filter="Group">Group</button><button class="filter-btn" data-filter="Sports">Sports</button></div></div>
+      <div class="table-wrapper"><table><thead><tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Othello Candidates</th><th>Points</th><th>Actions</th></tr></thead><tbody id="othelloTable"></tbody></table></div>
     </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Program Name</th>
-            <th>Time</th>
-            <th>Category</th>
-            <th>Participants (Candidates)</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="othelloTable"></tbody>
-      </table>
+    
+    <div id="macbethPanel" class="team-panel">
+      <div class="stats-bar"><span>👑 MACBETH TEAM</span><span id="macbethCount">0 programs</span><button class="add-btn" onclick="addNewProgram()"><i class="fas fa-plus"></i> Add Program</button></div>
+      <div class="controls"><div class="search-box"><input type="text" id="searchMacbeth" placeholder="Search programs..."></div><div class="filter-buttons" id="filterMacbeth"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="Stage">Stage</button><button class="filter-btn" data-filter="Non-Stage">Non-Stage</button><button class="filter-btn" data-filter="Group">Group</button><button class="filter-btn" data-filter="Sports">Sports</button></div></div>
+      <div class="table-wrapper"><table><thead><tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Macbeth Candidates</th><th>Points</th><th>Actions</th></tr></thead><tbody id="macbethTable"></tbody></table></div>
+    </div>
+    
+    <div id="hamletPanel" class="team-panel">
+      <div class="stats-bar"><span>💀 HAMLET TEAM</span><span id="hamletCount">0 programs</span><button class="add-btn" onclick="addNewProgram()"><i class="fas fa-plus"></i> Add Program</button></div>
+      <div class="controls"><div class="search-box"><input type="text" id="searchHamlet" placeholder="Search programs..."></div><div class="filter-buttons" id="filterHamlet"><button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="Stage">Stage</button><button class="filter-btn" data-filter="Non-Stage">Non-Stage</button><button class="filter-btn" data-filter="Group">Group</button><button class="filter-btn" data-filter="Sports">Sports</button></div></div>
+      <div class="table-wrapper"><table><thead><tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Hamlet Candidates</th><th>Points</th><th>Actions</th></tr></thead><tbody id="hamletTable"></tbody></table></div>
     </div>
   </div>
 
-  <!-- MACBETH TAB -->
-  <div id="macbethTab" class="tab-content">
-    <div class="stats-bar">
-      <span><i class="fas fa-crown"></i> Macbeth Management</span>
-      <span id="macbethCount">0 Programs</span>
-    </div>
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="searchMacbeth" placeholder="🔍 Search by code or name...">
-      </div>
-      <div class="filter-buttons" id="filterMacbethGroup">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Stage">Stage</button>
-        <button class="filter-btn" data-filter="Non-Stage">Non-Stage</button>
-        <button class="filter-btn" data-filter="Group">Group</button>
-        <button class="filter-btn" data-filter="Sports">Sports</button>
-      </div>
-      <button class="add-btn" onclick="openAddProgram('macbeth')"><i class="fas fa-plus-circle"></i> New Program</button>
-    </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Participants</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="macbethTable"></tbody>
-      </table>
-    </div>
+  <div id="resultsTab" class="tab-content">
+    <div class="stats-bar"><span><i class="fas fa-chart-simple"></i> ALL RESULTS BY TEAM</span><span id="totalResultsCount">0 entries</span></div>
+    <div class="table-wrapper"><table><thead><tr><th>Team</th><th>Code</th><th>Program</th><th>Category</th><th>Earned Points</th><th>Max Points</th><th>Action</th></tr></thead><tbody id="resultsTable"></tbody></table></div>
   </div>
 
-  <!-- HAMLET TAB -->
-  <div id="hamletTab" class="tab-content">
-    <div class="stats-bar">
-      <span><i class="fas fa-skull"></i> Hamlet Management</span>
-      <span id="hamletCount">0 Programs</span>
-    </div>
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="searchHamlet" placeholder="🔍 Search by code or name...">
-      </div>
-      <div class="filter-buttons" id="filterHamletGroup">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Stage">Stage</button>
-        <button class="filter-btn" data-filter="Non-Stage">Non-Stage</button>
-        <button class="filter-btn" data-filter="Group">Group</button>
-        <button class="filter-btn" data-filter="Sports">Sports</button>
-      </div>
-      <button class="add-btn" onclick="openAddProgram('hamlet')"><i class="fas fa-plus-circle"></i> New Program</button>
-    </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Participants</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="hamletTable"></tbody>
-      </table>
-    </div>
+  <div id="standingsTab" class="tab-content">
+    <div class="team-points-card" id="teamStandingsContainer"></div>
+    <div class="stats-bar"><span><i class="fas fa-medal"></i> STUDENT LEADERBOARD</span></div>
+    <div class="table-wrapper"><table><thead><tr><th>Rank</th><th>ID</th><th>Name</th><th>Team</th><th>Total Points</th><th>Programs</th></tr></thead><tbody id="studentLeaderboard"></tbody></table></div>
   </div>
-  <footer><i class="fas fa-globe"></i> Live sync across all team portals · Changes auto-save to localStorage</footer>
-</div>
 
-<!-- Program Modal (Add/Edit Full Program) -->
-<div id="programModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="modalTitle">Program Details</h3>
-      <button onclick="closeModal('programModal')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Program Code *</label>
-          <input type="text" id="progCode" placeholder="e.g., TX99">
-        </div>
-        <div class="form-group">
-          <label>Program Name *</label>
-          <input type="text" id="progName" placeholder="Name">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Time Duration</label>
-          <input type="text" id="progTime" placeholder="e.g., 30m, 2h">
-        </div>
-        <div class="form-group">
-          <label>Category *</label>
-          <div class="category-options" id="categoryRadios">
-            <label><input type="radio" name="progCategory" value="Stage"> Stage</label>
-            <label><input type="radio" name="progCategory" value="Non-Stage"> Non-Stage</label>
-            <label><input type="radio" name="progCategory" value="Group"> Group</label>
-            <label><input type="radio" name="progCategory" value="Sports"> Sports</label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Candidate 1</label>
-        <input type="text" id="progCand1" placeholder="Student name/ID">
-      </div>
-      <div class="form-group">
-        <label>Candidate 2</label>
-        <input type="text" id="progCand2" placeholder="Student name/ID">
-      </div>
-      <div>
-        <label>Additional Candidates</label>
-        <div id="progExtra"></div>
-        <button type="button" onclick="addExtraField('progExtra')" class="add-btn-small">+ Add Candidate</button>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('programModal')">Cancel</button>
-      <button onclick="saveProgram()" class="btn-save">Save Program</button>
-    </div>
+  <div id="studentsTab" class="tab-content">
+    <div class="stats-bar"><span><i class="fas fa-user-graduate"></i> ALL 30 STUDENTS</span><button class="add-btn" onclick="addStudent()"><i class="fas fa-plus"></i> Add Student</button></div>
+    <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Name</th><th>Team</th><th>Total Points</th><th>Programs</th><th>Actions</th></tr></thead><tbody id="studentsTable"></tbody></table></div>
   </div>
-</div>
-
-<!-- Candidate Only Modal -->
-<div id="candidateModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>✏️ Edit Participants (Candidates)</h3>
-      <button onclick="closeModal('candidateModal')" style="background:none; border:none; font-size:1.5rem;">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>Candidate 1</label>
-        <input type="text" id="candEdit1">
-      </div>
-      <div class="form-group">
-        <label>Candidate 2</label>
-        <input type="text" id="candEdit2">
-      </div>
-      <div>
-        <label>Additional Members</label>
-        <div id="candExtra"></div>
-        <button type="button" onclick="addExtraField('candExtra')" class="add-btn-small">+ Add Member</button>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('candidateModal')">Cancel</button>
-      <button onclick="saveCandidatesOnly()" class="btn-save">Update Candidates</button>
-    </div>
-  </div>
+  <footer><i class="fas fa-globe"></i> Live sync · Click Reset if data is missing</footer>
 </div>
 
 <script>
-  // MASTER PROGRAM LIST (80+ programs)
-  const MASTER_PROGRAMS_LIST = [
-    { code: "TV1", name: "Sentence Translation", time: "30m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TV2", name: "GK Quiz", time: "30m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TV3", name: "Math Talent", time: "45m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TV4", name: "Science Master", time: "45m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TV5", name: "Acrylic Painting", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TV6", name: "Excel Master", time: "45m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TV7", name: "Poster Designing Digital", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TV8", name: "Vocabulary", time: "30m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TV9", name: "Typing Trilingual", time: "10m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TZ10", name: "Dictionary making Hindi", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TZ11", name: "Children's Magazine MLM", time: "120m", category: "Group", candidates: ["S1", "S2", "S3", "S4", "S5"] },
-    { code: "TZ12", name: "Instant Newspaper MLM", time: "90m", category: "Group", candidates: ["S1", "S2", "S3", "S4"] },
-    { code: "TX13", name: "Varsity Talent", time: "60m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TX14", name: "Grammar Quiz", time: "30m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TX15", name: "Geo Galat", time: "30m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TX16", name: "Spelling Bee", time: "30m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TX17", name: "Mutafaza ARB", time: "30m", category: "Group", candidates: ["S1", "S2"] },
-    { code: "TX18", name: "Word fight ENG", time: "30m", category: "Group", candidates: ["S1", "S2"] },
-    { code: "TW19", name: "Hifz & Qira'ah", time: "7m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TW20", name: "Wa'az", time: "5m", category: "Stage", candidates: ["S1"] },
-    { code: "TW21", name: "Thadrees", time: "4m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TW22", name: "Padappattu", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW23", name: "Song ENG", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW24", name: "Song ARB", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW25", name: "Song URD", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW26", name: "Group Song", time: "5m", category: "Group", candidates: ["S1", "S2", "S3"] },
-    { code: "TW27", name: "Padhyaparayanam", time: "4m", category: "Stage", candidates: ["S1", "S2"] },
-    { code: "TW28", name: "Speech & Song MLM", time: "8m", category: "Group", candidates: ["S1", "S2", "S3", "S4"] },
-    { code: "TW29", name: "Speech MLM", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW30", name: "Speech ENG", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW31", name: "Speech ARB", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW32", name: "Speech URD", time: "4m", category: "Stage", candidates: ["S1"] },
-    { code: "TW33", name: "History Talk ENG", time: "6m", category: "Stage", candidates: ["S1"] },
-    { code: "TW34", name: "Oru Nimisham", time: "2m", category: "Stage", candidates: ["S1"] },
-    { code: "TY35", name: "Essay MLM", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY36", name: "Essay ENG", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY37", name: "Essay ARB", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY38", name: "Essay URD", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY39", name: "Poem MLM", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY40", name: "Poem ENG", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY41", name: "Poem ARB", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY42", name: "Poem URD", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY43", name: "Short Story MLM", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY44", name: "Short Story ENG", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY45", name: "Short Story ARB", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY46", name: "Short Story URD", time: "60m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY47", name: "Text Tornado", time: "45m", category: "Non-Stage", candidates: ["S1", "S2"] },
-    { code: "TY48", name: "Image Elaboration ENG", time: "45m", category: "Non-Stage", candidates: ["S1"] },
-    { code: "TY49", name: "Cartoon", time: "45m", category: "Non-Stage", candidates: ["S1"] },
-    { code: "TY50", name: "Appreciation MLM", time: "30m", category: "Non-Stage", candidates: ["S1"] },
-    { code: "KW51", name: "Qawwali URD", time: "10m", category: "Group", candidates: ["S1", "S2", "S3", "S4", "S5", "S6", "S7"] },
-    { code: "KW52", name: "Sama'", time: "10m", category: "Group", candidates: ["S1", "S2", "S3"] },
-    { code: "KZ53", name: "Debate ENG", time: "40m", category: "Group", candidates: ["S1", "S2", "S3", "S4"] },
-    { code: "KZ54", name: "Munazarah", time: "40m", category: "Group", candidates: ["S1", "S2", "S3", "S4"] },
-    { code: "KZ55", name: "Musha'arah", time: "45m", category: "Group", candidates: ["S1", "S2", "S3"] },
-    { code: "TS63", name: "Football", time: "-", category: "Sports", candidates: ["S1", "S2", "S3", "S4", "S5", "S6"] },
-    { code: "TS64", name: "Cricket", time: "-", category: "Sports", candidates: ["S1", "S2", "S3", "S4", "S5"] },
-    { code: "TS65", name: "Juggling", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS66", name: "Marathon", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS67", name: "Running 100m", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS68", name: "Relay", time: "-", category: "Sports", candidates: ["S1", "S2", "S3", "S4"] },
-    { code: "TS69", name: "High Jump", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS70", name: "Shoot Point", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS71", name: "Penalty Shootout", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS72", name: "Push up", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS73", name: "Pull up", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS74", name: "Plank", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS75", name: "Air Ball", time: "-", category: "Sports", candidates: ["S1", "S2", "S3"] },
-    { code: "TS76", name: "Volley Ball", time: "-", category: "Sports", candidates: ["S1", "S2", "S3", "S4", "S5", "S6"] },
-    { code: "TS77", name: "Badminton", time: "-", category: "Sports", candidates: ["S1", "S2"] },
-    { code: "TS78", name: "Shoot to Point", time: "-", category: "Sports", candidates: ["S1"] },
-    { code: "TS79", name: "Ball Throwing", time: "-", category: "Sports", candidates: ["S1"] },
-    { code: "TS80", name: "Chess", time: "-", category: "Sports", candidates: ["S1"] }
-  ];
+if(sessionStorage.getItem("user_team") !== "admin") { sessionStorage.clear(); window.location.href="index.html"; }
 
-  const STORAGE_KEY = "itqan_artsfest_complete_data";
-  let othelloData = [], macbethData = [], hamletData = [];
-  let othelloFilter = "all", macbethFilter = "all", hamletFilter = "all";
-  let othelloSearch = "", macbethSearch = "", hamletSearch = "";
-  let currentTeam = null, currentCode = null, currentEditMode = null;
+// HARDCODED PROGRAM DATA - Always available
+const MASTER_PROGRAMS = [
+  { code: "TV1", name: "Sentence Translation", time: "30m", category: "Stage", maxPoints: 100 },
+  { code: "TV2", name: "GK Quiz", time: "30m", category: "Stage", maxPoints: 100 },
+  { code: "TV3", name: "Math Talent", time: "45m", category: "Stage", maxPoints: 100 },
+  { code: "TV4", name: "Science Master", time: "45m", category: "Stage", maxPoints: 100 },
+  { code: "TV5", name: "Acrylic Painting", time: "60m", category: "Non-Stage", maxPoints: 100 },
+  { code: "TV6", name: "Excel Master", time: "45m", category: "Non-Stage", maxPoints: 100 },
+  { code: "TV7", name: "Poster Designing", time: "60m", category: "Non-Stage", maxPoints: 100 },
+  { code: "TZ12", name: "Instant Newspaper", time: "90m", category: "Group", maxPoints: 150 },
+  { code: "TX13", name: "Varsity Talent", time: "60m", category: "Stage", maxPoints: 100 },
+  { code: "TX14", name: "Grammar Quiz", time: "30m", category: "Stage", maxPoints: 100 },
+  { code: "TW19", name: "Hifz & Qira'ah", time: "7m", category: "Stage", maxPoints: 100 },
+  { code: "TS63", name: "Football", time: "-", category: "Sports", maxPoints: 100 },
+  { code: "TS64", name: "Cricket", time: "-", category: "Sports", maxPoints: 100 },
+  { code: "TS80", name: "Chess", time: "-", category: "Sports", maxPoints: 100 }
+];
 
-  function initData() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        othelloData = parsed.othello || JSON.parse(JSON.stringify(MASTER_PROGRAMS_LIST));
-        macbethData = parsed.macbeth || JSON.parse(JSON.stringify(MASTER_PROGRAMS_LIST));
-        hamletData = parsed.hamlet || JSON.parse(JSON.stringify(MASTER_PROGRAMS_LIST));
-      } catch (e) {
-        setDefaultAll();
-      }
-    } else {
-      setDefaultAll();
-    }
+// HARDCODED STUDENT DATA
+const DEFAULT_STUDENTS = [
+  { id:"OTH001", name:"Ahmed Al Mansouri", team:"othello", points:0, programs:[] },
+  { id:"OTH002", name:"Fatima Al Zahra", team:"othello", points:0, programs:[] },
+  { id:"OTH003", name:"Youssef Al Hashimi", team:"othello", points:0, programs:[] },
+  { id:"OTH004", name:"Mariam Al Kaabi", team:"othello", points:0, programs:[] },
+  { id:"OTH005", name:"Omar Al Mazroui", team:"othello", points:0, programs:[] },
+  { id:"OTH006", name:"Layla Al Nuaimi", team:"othello", points:0, programs:[] },
+  { id:"OTH007", name:"Hamad Al Dhaheri", team:"othello", points:0, programs:[] },
+  { id:"OTH008", name:"Noor Al Ameri", team:"othello", points:0, programs:[] },
+  { id:"OTH009", name:"Rashid Al Shamsi", team:"othello", points:0, programs:[] },
+  { id:"OTH010", name:"Aisha Al Marzouqi", team:"othello", points:0, programs:[] },
+  { id:"MCB001", name:"Hamza Al Qasimi", team:"macbeth", points:0, programs:[] },
+  { id:"MCB002", name:"Nadine Khalil", team:"macbeth", points:0, programs:[] },
+  { id:"MCB003", name:"Tariq Al Rashed", team:"macbeth", points:0, programs:[] },
+  { id:"MCB004", name:"Samira Al Ghanim", team:"macbeth", points:0, programs:[] },
+  { id:"MCB005", name:"Khalid Al Mutawa", team:"macbeth", points:0, programs:[] },
+  { id:"MCB006", name:"Leila Al Sabah", team:"macbeth", points:0, programs:[] },
+  { id:"MCB007", name:"Zayed Al Falasi", team:"macbeth", points:0, programs:[] },
+  { id:"MCB008", name:"Haya Al Maktoum", team:"macbeth", points:0, programs:[] },
+  { id:"MCB009", name:"Sultan Al Nuaimi", team:"macbeth", points:0, programs:[] },
+  { id:"MCB010", name:"Reem Al Suwaidi", team:"macbeth", points:0, programs:[] },
+  { id:"HML001", name:"Ibrahim Al Sharji", team:"hamlet", points:0, programs:[] },
+  { id:"HML002", name:"Noura Al Hosani", team:"hamlet", points:0, programs:[] },
+  { id:"HML003", name:"Majid Al Zaabi", team:"hamlet", points:0, programs:[] },
+  { id:"HML004", name:"Salma Al Ali", team:"hamlet", points:0, programs:[] },
+  { id:"HML005", name:"Saif Al Ketbi", team:"hamlet", points:0, programs:[] },
+  { id:"HML006", name:"Amna Al Remeithi", team:"hamlet", points:0, programs:[] },
+  { id:"HML007", name:"Mohammed Al Marar", team:"hamlet", points:0, programs:[] },
+  { id:"HML008", name:"Shaikha Al Dhaheri", team:"hamlet", points:0, programs:[] },
+  { id:"HML009", name:"Abdullah Al Ameri", team:"hamlet", points:0, programs:[] },
+  { id:"HML010", name:"Mona Al Mazroui", team:"hamlet", points:0, programs:[] }
+];
+
+const STORAGE_KEY = "itqan_artsfest_v4";
+let programs = [];
+let othelloAssignments = {}, macbethAssignments = {}, hamletAssignments = {};
+let students = [];
+
+function resetAllData() {
+  if(confirm("⚠️ Reset ALL data to default? This will erase all changes.")) {
+    localStorage.removeItem(STORAGE_KEY);
+    initData();
     renderAll();
+    alert("✅ Data reset to default!");
   }
+}
 
-  function setDefaultAll() {
-    othelloData = JSON.parse(JSON.stringify(MASTER_PROGRAMS_LIST));
-    macbethData = JSON.parse(JSON.stringify(MASTER_PROGRAMS_LIST));
-    hamletData = JSON.parse(JSON.stringify(MASTER_PROGRAMS_LIST));
-    persistFull();
+function initData() {
+  programs = JSON.parse(JSON.stringify(MASTER_PROGRAMS));
+  students = JSON.parse(JSON.stringify(DEFAULT_STUDENTS));
+  
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if(saved) {
+    try {
+      const d = JSON.parse(saved);
+      if(d.programs) programs = d.programs;
+      if(d.othelloAssignments) othelloAssignments = d.othelloAssignments;
+      if(d.macbethAssignments) macbethAssignments = d.macbethAssignments;
+      if(d.hamletAssignments) hamletAssignments = d.hamletAssignments;
+      if(d.students) students = d.students;
+    } catch(e) {}
   }
+  
+  // Ensure every program has an entry for each team
+  programs.forEach(p => {
+    if(!othelloAssignments[p.code]) othelloAssignments[p.code] = { candidates: [], pointsEarned: 0 };
+    if(!macbethAssignments[p.code]) macbethAssignments[p.code] = { candidates: [], pointsEarned: 0 };
+    if(!hamletAssignments[p.code]) hamletAssignments[p.code] = { candidates: [], pointsEarned: 0 };
+  });
+  saveToLocal();
+}
 
-  function persistFull() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      othello: othelloData,
-      macbeth: macbethData,
-      hamlet: hamletData
-    }));
-  }
+function saveToLocal() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    programs, othelloAssignments, macbethAssignments, hamletAssignments, students
+  }));
+}
 
-  function getTeamArray(team) {
-    if (team === "othello") return othelloData;
-    if (team === "macbeth") return macbethData;
-    return hamletData;
-  }
+function getTeamAssignments(team) {
+  if(team === "othello") return othelloAssignments;
+  if(team === "macbeth") return macbethAssignments;
+  return hamletAssignments;
+}
 
-  function setTeamArray(team, newArr) {
-    if (team === "othello") othelloData = newArr;
-    else if (team === "macbeth") macbethData = newArr;
-    else hamletData = newArr;
-    persistFull();
-  }
+function setTeamAssignments(team, data) {
+  if(team === "othello") othelloAssignments = data;
+  else if(team === "macbeth") macbethAssignments = data;
+  else hamletAssignments = data;
+  saveToLocal();
+}
 
-  function renderTeam(team, data, filter, search, tbodyId, countId) {
-    const tbody = document.getElementById(tbodyId);
-    if (!tbody) return;
-
-    let filtered = data.filter(p => {
-      if (filter !== "all" && p.category !== filter) return false;
-      if (search && !p.code.toLowerCase().includes(search) && !p.name.toLowerCase().includes(search)) return false;
-      return true;
-    });
-
-    document.getElementById(countId).innerHTML = filtered.length + (filtered.length === 1 ? " Program" : " Programs");
-
-    if (filtered.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem;">✨ No programs match filter. Add new! ✨</td></tr>';
-      return;
-    }
-
-    let html = "";
-    for (let prog of filtered) {
-      let candHtml = prog.candidates.map(c => `<span class="candidate-tag"><i class="fas fa-user-pen"></i> ${escapeHtml(c)}</span>`).join('');
-      let categoryClass = prog.category === "Stage" ? "stage-badge" : (prog.category === "Non-Stage" ? "nonstage-badge" : (prog.category === "Group" ? "group-badge" : "sports-badge"));
-
-      html += `
-        <tr>
-          <td><strong>${escapeHtml(prog.code)}</strong></td>
-          <td>${escapeHtml(prog.name)}</td>
-          <td><span class="badge" style="background:#ece2d2;">${prog.time || "TBA"}</span></td>
-          <td><span class="badge ${categoryClass}">${prog.category}</span></td>
-          <td><div style="display:flex;flex-wrap:wrap;gap:4px;">${candHtml}</div></td>
-          <td class="action-buttons">
-            <button class="btn-edit" onclick="editFullProgram('${team}','${prog.code}')"><i class="fas fa-pen"></i> Edit</button>
-            <button class="btn-delete" onclick="deleteProgramConfirm('${team}','${prog.code}')"><i class="fas fa-trash"></i> Del</button>
-            <button class="btn-candidates" onclick="editCandidatesOnly('${team}','${prog.code}')"><i class="fas fa-users"></i> Candidates</button>
-          </td>
-        </tr>
-      `;
-    }
-    tbody.innerHTML = html;
-  }
-
-  function renderAll() {
-    renderTeam("othello", othelloData, othelloFilter, othelloSearch, "othelloTable", "othelloCount");
-    renderTeam("macbeth", macbethData, macbethFilter, macbethSearch, "macbethTable", "macbethCount");
-    renderTeam("hamlet", hamletData, hamletFilter, hamletSearch, "hamletTable", "hamletCount");
-  }
-
-  function deleteProgramConfirm(team, code) {
-    if (confirm(`⚠️ Permanently delete program "${code}" from ${team.toUpperCase()} team?`)) {
-      let arr = getTeamArray(team);
-      let newArr = arr.filter(p => p.code !== code);
-      setTeamArray(team, newArr);
-      renderAll();
-    }
-  }
-
-  function editFullProgram(team, code) {
-    let arr = getTeamArray(team);
-    let prog = arr.find(p => p.code === code);
-    if (!prog) return;
-    currentTeam = team;
-    currentCode = code;
-    currentEditMode = "full";
-
-    document.getElementById("modalTitle").innerHTML = `✏️ Edit Program — ${prog.code}`;
-    document.getElementById("progCode").value = prog.code;
-    document.getElementById("progName").value = prog.name;
-    document.getElementById("progTime").value = prog.time || "";
-
-    let radios = document.querySelectorAll('input[name="progCategory"]');
-    radios.forEach(r => {
-      if (r.value === prog.category) r.checked = true;
-    });
-
-    document.getElementById("progCand1").value = prog.candidates[0] || "";
-    document.getElementById("progCand2").value = prog.candidates[1] || "";
-    document.getElementById("progExtra").innerHTML = "";
-
-    for (let i = 2; i < prog.candidates.length; i++) {
-      addExtraField("progExtra", prog.candidates[i]);
-    }
-
-    document.getElementById("programModal").classList.add("active");
-  }
-
-  function openAddProgram(team) {
-    currentTeam = team;
-    currentCode = null;
-    currentEditMode = "add";
-
-    document.getElementById("modalTitle").innerHTML = "➕ Create New Program";
-    document.getElementById("progCode").value = "";
-    document.getElementById("progName").value = "";
-    document.getElementById("progTime").value = "";
-
-    let radios = document.querySelectorAll('input[name="progCategory"]');
-    radios.forEach(r => r.checked = false);
-
-    document.getElementById("progCand1").value = "";
-    document.getElementById("progCand2").value = "";
-    document.getElementById("progExtra").innerHTML = "";
-
-    document.getElementById("programModal").classList.add("active");
-  }
-
-  function saveProgram() {
-    let arr = getTeamArray(currentTeam);
-    let code = document.getElementById("progCode").value.trim();
-    let name = document.getElementById("progName").value.trim();
-    let time = document.getElementById("progTime").value.trim();
-    let category = "";
-
-    document.querySelectorAll('input[name="progCategory"]').forEach(r => {
-      if (r.checked) category = r.value;
-    });
-
-    if (!code || !name || !category) {
-      alert("❌ Code, Name and Category are required!");
-      return;
-    }
-
-    let c1 = document.getElementById("progCand1").value.trim();
-    let c2 = document.getElementById("progCand2").value.trim();
-    let extras = [];
-
-    document.querySelectorAll("#progExtra .extra-input").forEach(inp => {
-      let v = inp.value.trim();
-      if (v) extras.push(v);
-    });
-
-    let candidates = [c1, c2, ...extras].filter(v => v);
-    let newProg = { code, name, time: time || "TBA", category, candidates };
-
-    if (currentEditMode === "add") {
-      if (arr.some(p => p.code === code)) {
-        alert("⚠️ Program code already exists in this team.");
-        return;
-      }
-      arr.push(newProg);
-    } else {
-      let idx = arr.findIndex(p => p.code === currentCode);
-      if (idx !== -1) arr[idx] = newProg;
-    }
-
-    setTeamArray(currentTeam, arr);
-    renderAll();
-    closeModal("programModal");
-  }
-
-  function editCandidatesOnly(team, code) {
-    let arr = getTeamArray(team);
-    let prog = arr.find(p => p.code === code);
-    if (!prog) return;
-
-    currentTeam = team;
-    currentCode = code;
-
-    document.getElementById("candEdit1").value = prog.candidates[0] || "";
-    document.getElementById("candEdit2").value = prog.candidates[1] || "";
-    document.getElementById("candExtra").innerHTML = "";
-
-    for (let i = 2; i < prog.candidates.length; i++) {
-      addExtraField("candExtra", prog.candidates[i]);
-    }
-
-    document.getElementById("candidateModal").classList.add("active");
-  }
-
-  function saveCandidatesOnly() {
-    let arr = getTeamArray(currentTeam);
-    let idx = arr.findIndex(p => p.code === currentCode);
-    if (idx === -1) return;
-
-    let cand1 = document.getElementById("candEdit1").value.trim();
-    let cand2 = document.getElementById("candEdit2").value.trim();
-    let extras = [];
-
-    document.querySelectorAll("#candExtra .extra-input").forEach(inp => {
-      let v = inp.value.trim();
-      if (v) extras.push(v);
-    });
-
-    arr[idx].candidates = [cand1, cand2, ...extras].filter(v => v);
-    setTeamArray(currentTeam, arr);
-    renderAll();
-    closeModal("candidateModal");
-  }
-
-  function addExtraField(containerId, val = "") {
-    let container = document.getElementById(containerId);
-    let div = document.createElement("div");
-    div.className = "extra-row";
-    div.innerHTML = `
-      <input type="text" class="extra-input" value="${escapeHtml(val)}" placeholder="Candidate name/ID">
-      <button type="button" style="background:#e6dbcc; border:none; border-radius:2rem; width:28px; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>
-    `;
-    container.appendChild(div);
-  }
-
-  function closeModal(id) {
-    document.getElementById(id).classList.remove("active");
-  }
-
-  function escapeHtml(str) {
-    if (!str) return "";
-    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
-  }
-
-  // Setup event listeners
-  function setupFilters() {
-    const teams = ["othello", "macbeth", "hamlet"];
-    teams.forEach(team => {
-      let filterContainer = document.getElementById(`filter${team.charAt(0).toUpperCase() + team.slice(1)}Group`);
-      if (filterContainer) {
-        filterContainer.querySelectorAll(".filter-btn").forEach(btn => {
-          btn.addEventListener("click", () => {
-            filterContainer.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            let filterVal = btn.dataset.filter;
-            if (team === "othello") othelloFilter = filterVal;
-            else if (team === "macbeth") macbethFilter = filterVal;
-            else hamletFilter = filterVal;
-            renderAll();
-          });
+function updateStudentPoints() {
+  students.forEach(s => { s.points = 0; s.programs = []; });
+  const teams = ["othello","macbeth","hamlet"];
+  teams.forEach(team => {
+    const assign = getTeamAssignments(team);
+    for(let code in assign) {
+      const prog = programs.find(p => p.code === code);
+      if(prog && assign[code].pointsEarned) {
+        assign[code].candidates.forEach(candName => {
+          const student = students.find(s => s.id === candName || s.name === candName);
+          if(student && student.team === team) {
+            student.points += assign[code].pointsEarned;
+            if(!student.programs.includes(code)) student.programs.push(code);
+          }
         });
       }
-
-      let searchInput = document.getElementById(`search${team.charAt(0).toUpperCase() + team.slice(1)}`);
-      if (searchInput) {
-        searchInput.addEventListener("input", (e) => {
-          let val = e.target.value.toLowerCase();
-          if (team === "othello") othelloSearch = val;
-          else if (team === "macbeth") macbethSearch = val;
-          else hamletSearch = val;
-          renderAll();
-        });
-      }
-    });
-  }
-
-  function setupTabSwitching() {
-    document.querySelectorAll(".team-tab").forEach(tab => {
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".team-tab").forEach(t => t.classList.remove("active"));
-        document.querySelectorAll(".tab-content").forEach(tc => tc.classList.remove("active"));
-        tab.classList.add("active");
-        let teamId = tab.dataset.team;
-        document.getElementById(teamId + "Tab").classList.add("active");
-        renderAll();
-      });
-    });
-  }
-
-  function setupPortalLinks() {
-    document.getElementById("othelloLink")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("📋 Othello team portal - Save as othello.html in same folder");
-    });
-    document.getElementById("macbethLink")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("🏰 Macbeth team portal - Save as macbeth.html in same folder");
-    });
-    document.getElementById("hamletLink")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("💀 Hamlet team portal - Save as hamlet.html in same folder");
-    });
-  }
-
-  window.addEventListener("storage", (e) => {
-    if (e.key === STORAGE_KEY) {
-      initData();
     }
   });
+  saveToLocal();
+}
 
-  initData();
-  setupTabSwitching();
-  setupFilters();
-  setupPortalLinks();
+function renderAll() {
+  updateStudentPoints();
+  renderProgramPanels();
+  renderResults();
+  renderStandings();
+  renderStudents();
+}
+
+function renderProgramPanels() {
+  const teams = ["othello","macbeth","hamlet"];
+  teams.forEach(team => {
+    const assign = getTeamAssignments(team);
+    const searchVal = document.getElementById(`search${team.charAt(0).toUpperCase()+team.slice(1)}`)?.value.toLowerCase() || "";
+    const activeFilter = document.querySelector(`#filter${team.charAt(0).toUpperCase()+team.slice(1)} .filter-btn.active`)?.dataset.filter || "all";
+    const filtered = programs.filter(p => {
+      if(activeFilter !== "all" && p.category !== activeFilter) return false;
+      if(searchVal && !p.code.toLowerCase().includes(searchVal) && !p.name.toLowerCase().includes(searchVal)) return false;
+      return true;
+    });
+    document.getElementById(`${team}Count`).innerHTML = filtered.length + " programs";
+    const tbody = document.getElementById(`${team}Table`);
+    if(!tbody) return;
+    if(filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center">No programs found</td></tr>'; return; }
+    tbody.innerHTML = filtered.map(p => {
+      const assignment = assign[p.code] || { candidates: [], pointsEarned: 0 };
+      const catClass = p.category === "Stage" ? "stage-badge" : p.category === "Non-Stage" ? "nonstage-badge" : p.category === "Group" ? "group-badge" : "sports-badge";
+      return `<tr>
+        <td><strong>${p.code}</strong></td>
+        <td>${p.name}</td>
+        <td>${p.time}</td>
+        <td><span class="badge ${catClass}">${p.category}</span></td>
+        <td>${assignment.candidates.length > 0 ? assignment.candidates.map(c => `<span class="candidate-tag">${c}</span>`).join('') : '-'}</td>
+        <td><strong>${assignment.pointsEarned || 0}</strong> / ${p.maxPoints}</td>
+        <td class="action-buttons">
+          <button class="btn-edit" onclick="openCandidatesModal('${team}','${p.code}')"><i class="fas fa-users"></i> Edit</button>
+          <button class="btn-result" onclick="openPointsModal('${team}','${p.code}')"><i class="fas fa-star"></i> Points</button>
+        </td>
+      </tr>`;
+    }).join('');
+  });
+}
+
+function renderResults() {
+  const tbody = document.getElementById("resultsTable");
+  let allRows = [];
+  const teamColors = { othello:"#1e5f4b", macbeth:"#5a1e2a", hamlet:"#2c2e3a" };
+  const teams = ["othello","macbeth","hamlet"];
+  let total = 0;
+  teams.forEach(team => {
+    const assign = getTeamAssignments(team);
+    for(let code in assign) {
+      const prog = programs.find(p => p.code === code);
+      if(prog) {
+        total++;
+        allRows.push({ team, code, name: prog.name, category: prog.category, earned: assign[code].pointsEarned || 0, max: prog.maxPoints });
+      }
+    }
+  });
+  document.getElementById("totalResultsCount").innerHTML = total + " entries";
+  tbody.innerHTML = allRows.map(r => `<tr>
+    <td><span class="badge" style="background:${teamColors[r.team]};color:white">${r.team.toUpperCase()}</span></td>
+    <td>${r.code}</td>
+    <td>${r.name}</td>
+    <td>${r.category}</td>
+    <td><strong>${r.earned}</strong></td>
+    <td>${r.max}</td>
+    <td><button class="btn-result" onclick="openPointsModal('${r.team}','${r.code}')">Edit</button></td>
+  </tr>`).join('');
+}
+
+function renderStandings() {
+  const teams = ["othello","macbeth","hamlet"];
+  const teamPoints = teams.map(team => {
+    const assign = getTeamAssignments(team);
+    let total = 0;
+    for(let code in assign) total += assign[code].pointsEarned || 0;
+    return { team, points: total };
+  });
+  teamPoints.sort((a,b)=>b.points-a.points);
+  const teamIcons = { othello:"fa-mask", macbeth:"fa-crown", hamlet:"fa-skull" };
+  const teamColorsS = { othello:"#1e5f4b", macbeth:"#5a1e2a", hamlet:"#2c2e3a" };
+  document.getElementById("teamStandingsContainer").innerHTML = teamPoints.map((tp,idx)=>`
+    <div class="team-card" style="border-left:4px solid ${teamColorsS[tp.team]}">
+      <h3><i class="fas ${teamIcons[tp.team]}"></i> ${tp.team.toUpperCase()}</h3>
+      <div class="points">${tp.points} pts</div>
+      <div>${idx===0?'🥇 1st':idx===1?'🥈 2nd':idx===2?'🥉 3rd':''}</div>
+    </div>
+  `).join('');
+  
+  const sortedStudents = [...students].sort((a,b)=>b.points-a.points);
+  const badgeColors = { othello:"#1e5f4b", macbeth:"#5a1e2a", hamlet:"#2c2e3a" };
+  document.getElementById("studentLeaderboard").innerHTML = sortedStudents.map((s,idx)=>`
+    <tr>
+      <td><strong>${idx+1}</strong> ${idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':''}</td>
+      <td>${s.id}</td>
+      <td>${s.name}</td>
+      <td><span class="badge" style="background:${badgeColors[s.team]};color:white">${s.team.toUpperCase()}</span></td>
+      <td><strong>${s.points}</strong></td>
+      <td>${s.programs.length}</td>
+    </tr>
+  `).join('');
+}
+
+function renderStudents() {
+  const badgeColors = { othello:"#1e5f4b", macbeth:"#5a1e2a", hamlet:"#2c2e3a" };
+  document.getElementById("studentsTable").innerHTML = students.map(s=>`
+    <tr>
+      <td>${s.id}</td>
+      <td><strong>${s.name}</strong></td>
+      <td><span class="badge" style="background:${badgeColors[s.team]};color:white">${s.team.toUpperCase()}</span></td>
+      <td>${s.points}</td>
+      <td>${s.programs.length}</td>
+      <td><button class="btn-edit" onclick="editStudent('${s.id}')">Edit</button></td>
+    </tr>
+  `).join('');
+}
+
+let currentPointsTarget = null;
+function openPointsModal(team, code) {
+  currentPointsTarget = { team, code };
+  const assign = getTeamAssignments(team);
+  const prog = programs.find(p=>p.code===code);
+  if(!prog) return;
+  document.getElementById("pointsProgName").value = `${prog.code} - ${prog.name}`;
+  document.getElementById("pointsTeamName").value = team.toUpperCase();
+  document.getElementById("pointsMaxVal").value = prog.maxPoints;
+  document.getElementById("pointsEarnedVal").value = assign[code]?.pointsEarned || 0;
+  document.getElementById("pointsModal").classList.add("active");
+}
+
+function savePoints() {
+  if(!currentPointsTarget) return;
+  const { team, code } = currentPointsTarget;
+  const assign = getTeamAssignments(team);
+  const prog = programs.find(p=>p.code===code);
+  if(assign[code]) {
+    assign[code].pointsEarned = Math.min(parseInt(document.getElementById("pointsEarnedVal").value), prog.maxPoints);
+    setTeamAssignments(team, assign);
+    renderAll();
+  }
+  closeModal("pointsModal");
+}
+
+let currentCandidatesTarget = null;
+function openCandidatesModal(team, code) {
+  currentCandidatesTarget = { team, code };
+  const assign = getTeamAssignments(team);
+  const prog = programs.find(p=>p.code===code);
+  document.getElementById("candProgName").innerText = `${prog.code} - ${prog.name} (${team.toUpperCase()})`;
+  document.getElementById("candList").value = (assign[code]?.candidates || []).join(", ");
+  document.getElementById("candidatesModal").classList.add("active");
+}
+
+function saveCandidates() {
+  if(!currentCandidatesTarget) return;
+  const { team, code } = currentCandidatesTarget;
+  const assign = getTeamAssignments(team);
+  const candidatesStr = document.getElementById("candList").value;
+  if(!assign[code]) assign[code] = { candidates: [], pointsEarned: 0 };
+  assign[code].candidates = candidatesStr.split(",").map(s=>s.trim()).filter(s=>s);
+  setTeamAssignments(team, assign);
+  renderAll();
+  closeModal("candidatesModal");
+}
+
+function addNewProgram() {
+  const code = prompt("Enter program code (e.g., NEW001):");
+  if(!code) return;
+  const name = prompt("Enter program name:");
+  if(!name) return;
+  const category = prompt("Enter category (Stage/Non-Stage/Group/Sports):");
+  if(!category) return;
+  const maxPoints = parseInt(prompt("Enter max points:",100));
+  const time = prompt("Enter duration (e.g., 30m):","TBA");
+  const newProg = { code, name, time, category, maxPoints: maxPoints || 100 };
+  programs.push(newProg);
+  ["othello","macbeth","hamlet"].forEach(team => {
+    const assign = getTeamAssignments(team);
+    assign[code] = { candidates: [], pointsEarned: 0 };
+    setTeamAssignments(team, assign);
+  });
+  saveToLocal();
+  renderAll();
+}
+
+function addStudent() {
+  const name = prompt("Enter student name:");
+  if(!name) return;
+  const team = prompt("Enter team (othello/macbeth/hamlet):");
+  if(!["othello","macbeth","hamlet"].includes(team?.toLowerCase())) return;
+  const newId = `${team.toUpperCase().substring(0,3)}${String(students.length+1).padStart(3,'0')}`;
+  students.push({ id:newId, name, team:team.toLowerCase(), points:0, programs:[] });
+  saveToLocal();
+  renderAll();
+}
+
+function editStudent(id) {
+  const student = students.find(s=>s.id===id);
+  if(!student) return;
+  const newName = prompt("Edit student name:", student.name);
+  if(newName) student.name = newName;
+  saveToLocal();
+  renderAll();
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove("active"); currentPointsTarget=null; currentCandidatesTarget=null; }
+function logout() { sessionStorage.clear(); window.location.href="index.html"; }
+
+// Tab switching
+document.querySelectorAll(".main-tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".main-tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(tc=>tc.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab+"Tab").classList.add("active");
+    renderAll();
+  });
+});
+
+document.querySelectorAll(".team-subtab").forEach(st=>{
+  st.addEventListener("click",()=>{
+    document.querySelectorAll(".team-subtab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".team-panel").forEach(tp=>tp.classList.remove("active"));
+    st.classList.add("active");
+    document.getElementById(st.dataset.team+"Panel").classList.add("active");
+    renderProgramPanels();
+  });
+});
+
+function setupFilters() {
+  ["othello","macbeth","hamlet"].forEach(team=>{
+    const container = document.getElementById(`filter${team.charAt(0).toUpperCase()+team.slice(1)}`);
+    if(container){
+      container.querySelectorAll(".filter-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          container.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+          btn.classList.add("active");
+          renderProgramPanels();
+        });
+      });
+    }
+    const search = document.getElementById(`search${team.charAt(0).toUpperCase()+team.slice(1)}`);
+    if(search) search.addEventListener("input",()=>renderProgramPanels());
+  });
+}
+
+initData();
+setupFilters();
 </script>
+
+<!-- Points Modal -->
+<div id="pointsModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Set Program Points</h3><button onclick="closeModal('pointsModal')">&times;</button></div><div class="modal-body"><div class="form-group"><label>Program</label><input type="text" id="pointsProgName" readonly></div><div class="form-group"><label>Team</label><input type="text" id="pointsTeamName" readonly></div><div class="form-group"><label>Max Points</label><input type="text" id="pointsMaxVal" readonly></div><div class="form-group"><label>Earned Points</label><input type="number" id="pointsEarnedVal" min="0"></div></div><div class="modal-footer"><button class="btn-cancel" onclick="closeModal('pointsModal')">Cancel</button><button onclick="savePoints()" class="btn-save">Save</button></div></div></div>
+
+<!-- Candidates Modal -->
+<div id="candidatesModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Edit Team Candidates</h3><button onclick="closeModal('candidatesModal')">&times;</button></div><div class="modal-body"><div class="form-group"><label>Program: <span id="candProgName"></span></label></div><div class="form-group"><label>Candidates (comma-separated names/IDs)</label><input type="text" id="candList" placeholder="e.g., OTH001, Ahmed Al Mansouri"></div></div><div class="modal-footer"><button class="btn-cancel" onclick="closeModal('candidatesModal')">Cancel</button><button onclick="saveCandidates()" class="btn-save">Save</button></div></div></div>
 </body>
 </html>
