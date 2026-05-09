@@ -12,8 +12,9 @@
     .container{max-width:1600px;margin:0 auto;padding:1.5rem;}
     .header{background:linear-gradient(135deg,#1e3a2f,#0a2a1a);padding:1rem 1.8rem;border-radius:1.5rem;margin-bottom:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
     .header h1{color:#f9efda;font-size:1.5rem;}
-    .logout-btn{background:#e8d5c0;color:#5a2d0e;padding:0.4rem 1rem;border-radius:2rem;border:none;cursor:pointer;}
-    .reset-btn{background:#f5e0d8;color:#b33a2a;padding:0.4rem 1rem;border-radius:2rem;border:none;cursor:pointer;margin-left:0.5rem;}
+    .logout-btn,.reset-btn,.settings-btn{background:#e8d5c0;color:#5a2d0e;padding:0.4rem 1rem;border-radius:2rem;border:none;cursor:pointer;margin-left:0.5rem;}
+    .reset-btn{background:#f5e0d8;color:#b33a2a;}
+    .settings-btn{background:#d4a574;color:white;}
     .main-tabs{display:flex;gap:0.8rem;margin-bottom:1.8rem;flex-wrap:wrap;background:#e9e2d4;padding:0.5rem;border-radius:3rem;width:fit-content;}
     .main-tab{padding:0.65rem 2rem;background:transparent;border:none;font-size:1rem;font-weight:700;cursor:pointer;border-radius:2rem;color:#3e2e1f;}
     .main-tab.active{background:#1e3a2f;color:white;}
@@ -45,17 +46,17 @@
     .team-card .points{font-size:2rem;font-weight:800;color:#1e3a2f;}
     .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;}
     .modal.active{display:flex;}
-    .modal-content{background:white;border-radius:1.5rem;max-width:500px;width:92%;padding:1.5rem;}
+    .modal-content{background:white;border-radius:1.5rem;max-width:550px;width:92%;padding:1.5rem;max-height:80vh;overflow-y:auto;}
     .modal-header{display:flex;justify-content:space-between;margin-bottom:1rem;}
     .modal-header h3{color:#1e3a2f;}
     .form-group{margin-bottom:1rem;}
     .form-group label{display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.3rem;}
-    .form-group input{width:100%;padding:0.6rem;border:1px solid #ddd2bc;border-radius:1rem;}
+    .form-group input,.form-group select{width:100%;padding:0.6rem;border:1px solid #ddd2bc;border-radius:1rem;}
     .modal-footer{display:flex;justify-content:flex-end;gap:0.8rem;margin-top:1rem;}
     .btn-save{background:#1e3a2f;color:white;padding:0.5rem 1rem;border:none;border-radius:2rem;cursor:pointer;}
     .btn-cancel{background:#e2d5c2;padding:0.5rem 1rem;border-radius:2rem;border:none;cursor:pointer;}
     footer{text-align:center;margin-top:1.5rem;font-size:0.7rem;color:#a48e72;}
-    .count-badge{background:#1e3a2f;color:white;padding:0.2rem 0.6rem;border-radius:1rem;font-size:0.7rem;}
+    .count-badge{background:#1e3a2f;color:white;padding:0.2rem 0.8rem;border-radius:1rem;font-size:0.7rem;}
   </style>
 </head>
 <body>
@@ -63,7 +64,8 @@
   <div class="header">
     <h1><i class="fas fa-trophy"></i> ITQAN Artsfest 2K26 · Admin Dashboard</h1>
     <div>
-      <button class="reset-btn" onclick="resetAllData()"><i class="fas fa-undo"></i> Reset All Data</button>
+      <button class="settings-btn" onclick="openSettingsModal()"><i class="fas fa-key"></i> Change Passwords</button>
+      <button class="reset-btn" onclick="resetAllData()"><i class="fas fa-undo"></i> Reset Data</button>
       <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
   </div>
@@ -87,149 +89,247 @@
 
   <div id="standingsTab" class="tab-content"></div>
   <div id="studentsTab" class="tab-content"></div>
-  <footer><i class="fas fa-check-circle"></i> Ready to use! All 80+ programs loaded. Click Reset if something seems wrong.</footer>
+  <footer><i class="fas fa-check-circle"></i> All programs sorted by code | Click Reset if data is corrupted</footer>
 </div>
 
-<!-- Modals -->
-<div id="pointsModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Set Program Points</h3><button onclick="closeModal('pointsModal')">&times;</button></div><div class="modal-body"><div class="form-group"><label>Program</label><input type="text" id="pointsProgName" readonly></div><div class="form-group"><label>Team</label><input type="text" id="pointsTeamName" readonly></div><div class="form-group"><label>Max Points</label><input type="text" id="pointsMaxVal" readonly></div><div class="form-group"><label>Earned Points</label><input type="number" id="pointsEarnedVal" min="0"></div></div><div class="modal-footer"><button class="btn-cancel" onclick="closeModal('pointsModal')">Cancel</button><button onclick="savePoints()" class="btn-save">Save</button></div></div></div>
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><h3><i class="fas fa-key"></i> Change Passwords</h3><button onclick="closeModal('settingsModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>👑 Admin Password</label><input type="password" id="adminPass" placeholder="New admin password"></div>
+      <div class="form-group"><label>🎭 Othello Password</label><input type="password" id="othelloPass" placeholder="New Othello password"></div>
+      <div class="form-group"><label>👑 Macbeth Password</label><input type="password" id="macbethPass" placeholder="New Macbeth password"></div>
+      <div class="form-group"><label>💀 Hamlet Password</label><input type="password" id="hamletPass" placeholder="New Hamlet password"></div>
+      <p style="font-size:0.7rem;color:#888;">Leave blank to keep current</p>
+    </div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('settingsModal')">Cancel</button><button onclick="savePasswords()" class="btn-save">Save</button></div>
+  </div>
+</div>
 
-<div id="candidatesModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Edit Team Candidates</h3><button onclick="closeModal('candidatesModal')">&times;</button></div><div class="modal-body"><div class="form-group"><label>Program: <span id="candProgName"></span></label></div><div class="form-group"><label>Candidates (comma-separated)</label><input type="text" id="candList" placeholder="e.g., OTH001, Ahmed Al Mansouri"></div><div class="form-group"><label style="color:#666;">Tip:</label><p style="font-size:0.7rem;color:#888;">Use student IDs (OTH001, MCB001, HML001) or full names</p></div></div><div class="modal-footer"><button class="btn-cancel" onclick="closeModal('candidatesModal')">Cancel</button><button onclick="saveCandidates()" class="btn-save">Save</button></div></div></div>
+<!-- Points Modal -->
+<div id="pointsModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>⭐ Set Program Points</h3><button onclick="closeModal('pointsModal')">&times;</button></div><div class="modal-body"><div class="form-group"><label>Program</label><input type="text" id="pointsProgName" readonly></div><div class="form-group"><label>Team</label><input type="text" id="pointsTeamName" readonly></div><div class="form-group"><label>Max Points</label><input type="text" id="pointsMaxVal" readonly></div><div class="form-group"><label>Earned Points</label><input type="number" id="pointsEarnedVal" min="0"></div></div><div class="modal-footer"><button class="btn-cancel" onclick="closeModal('pointsModal')">Cancel</button><button onclick="savePoints()" class="btn-save">Save</button></div></div></div>
+
+<!-- Candidates Modal -->
+<div id="candidatesModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>👥 Edit Team Candidates</h3><button onclick="closeModal('candidatesModal')">&times;</button></div><div class="modal-body"><div class="form-group"><label>Program: <span id="candProgName"></span></label></div><div class="form-group"><label>Team: <span id="candTeamName"></span></label></div><div class="form-group"><label>Candidates (comma-separated)</label><input type="text" id="candList" placeholder="e.g., 695, 699, 676"></div></div><div class="modal-footer"><button class="btn-cancel" onclick="closeModal('candidatesModal')">Cancel</button><button onclick="saveCandidates()" class="btn-save">Save</button></div></div></div>
 
 <script>
-// Session check
 if(sessionStorage.getItem("user_team") !== "admin") { 
   sessionStorage.clear(); 
   window.location.href = "index.html"; 
 }
 
-// ============ COMPLETE 80+ PROGRAMS ============
-const MASTER_PROGRAMS = [
-  { code: "TV1", name: "Sentence Translation", time: "30m", category: "Stage", maxPoints: 100 },
-  { code: "TV2", name: "GK Quiz", time: "30m", category: "Stage", maxPoints: 100 },
-  { code: "TV3", name: "Math Talent", time: "45m", category: "Stage", maxPoints: 100 },
-  { code: "TV4", name: "Science Master", time: "45m", category: "Stage", maxPoints: 100 },
-  { code: "TV5", name: "Acrylic Painting", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TV6", name: "Excel Master", time: "45m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TV7", name: "Poster Designing Digital", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TV8", name: "Vocabulary", time: "30m", category: "Stage", maxPoints: 100 },
-  { code: "TV9", name: "Typing Trilingual", time: "10m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TZ10", name: "Dictionary making Hindi", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TZ11", name: "Children's Magazine MLM", time: "120m", category: "Group", maxPoints: 150 },
-  { code: "TZ12", name: "Instant Newspaper MLM", time: "90m", category: "Group", maxPoints: 150 },
-  { code: "TX13", name: "Varsity Talent", time: "60m", category: "Stage", maxPoints: 100 },
-  { code: "TX14", name: "Grammar Quiz", time: "30m", category: "Stage", maxPoints: 100 },
-  { code: "TX15", name: "Geo Galat", time: "30m", category: "Stage", maxPoints: 100 },
-  { code: "TX16", name: "Spelling Bee", time: "30m", category: "Stage", maxPoints: 100 },
-  { code: "TX17", name: "Mutafaza ARB", time: "30m", category: "Group", maxPoints: 150 },
-  { code: "TX18", name: "Word fight ENG", time: "30m", category: "Group", maxPoints: 150 },
-  { code: "TW19", name: "Hifz & Qira'ah", time: "7m", category: "Stage", maxPoints: 100 },
-  { code: "TW20", name: "Wa'az", time: "5m", category: "Stage", maxPoints: 100 },
-  { code: "TW21", name: "Thadrees", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW22", name: "Padappattu", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW23", name: "Song ENG", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW24", name: "Song ARB", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW25", name: "Song URD", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW26", name: "Group Song", time: "5m", category: "Group", maxPoints: 150 },
-  { code: "TW27", name: "Padhyaparayanam", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW28", name: "Speech & Song MLM", time: "8m", category: "Group", maxPoints: 150 },
-  { code: "TW29", name: "Speech MLM", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW30", name: "Speech ENG", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW31", name: "Speech ARB", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW32", name: "Speech URD", time: "4m", category: "Stage", maxPoints: 100 },
-  { code: "TW33", name: "History Talk ENG", time: "6m", category: "Stage", maxPoints: 100 },
-  { code: "TW34", name: "Oru Nimisham", time: "2m", category: "Stage", maxPoints: 100 },
-  { code: "TY35", name: "Essay MLM", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY36", name: "Essay ENG", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY37", name: "Essay ARB", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY38", name: "Essay URD", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY39", name: "Poem MLM", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY40", name: "Poem ENG", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY41", name: "Poem ARB", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY42", name: "Poem URD", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY43", name: "Short Story MLM", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY44", name: "Short Story ENG", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY45", name: "Short Story ARB", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY46", name: "Short Story URD", time: "60m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY47", name: "Text Tornado", time: "45m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY48", name: "Image Elaboration ENG", time: "45m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY49", name: "Cartoon", time: "45m", category: "Non-Stage", maxPoints: 100 },
-  { code: "TY50", name: "Appreciation MLM", time: "30m", category: "Non-Stage", maxPoints: 100 },
-  { code: "KW51", name: "Qawwali URD", time: "10m", category: "Group", maxPoints: 150 },
-  { code: "KW52", name: "Sama'", time: "10m", category: "Group", maxPoints: 150 },
-  { code: "KZ53", name: "Debate ENG", time: "40m", category: "Group", maxPoints: 150 },
-  { code: "KZ54", name: "Munazarah", time: "40m", category: "Group", maxPoints: 150 },
-  { code: "KZ55", name: "Musha'arah", time: "45m", category: "Group", maxPoints: 150 },
-  { code: "TS63", name: "Football", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS64", name: "Cricket", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS65", name: "Juggling", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS66", name: "Marathon", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS67", name: "Running 100m", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS68", name: "Relay", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS69", name: "High Jump", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS70", name: "Shoot Point", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS71", name: "Penalty Shootout", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS72", name: "Push up", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS73", name: "Pull up", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS74", name: "Plank", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS75", name: "Air Ball", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS76", name: "Volley Ball", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS77", name: "Badminton", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS78", name: "Shoot to Point", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS79", name: "Ball Throwing", time: "-", category: "Sports", maxPoints: 100 },
-  { code: "TS80", name: "Chess", time: "-", category: "Sports", maxPoints: 100 }
+function simpleHash(str) {
+  let hash = 0;
+  for(let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(16);
+}
+
+// ============ ALL PROGRAMS SORTED ALPHABETICALLY BY CODE ============
+const PROGRAMS_DATA = [
+  { code: "KZ53", name: "Debate ENG", time: "40m", category: "Group", maxPoints: 150, othello: "709,702,732,701", macbeth: "699,714,727,696", hamlet: "725,728,711,697" },
+  { code: "KZ54", name: "Munazarah", time: "40m", category: "Group", maxPoints: 150, othello: "717,677,715,733", macbeth: "695,724,720,727", hamlet: "728,718,725,723" },
+  { code: "KZ55", name: "Musha'arah", time: "45m", category: "Group", maxPoints: 150, othello: "", macbeth: "699,695,720", hamlet: "725,711,728" },
+  { code: "KZ56", name: "Digital Magazine", time: "Full", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KZ57", name: "Photo Essay", time: "Full", category: "Non-Stage", maxPoints: 100, othello: "701", macbeth: "", hamlet: "742" },
+  { code: "KZ58", name: "Hackathon", time: "3 days", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KZ59", name: "Expository Documentary", time: "Full", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KZ60", name: "Digital Tabloid", time: "Full", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KZ61", name: "Reel Making", time: "Full", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KZ62", name: "Short Film", time: "Full", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KW51", name: "Qawwali URD", time: "10m", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "KW52", name: "Sama'", time: "10m", category: "Group", maxPoints: 150, othello: "677,733,709", macbeth: "699,724,676", hamlet: "742,704,743" },
+  { code: "TS63", name: "Football", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS64", name: "Cricket", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS65", name: "Juggling", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS66", name: "Marathon", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS67", name: "Running 100m", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS68", name: "Relay", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS69", name: "High Jump", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS70", name: "Shoot Point", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS71", name: "Penalty Shootout", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS72", name: "Push up", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS73", name: "Pull up", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS74", name: "Plank", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS75", name: "Air Ball", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS76", name: "Volley Ball", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS77", name: "Badminton", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS78", name: "Shoot to Point", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS79", name: "Ball Throwing", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TS80", name: "Chess", time: "-", category: "Sports", maxPoints: 100, othello: "", macbeth: "", hamlet: "" },
+  { code: "TV1", name: "Sentence Translation", time: "30m", category: "Stage", maxPoints: 100, othello: "732,717", macbeth: "695,699", hamlet: "725,723" },
+  { code: "TV2", name: "GK Quiz", time: "30m", category: "Stage", maxPoints: 100, othello: "716,733", macbeth: "719,727", hamlet: "725,728" },
+  { code: "TV3", name: "Math Talent", time: "45m", category: "Stage", maxPoints: 100, othello: "710,732", macbeth: "719,696", hamlet: "723,722" },
+  { code: "TV4", name: "Science Master", time: "45m", category: "Stage", maxPoints: 100, othello: "732,701", macbeth: "714,727", hamlet: "722,704" },
+  { code: "TV5", name: "Acrylic Painting", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "709", macbeth: "676", hamlet: "743" },
+  { code: "TV6", name: "Excel Master", time: "45m", category: "Non-Stage", maxPoints: 100, othello: "702", macbeth: "719", hamlet: "723" },
+  { code: "TV7", name: "Poster Designing Digital", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "709,701", macbeth: "727,676", hamlet: "723,722" },
+  { code: "TV8", name: "Vocabulary", time: "30m", category: "Stage", maxPoints: 100, othello: "732,717", macbeth: "699,714", hamlet: "725,728" },
+  { code: "TV9", name: "Typing Trilingual", time: "10m", category: "Non-Stage", maxPoints: 100, othello: "702", macbeth: "", hamlet: "723" },
+  { code: "TW19", name: "Hifz & Qira'ah", time: "7m", category: "Stage", maxPoints: 100, othello: "717,716", macbeth: "676,695", hamlet: "725,743" },
+  { code: "TW20", name: "Wa'az", time: "5m", category: "Stage", maxPoints: 100, othello: "677", macbeth: "695", hamlet: "742" },
+  { code: "TW21", name: "Thadrees", time: "4m", category: "Stage", maxPoints: 100, othello: "709,717", macbeth: "", hamlet: "711,742" },
+  { code: "TW22", name: "Padappattu", time: "4m", category: "Stage", maxPoints: 100, othello: "", macbeth: "699", hamlet: "711" },
+  { code: "TW23", name: "Song ENG", time: "4m", category: "Stage", maxPoints: 100, othello: "715", macbeth: "696", hamlet: "697" },
+  { code: "TW24", name: "Song ARB", time: "4m", category: "Stage", maxPoints: 100, othello: "733", macbeth: "699", hamlet: "743" },
+  { code: "TW25", name: "Song URD", time: "4m", category: "Stage", maxPoints: 100, othello: "", macbeth: "724", hamlet: "704" },
+  { code: "TW26", name: "Group Song", time: "5m", category: "Group", maxPoints: 150, othello: "733,677,717", macbeth: "699,724,676", hamlet: "704,743,697" },
+  { code: "TW27", name: "Padhyaparayanam", time: "4m", category: "Stage", maxPoints: 100, othello: "701,709", macbeth: "699,724", hamlet: "722,697" },
+  { code: "TW28", name: "Speech & Song MLM", time: "8m", category: "Group", maxPoints: 150, othello: "701,733,717", macbeth: "", hamlet: "" },
+  { code: "TW29", name: "Speech MLM", time: "4m", category: "Stage", maxPoints: 100, othello: "701", macbeth: "712", hamlet: "742" },
+  { code: "TW30", name: "Speech ENG", time: "4m", category: "Stage", maxPoints: 100, othello: "732", macbeth: "714", hamlet: "728" },
+  { code: "TW31", name: "Speech ARB", time: "4m", category: "Stage", maxPoints: 100, othello: "733", macbeth: "720", hamlet: "718" },
+  { code: "TW32", name: "Speech URD", time: "4m", category: "Stage", maxPoints: 100, othello: "715", macbeth: "719", hamlet: "723" },
+  { code: "TW33", name: "History Talk ENG", time: "6m", category: "Stage", maxPoints: 100, othello: "702", macbeth: "727", hamlet: "725" },
+  { code: "TW34", name: "Oru Nimisham", time: "2m", category: "Stage", maxPoints: 100, othello: "701", macbeth: "720", hamlet: "742" },
+  { code: "TX13", name: "Varsity Talent", time: "60m", category: "Stage", maxPoints: 100, othello: "716,710", macbeth: "727,712", hamlet: "725,711" },
+  { code: "TX14", name: "Grammar Quiz", time: "30m", category: "Stage", maxPoints: 100, othello: "677,732", macbeth: "", hamlet: "723,725" },
+  { code: "TX15", name: "Geo Galat", time: "30m", category: "Stage", maxPoints: 100, othello: "732,716", macbeth: "719,727", hamlet: "728,725" },
+  { code: "TX16", name: "Spelling Bee", time: "30m", category: "Stage", maxPoints: 100, othello: "677,732", macbeth: "714,696", hamlet: "728,723" },
+  { code: "TX17", name: "Mutafaza ARB", time: "30m", category: "Group", maxPoints: 150, othello: "717", macbeth: "695,699", hamlet: "718,697" },
+  { code: "TX18", name: "Word fight ENG", time: "30m", category: "Group", maxPoints: 150, othello: "702,732", macbeth: "714,696", hamlet: "723,697" },
+  { code: "TY35", name: "Essay MLM", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "716", macbeth: "696", hamlet: "722" },
+  { code: "TY36", name: "Essay ENG", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "732", macbeth: "727", hamlet: "728" },
+  { code: "TY37", name: "Essay ARB", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "717", macbeth: "720", hamlet: "718" },
+  { code: "TY38", name: "Essay URD", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "677", macbeth: "", hamlet: "723" },
+  { code: "TY39", name: "Poem MLM", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "701", macbeth: "699", hamlet: "711" },
+  { code: "TY40", name: "Poem ENG", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "732", macbeth: "727", hamlet: "697" },
+  { code: "TY41", name: "Poem ARB", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "733", macbeth: "724", hamlet: "728" },
+  { code: "TY42", name: "Poem URD", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "677", macbeth: "719", hamlet: "723" },
+  { code: "TY43", name: "Short Story MLM", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "717", macbeth: "696", hamlet: "722" },
+  { code: "TY44", name: "Short Story ENG", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "732", macbeth: "696", hamlet: "728" },
+  { code: "TY45", name: "Short Story ARB", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "733", macbeth: "724", hamlet: "718" },
+  { code: "TY46", name: "Short Story URD", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "710", macbeth: "719", hamlet: "723" },
+  { code: "TY47", name: "Text Tornado", time: "45m", category: "Non-Stage", maxPoints: 100, othello: "716,732", macbeth: "714,720", hamlet: "728" },
+  { code: "TY48", name: "Image Elaboration ENG", time: "45m", category: "Non-Stage", maxPoints: 100, othello: "732", macbeth: "720", hamlet: "697" },
+  { code: "TY49", name: "Cartoon", time: "45m", category: "Non-Stage", maxPoints: 100, othello: "709", macbeth: "699", hamlet: "743" },
+  { code: "TY50", name: "Appreciation MLM", time: "30m", category: "Non-Stage", maxPoints: 100, othello: "710", macbeth: "712", hamlet: "742" },
+  { code: "TZ10", name: "Dictionary making Hindi", time: "60m", category: "Non-Stage", maxPoints: 100, othello: "715", macbeth: "699", hamlet: "725" },
+  { code: "TZ11", name: "Children's Magazine MLM", time: "120m", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" },
+  { code: "TZ12", name: "Instant Newspaper MLM", time: "90m", category: "Group", maxPoints: 150, othello: "", macbeth: "", hamlet: "" }
 ];
 
-// 30 Students (10 per team)
-const DEFAULT_STUDENTS = [
-  { id:"OTH001", name:"Ahmed Al Mansouri", team:"othello", points:0, programs:[] },
-  { id:"OTH002", name:"Fatima Al Zahra", team:"othello", points:0, programs:[] },
-  { id:"OTH003", name:"Youssef Al Hashimi", team:"othello", points:0, programs:[] },
-  { id:"OTH004", name:"Mariam Al Kaabi", team:"othello", points:0, programs:[] },
-  { id:"OTH005", name:"Omar Al Mazroui", team:"othello", points:0, programs:[] },
-  { id:"OTH006", name:"Layla Al Nuaimi", team:"othello", points:0, programs:[] },
-  { id:"OTH007", name:"Hamad Al Dhaheri", team:"othello", points:0, programs:[] },
-  { id:"OTH008", name:"Noor Al Ameri", team:"othello", points:0, programs:[] },
-  { id:"OTH009", name:"Rashid Al Shamsi", team:"othello", points:0, programs:[] },
-  { id:"OTH010", name:"Aisha Al Marzouqi", team:"othello", points:0, programs:[] },
-  { id:"MCB001", name:"Hamza Al Qasimi", team:"macbeth", points:0, programs:[] },
-  { id:"MCB002", name:"Nadine Khalil", team:"macbeth", points:0, programs:[] },
-  { id:"MCB003", name:"Tariq Al Rashed", team:"macbeth", points:0, programs:[] },
-  { id:"MCB004", name:"Samira Al Ghanim", team:"macbeth", points:0, programs:[] },
-  { id:"MCB005", name:"Khalid Al Mutawa", team:"macbeth", points:0, programs:[] },
-  { id:"MCB006", name:"Leila Al Sabah", team:"macbeth", points:0, programs:[] },
-  { id:"MCB007", name:"Zayed Al Falasi", team:"macbeth", points:0, programs:[] },
-  { id:"MCB008", name:"Haya Al Maktoum", team:"macbeth", points:0, programs:[] },
-  { id:"MCB009", name:"Sultan Al Nuaimi", team:"macbeth", points:0, programs:[] },
-  { id:"MCB010", name:"Reem Al Suwaidi", team:"macbeth", points:0, programs:[] },
-  { id:"HML001", name:"Ibrahim Al Sharji", team:"hamlet", points:0, programs:[] },
-  { id:"HML002", name:"Noura Al Hosani", team:"hamlet", points:0, programs:[] },
-  { id:"HML003", name:"Majid Al Zaabi", team:"hamlet", points:0, programs:[] },
-  { id:"HML004", name:"Salma Al Ali", team:"hamlet", points:0, programs:[] },
-  { id:"HML005", name:"Saif Al Ketbi", team:"hamlet", points:0, programs:[] },
-  { id:"HML006", name:"Amna Al Remeithi", team:"hamlet", points:0, programs:[] },
-  { id:"HML007", name:"Mohammed Al Marar", team:"hamlet", points:0, programs:[] },
-  { id:"HML008", name:"Shaikha Al Dhaheri", team:"hamlet", points:0, programs:[] },
-  { id:"HML009", name:"Abdullah Al Ameri", team:"hamlet", points:0, programs:[] },
-  { id:"HML010", name:"Mona Al Mazroui", team:"hamlet", points:0, programs:[] }
+// SORT PROGRAMS ALPHABETICALLY BY CODE
+PROGRAMS_DATA.sort(function(a, b) {
+  if(a.code < b.code) return -1;
+  if(a.code > b.code) return 1;
+  return 0;
+});
+
+// EXACTLY 30 STUDENTS - NO FAKES
+const STUDENTS = [
+  { id: "676", name: "HISHAM", team: "macbeth", points: 0, programs: [] },
+  { id: "677", name: "MINHAJ", team: "othello", points: 0, programs: [] },
+  { id: "695", name: "MUH VK", team: "macbeth", points: 0, programs: [] },
+  { id: "696", name: "HABEEB", team: "macbeth", points: 0, programs: [] },
+  { id: "697", name: "Student 697", team: "hamlet", points: 0, programs: [] },
+  { id: "699", name: "ZAMEEN", team: "macbeth", points: 0, programs: [] },
+  { id: "701", name: "Student 701", team: "othello", points: 0, programs: [] },
+  { id: "702", name: "Student 702", team: "othello", points: 0, programs: [] },
+  { id: "704", name: "Student 704", team: "hamlet", points: 0, programs: [] },
+  { id: "709", name: "RANIF", team: "othello", points: 0, programs: [] },
+  { id: "710", name: "RASHAD", team: "othello", points: 0, programs: [] },
+  { id: "711", name: "RAZIN", team: "hamlet", points: 0, programs: [] },
+  { id: "712", name: "FIDYAN", team: "macbeth", points: 0, programs: [] },
+  { id: "714", name: "SHAHZAD", team: "macbeth", points: 0, programs: [] },
+  { id: "715", name: "Student 715", team: "othello", points: 0, programs: [] },
+  { id: "716", name: "Student 716", team: "othello", points: 0, programs: [] },
+  { id: "717", name: "Student 717", team: "othello", points: 0, programs: [] },
+  { id: "718", name: "SHABEEL", team: "hamlet", points: 0, programs: [] },
+  { id: "719", name: "MUH U", team: "macbeth", points: 0, programs: [] },
+  { id: "720", name: "ASLAH", team: "macbeth", points: 0, programs: [] },
+  { id: "722", name: "ZARHAN", team: "hamlet", points: 0, programs: [] },
+  { id: "723", name: "MUH PP", team: "hamlet", points: 0, programs: [] },
+  { id: "724", name: "Student 724", team: "macbeth", points: 0, programs: [] },
+  { id: "725", name: "Student 725", team: "hamlet", points: 0, programs: [] },
+  { id: "727", name: "Student 727", team: "macbeth", points: 0, programs: [] },
+  { id: "728", name: "Student 728", team: "hamlet", points: 0, programs: [] },
+  { id: "732", name: "Student 732", team: "othello", points: 0, programs: [] },
+  { id: "733", name: "Student 733", team: "othello", points: 0, programs: [] },
+  { id: "742", name: "Student 742", team: "hamlet", points: 0, programs: [] },
+  { id: "743", name: "Student 743", team: "hamlet", points: 0, programs: [] }
 ];
 
-const STORAGE_KEY = "itqan_artsfest_working";
+const STORAGE_KEY = "itqan_artsfest_final_working";
 let programs = [];
 let othelloAssignments = {}, macbethAssignments = {}, hamletAssignments = {};
 let students = [];
+let currentPointsTarget = null;
+let currentCandidatesTarget = null;
 
 function resetAllData() {
-  if(confirm("⚠️ Reset ALL data to default? This will erase all changes.")) {
+  if(confirm("⚠️ RESET ALL DATA? This will restore original programs and students.")) {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem("itqan_credentials");
     initData();
     renderAll();
-    alert("✅ Data reset! All 80+ programs restored.");
+    alert("✅ Data reset successfully! Please reload the page.");
+    window.location.reload();
   }
 }
 
+function openSettingsModal() {
+  document.getElementById("adminPass").value = "";
+  document.getElementById("othelloPass").value = "";
+  document.getElementById("macbethPass").value = "";
+  document.getElementById("hamletPass").value = "";
+  document.getElementById("settingsModal").classList.add("active");
+}
+
+function savePasswords() {
+  let creds = localStorage.getItem("itqan_credentials");
+  if(!creds) {
+    creds = JSON.stringify(DEFAULT_CREDENTIALS);
+  }
+  creds = JSON.parse(creds);
+  const adminPass = document.getElementById("adminPass").value.trim();
+  const othelloPass = document.getElementById("othelloPass").value.trim();
+  const macbethPass = document.getElementById("macbethPass").value.trim();
+  const hamletPass = document.getElementById("hamletPass").value.trim();
+  
+  if(adminPass) creds.admin.passwordHash = simpleHash(adminPass);
+  if(othelloPass) creds.othello.passwordHash = simpleHash(othelloPass);
+  if(macbethPass) creds.macbeth.passwordHash = simpleHash(macbethPass);
+  if(hamletPass) creds.hamlet.passwordHash = simpleHash(hamletPass);
+  
+  localStorage.setItem("itqan_credentials", JSON.stringify(creds));
+  alert("✅ Passwords updated successfully!");
+  closeModal("settingsModal");
+}
+
 function initData() {
-  programs = JSON.parse(JSON.stringify(MASTER_PROGRAMS));
-  students = JSON.parse(JSON.stringify(DEFAULT_STUDENTS));
+  programs = [];
+  othelloAssignments = {};
+  macbethAssignments = {};
+  hamletAssignments = {};
+  
+  for(let p of PROGRAMS_DATA) {
+    programs.push({
+      code: p.code,
+      name: p.name,
+      time: p.time,
+      category: p.category,
+      maxPoints: p.maxPoints
+    });
+    
+    othelloAssignments[p.code] = { 
+      candidates: p.othello ? p.othello.split(',').map(s=>s.trim()).filter(s=>s) : [], 
+      pointsEarned: 0 
+    };
+    macbethAssignments[p.code] = { 
+      candidates: p.macbeth ? p.macbeth.split(',').map(s=>s.trim()).filter(s=>s) : [], 
+      pointsEarned: 0 
+    };
+    hamletAssignments[p.code] = { 
+      candidates: p.hamlet ? p.hamlet.split(',').map(s=>s.trim()).filter(s=>s) : [], 
+      pointsEarned: 0 
+    };
+  }
+  
+  students = JSON.parse(JSON.stringify(STUDENTS));
   
   const saved = localStorage.getItem(STORAGE_KEY);
   if(saved) {
@@ -243,12 +343,6 @@ function initData() {
     } catch(e) {}
   }
   
-  // Ensure every program has entries
-  programs.forEach(p => {
-    if(!othelloAssignments[p.code]) othelloAssignments[p.code] = { candidates: [], pointsEarned: 0 };
-    if(!macbethAssignments[p.code]) macbethAssignments[p.code] = { candidates: [], pointsEarned: 0 };
-    if(!hamletAssignments[p.code]) hamletAssignments[p.code] = { candidates: [], pointsEarned: 0 };
-  });
   saveToLocal();
 }
 
@@ -274,21 +368,21 @@ function setTeamAssignments(team, data) {
 function updateStudentPoints() {
   students.forEach(s => { s.points = 0; s.programs = []; });
   const teams = ["othello","macbeth","hamlet"];
-  teams.forEach(team => {
+  for(let team of teams) {
     const assign = getTeamAssignments(team);
     for(let code in assign) {
       const prog = programs.find(p => p.code === code);
       if(prog && assign[code].pointsEarned) {
-        assign[code].candidates.forEach(candName => {
-          const student = students.find(s => s.id === candName || s.name === candName);
+        for(let candId of assign[code].candidates) {
+          const student = students.find(s => s.id === candId);
           if(student && student.team === team) {
             student.points += assign[code].pointsEarned;
             if(!student.programs.includes(code)) student.programs.push(code);
           }
-        });
+        }
       }
     }
-  });
+  }
   saveToLocal();
 }
 
@@ -301,85 +395,84 @@ function renderAll() {
 
 function renderProgramPanels() {
   const teams = ["othello", "macbeth", "hamlet"];
-  teams.forEach(team => {
+  for(let team of teams) {
     const assign = getTeamAssignments(team);
     const panel = document.getElementById(`${team}Panel`);
-    if(!panel) return;
+    if(!panel) continue;
     
-    let html = `<div class="stats-bar"><span>${team.toUpperCase()} TEAM</span><span class="count-badge">${programs.length} Programs</span></div>
-    <div class="table-wrapper">${'<table>'}
-      <thead>${'<tr>'}${'<th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Candidates</th><th>Points</th><th>Actions</th>'}${'</tr>'}</thead>
-      <tbody>`;
+    let html = `<div class="stats-bar"><span>🏆 ${team.toUpperCase()} TEAM</span><span class="count-badge">${programs.length} Programs</span></div>
+    <div class="table-wrapper"><table><thead><tr><th>Code</th><th>Program Name</th><th>Time</th><th>Category</th><th>Candidates</th><th>Points</th><th>Actions</th></tr></thead><tbody>`;
     
-    programs.forEach(p => {
+    for(let p of programs) {
       const assignment = assign[p.code] || { candidates: [], pointsEarned: 0 };
-      const catClass = p.category === "Stage" ? "stage-badge" : p.category === "Non-Stage" ? "nonstage-badge" : p.category === "Group" ? "group-badge" : "sports-badge";
-      html += `${'<tr>'}
-        ${'<td>'}<strong>${p.code}</strong>${'</td>'}
-        ${'<td>'}${p.name}${'</td>'}
-        ${'<td>'}${p.time}${'</td>'}
-        ${'<td>'}${'<span class="badge '+catClass+'">'}${p.category}${'</span>'}${'</td>'}
-        ${'<td>'}${assignment.candidates.length > 0 ? assignment.candidates.map(c => `<span class="candidate-tag">${c}</span>`).join('') : '-'}${'</td>'}
-        ${'<td>'}<strong>${assignment.pointsEarned || 0}</strong> / ${p.maxPoints}${'</td>'}
-        ${'<td class="action-buttons">'}
+      let catClass = "";
+      if(p.category === "Stage") catClass = "stage-badge";
+      else if(p.category === "Non-Stage") catClass = "nonstage-badge";
+      else if(p.category === "Group") catClass = "group-badge";
+      else catClass = "sports-badge";
+      
+      html += `<tr>
+        <td><strong>${p.code}</strong></td>
+        <td>${p.name}</td>
+        <td>${p.time}</td>
+        <td><span class="badge ${catClass}">${p.category}</span></td>
+        <td>${assignment.candidates.length > 0 ? assignment.candidates.map(c => `<span class="candidate-tag">${c}</span>`).join('') : '<span style="color:#aaa;">—</span>'}</td>
+        <td><strong>${assignment.pointsEarned || 0}</strong> / ${p.maxPoints}</td>
+        <td class="action-buttons">
           <button class="btn-edit" onclick="openCandidatesModal('${team}','${p.code}')"><i class="fas fa-users"></i> Edit</button>
           <button class="btn-result" onclick="openPointsModal('${team}','${p.code}')"><i class="fas fa-star"></i> Points</button>
-        ${'</td>'}
-      ${'</tr>'}`;
-    });
+        </td>
+      </tr>`;
+    }
     
-    html += `</tbody>${'</table>'}</div>`;
+    html += `</tbody></table></div>`;
     panel.innerHTML = html;
-  });
+  }
 }
 
 function renderStandings() {
   const container = document.getElementById("standingsTab");
   const teams = ["othello", "macbeth", "hamlet"];
-  const teamPoints = teams.map(team => {
+  let teamPoints = [];
+  for(let team of teams) {
     const assign = getTeamAssignments(team);
     let total = 0;
     for(let code in assign) total += assign[code].pointsEarned || 0;
-    return { team, points: total };
-  });
-  teamPoints.sort((a,b)=>b.points-a.points);
+    teamPoints.push({ team, points: total });
+  }
+  teamPoints.sort((a,b) => b.points - a.points);
   
   const teamIcons = { othello: "fa-mask", macbeth: "fa-crown", hamlet: "fa-skull" };
   const teamColors = { othello: "#1e5f4b", macbeth: "#5a1e2a", hamlet: "#2c2e3a" };
   
   let html = `<div class="team-points-card">`;
-  teamPoints.forEach((tp, idx) => {
-    html += `
-      <div class="team-card" style="border-left:4px solid ${teamColors[tp.team]}">
-        <h3><i class="fas ${teamIcons[tp.team]}"></i> ${tp.team.toUpperCase()}</h3>
-        <div class="points">${tp.points} pts</div>
-        <div>${idx === 0 ? '🥇 1st Place' : idx === 1 ? '🥈 2nd Place' : idx === 2 ? '🥉 3rd Place' : ''}</div>
-      </div>
-    `;
-  });
+  for(let i = 0; i < teamPoints.length; i++) {
+    const tp = teamPoints[i];
+    html += `<div class="team-card" style="border-left:4px solid ${teamColors[tp.team]}">
+      <h3><i class="fas ${teamIcons[tp.team]}"></i> ${tp.team.toUpperCase()}</h3>
+      <div class="points">${tp.points} pts</div>
+      <div>${i === 0 ? '🥇 1st Place' : i === 1 ? '🥈 2nd Place' : i === 2 ? '🥉 3rd Place' : ''}</div>
+    </div>`;
+  }
   html += `</div>`;
   
   const sortedStudents = [...students].sort((a,b) => b.points - a.points);
-  html += `
-    <div class="stats-bar"><span><i class="fas fa-medal"></i> STUDENT LEADERBOARD (All Teams)</span><span class="count-badge">${students.length} Students</span></div>
-    <div class="table-wrapper">${'<table>'}
-      <thead>${'<tr>'}${'<th>Rank</th><th>ID</th><th>Name</th><th>Team</th><th>Total Points</th><th>Programs</th>'}${'</tr>'}</thead>
-      <tbody>
-  `;
+  html += `<div class="stats-bar"><span><i class="fas fa-medal"></i> STUDENT LEADERBOARD</span><span class="count-badge">${students.length} Students</span></div>
+    <div class="table-wrapper"><table><thead><tr><th>Rank</th><th>ID</th><th>Name</th><th>Team</th><th>Points</th><th>Programs</th></tr></thead><tbody>`;
   
-  sortedStudents.forEach((s, idx) => {
+  for(let i = 0; i < sortedStudents.length; i++) {
+    const s = sortedStudents[i];
     const teamColor = { othello: "#1e5f4b", macbeth: "#5a1e2a", hamlet: "#2c2e3a" }[s.team];
-    html += `${'<tr>'}
-      ${'<td>'}<strong>${idx + 1}</strong> ${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : ''}${'</td>'}
-      ${'<td>'}${s.id}${'</td>'}
-      ${'<td>'}<strong>${s.name}</strong>${'</td>'}
-      ${'<td>'}${'<span class="badge" style="background:'+teamColor+';color:white">'}${s.team.toUpperCase()}${'</span>'}${'</td>'}
-      ${'<td>'}<strong>${s.points}</strong>${'</td>'}
-      ${'<td>'}${s.programs.length}${'</td>'}
-    ${'</tr>'}`;
-  });
-  
-  html += `</tbody>${'</table>'}</div>`;
+    html += `<tr>
+      <td><strong>${i + 1}</strong> ${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : ''}</td>
+      <td>${s.id}</td>
+      <td><strong>${s.name}</strong></td>
+      <td><span class="badge" style="background:${teamColor};color:white">${s.team.toUpperCase()}</span></td>
+      <td>${s.points}</td>
+      <td>${s.programs.length}</td>
+    </tr>`;
+  }
+  html += `</tbody></table></div>`;
   container.innerHTML = html;
 }
 
@@ -387,32 +480,27 @@ function renderStudents() {
   const container = document.getElementById("studentsTab");
   const teamColors = { othello: "#1e5f4b", macbeth: "#5a1e2a", hamlet: "#2c2e3a" };
   
-  let html = `
-    <div class="stats-bar"><span><i class="fas fa-user-graduate"></i> ALL STUDENTS (10 per team)</span><span class="count-badge">${students.length} Total</span></div>
-    <div class="table-wrapper">${'</td>'}
-      <thead>${'<tr>'}${'<th>ID</th><th>Name</th><th>Team</th><th>Total Points</th><th>Programs Participated</th><th>Actions</th>'}${'</tr>'}</thead>
-      <tbody>
-  `;
+  let html = `<div class="stats-bar"><span><i class="fas fa-user-graduate"></i> ALL STUDENTS (10 per team)</span><span class="count-badge">${students.length} Students</span></div>
+    <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Name</th><th>Team</th><th>Points</th><th>Programs</th><th>Action</th></tr></thead><tbody>`;
   
-  students.forEach(s => {
-    html += `${'<tr>'}
-      ${'<td>'}${s.id}${'</td>'}
-      ${'<td>'}<strong>${s.name}</strong>${'</td>'}
-      ${'<td>'}${'<span class="badge" style="background:'+teamColors[s.team]+';color:white">'}${s.team.toUpperCase()}${'</span>'}${'</td>'}
-      ${'<td>'}<strong>${s.points}</strong>${'</td>'}
-      ${'<td>'}${s.programs.length}${'</td>'}
-      ${'<td>'}<button class="btn-edit" onclick="editStudent('${s.id}')"><i class="fas fa-pen"></i> Edit</button>${'</td>'}
-    ${'</tr>'}`;
-  });
-  
-  html += `</tbody>${'</table>'}</div>`;
+  for(let s of students) {
+    html += `<tr>
+      <td>${s.id}</td>
+      <td><strong>${s.name}</strong></td>
+      <td><span class="badge" style="background:${teamColors[s.team]};color:white">${s.team.toUpperCase()}</span></td>
+      <td>${s.points}</td>
+      <td>${s.programs.length}</td>
+      <td><button class="btn-edit" onclick="editStudent('${s.id}')"><i class="fas fa-pen"></i> Edit</button></td>
+    </tr>`;
+  }
+  html += `</tbody></table></div>`;
   container.innerHTML = html;
 }
 
 function openPointsModal(team, code) {
   currentPointsTarget = { team, code };
   const assign = getTeamAssignments(team);
-  const prog = programs.find(p=>p.code===code);
+  const prog = programs.find(p => p.code === code);
   if(!prog) return;
   document.getElementById("pointsProgName").value = `${prog.code} - ${prog.name}`;
   document.getElementById("pointsTeamName").value = team.toUpperCase();
@@ -425,7 +513,7 @@ function savePoints() {
   if(!currentPointsTarget) return;
   const { team, code } = currentPointsTarget;
   const assign = getTeamAssignments(team);
-  const prog = programs.find(p=>p.code===code);
+  const prog = programs.find(p => p.code === code);
   if(assign[code]) {
     assign[code].pointsEarned = Math.min(parseInt(document.getElementById("pointsEarnedVal").value), prog.maxPoints);
     setTeamAssignments(team, assign);
@@ -437,8 +525,9 @@ function savePoints() {
 function openCandidatesModal(team, code) {
   currentCandidatesTarget = { team, code };
   const assign = getTeamAssignments(team);
-  const prog = programs.find(p=>p.code===code);
-  document.getElementById("candProgName").innerText = `${prog.code} - ${prog.name} (${team.toUpperCase()})`;
+  const prog = programs.find(p => p.code === code);
+  document.getElementById("candProgName").innerText = `${prog.code} - ${prog.name}`;
+  document.getElementById("candTeamName").innerText = team.toUpperCase();
   document.getElementById("candList").value = (assign[code]?.candidates || []).join(", ");
   document.getElementById("candidatesModal").classList.add("active");
 }
@@ -455,21 +544,20 @@ function saveCandidates() {
 }
 
 function editStudent(id) {
-  const student = students.find(s=>s.id===id);
+  const student = students.find(s => s.id === id);
   if(!student) return;
   const newName = prompt("Edit student name:", student.name);
-  if(newName) student.name = newName;
-  saveToLocal();
-  renderAll();
+  if(newName && newName.trim()) {
+    student.name = newName.trim();
+    saveToLocal();
+    renderAll();
+  }
 }
-
-let currentPointsTarget = null;
-let currentCandidatesTarget = null;
 
 function closeModal(id) { 
   document.getElementById(id).classList.remove("active"); 
   currentPointsTarget = null; 
-  currentCandidatesTarget = null; 
+  currentCandidatesTarget = null;
 }
 
 function logout() { sessionStorage.clear(); window.location.href = "index.html"; }
@@ -481,7 +569,6 @@ document.querySelectorAll(".main-tab").forEach(tab => {
     document.querySelectorAll(".tab-content").forEach(tc => tc.classList.remove("active"));
     tab.classList.add("active");
     document.getElementById(tab.dataset.tab + "Tab").classList.add("active");
-    renderAll();
   });
 });
 
@@ -494,7 +581,6 @@ document.querySelectorAll(".team-subtab").forEach(st => {
   });
 });
 
-// Initialize
 initData();
 renderAll();
 </script>
