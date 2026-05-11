@@ -1,105 +1,944 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-site-verification" content="r5HJUpVSFMw7h3xPvmNC0jywmwmb-mEemyxkogNMkac" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITQAN Artsfest 2K26 | Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#0f2b1f,#1a3a2f,#2c2e3a);min-height:100vh;display:flex;align-items:center;justify-content:center;}
-    .login-container{background:white;border-radius:2rem;padding:2.5rem;max-width:450px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.3);}
-    .logo-icon{font-size:3.5rem;background:linear-gradient(135deg,#1e3a2f,#2c2e3a);-webkit-background-clip:text;background-clip:text;color:transparent;}
-    .login-container h1{font-size:1.8rem;color:#1e3a2f;margin-bottom:0.5rem;}
-    .login-container p{color:#8a7a5a;margin-bottom:1.8rem;}
-    .input-group{margin-bottom:1.2rem;text-align:left;}
-    .input-group label{display:block;font-size:0.75rem;font-weight:600;margin-bottom:0.4rem;color:#4a3a28;}
-    .input-group input{width:100%;padding:0.85rem;border:1px solid #ddd2bc;border-radius:1rem;font-size:0.9rem;background:#fefcf8;}
-    .input-group input:focus{outline:none;border-color:#1e3a2f;}
-    .login-btn{background:linear-gradient(135deg,#1e3a2f,#0f2b1f);color:white;width:100%;padding:0.85rem;border:none;border-radius:1rem;font-weight:700;cursor:pointer;font-size:1rem;}
-    .login-btn:hover{transform:translateY(-2px);}
-    .error-msg{background:#fee;color:#c33;padding:0.7rem;border-radius:0.8rem;margin-bottom:1rem;display:none;}
-    .info-cards{display:flex;gap:0.5rem;margin-top:1.5rem;flex-wrap:wrap;justify-content:center;}
-    .info-card{background:#f5ede0;padding:0.3rem 0.8rem;border-radius:2rem;font-size:0.6rem;color:#4a3a28;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTZEE Arts Fest 2K26</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ===== ROOT ===== */
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #18181f;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(255,200,80,0.25);
+  --gold: #ffcc44;
+  --gold2: #ffd966;
+  --gold-dim: #a88820;
+  --text: #f0ede8;
+  --muted: #7a7880;
+  --muted2: #5a5860;
+  --othello-c: #4ecdc4;
+  --macbeth-c: #c77dff;
+  --hamlet-c: #f77f5a;
+  --admin-c: #ffcc44;
+  --success: #43d98c;
+  --danger: #f05a5a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ===== PAGE SYSTEM ===== */
+.page{display:none!important;}
+.page.active{display:block!important;}
+#loginPage.active{display:flex!important;}
+#appPage.active{display:flex!important;}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+#loginPage{
+  min-height:100vh;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+
+/* animated grain */
+#loginPage::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+
+/* big art background letters */
+.art-bg{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,22vw,340px);
+  color:rgba(255,200,80,0.03);letter-spacing:0.04em;user-select:none;pointer-events:none;
+  z-index:0;white-space:nowrap;
+}
+
+/* floating blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.blob-1{width:400px;height:400px;background:rgba(255,200,80,0.06);top:-100px;left:-120px;animation:blobMove 12s ease-in-out infinite alternate;}
+.blob-2{width:300px;height:300px;background:rgba(78,205,196,0.05);bottom:-80px;right:-60px;animation:blobMove 9s ease-in-out 2s infinite alternate-reverse;}
+.blob-3{width:200px;height:200px;background:rgba(199,125,255,0.04);top:40%;right:10%;animation:blobMove 14s ease-in-out 4s infinite alternate;}
+@keyframes blobMove{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,20px) scale(1.1);}}
+
+/* login card */
+.login-wrap{
+  position:relative;z-index:1;
+  width:min(440px,93vw);
+  background:var(--bg2);
+  border:1px solid var(--border-gold);
+  border-radius:20px;
+  padding:3rem 2.5rem 2.5rem;
+  box-shadow:0 0 0 1px rgba(255,200,80,0.04), 0 40px 80px rgba(0,0,0,0.6);
+  animation:fadeUp 0.6s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* Logo */
+.logo-lock{text-align:center;margin-bottom:2rem;}
+.logo-icon-ring{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:68px;height:68px;border-radius:50%;
+  background:linear-gradient(135deg,#3a3010,#1a1a10);
+  border:2px solid rgba(255,200,80,0.3);
+  font-size:1.8rem;margin-bottom:0.9rem;
+}
+.logo-name{
+  font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:0.1em;
+  background:linear-gradient(135deg,var(--gold),var(--gold2),#fff8d0);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;
+}
+.logo-tagline{
+  font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--muted);margin-top:0.3rem;
+}
+
+/* form */
+.divider-line{
+  display:flex;align-items:center;gap:10px;margin-bottom:1.6rem;
+}
+.divider-line span{flex:1;height:1px;background:var(--border);}
+.divider-line p{font-size:0.72rem;color:var(--muted2);letter-spacing:0.1em;white-space:nowrap;}
+
+.field{margin-bottom:1.1rem;}
+.field label{display:block;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.45rem;}
+.field .inp-wrap{position:relative;}
+.field .inp-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:0.85rem;}
+.field input{
+  width:100%;padding:0.75rem 1rem 0.75rem 2.5rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.field input::placeholder{color:var(--muted2);}
+.field input:focus{border-color:rgba(255,200,80,0.4);box-shadow:0 0 0 3px rgba(255,200,80,0.06);}
+
+.login-btn{
+  width:100%;padding:0.85rem;margin-top:0.5rem;
+  background:linear-gradient(135deg,var(--gold),#e8b020);
+  border:none;border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;
+  color:#0a0a0f;cursor:pointer;
+  transition:transform 0.15s,box-shadow 0.2s;
+  letter-spacing:0.03em;
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,200,80,0.25);}
+.login-btn:active{transform:translateY(0);}
+
+.err-box{
+  background:rgba(240,90,90,0.1);border:1px solid rgba(240,90,90,0.25);
+  border-radius:8px;padding:0.6rem 1rem;font-size:0.87rem;color:#f08080;
+  margin-bottom:1rem;display:none;align-items:center;gap:8px;
+}
+
+.team-hints{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:1.6rem;}
+.hint-chip{
+  font-size:0.7rem;padding:0.28rem 0.7rem;border-radius:20px;
+  border:1px solid var(--border);color:var(--muted);cursor:default;
+}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+#appPage{
+  min-height:100vh;flex-direction:row;align-items:stretch;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:240px;flex-shrink:0;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;height:100vh;overflow-y:auto;z-index:20;
+}
+.sb-header{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border);}
+.sb-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.12em;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;
+}
+.sb-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;letter-spacing:0.05em;}
+.team-pill{
+  display:inline-block;margin-top:0.6rem;padding:0.22rem 0.7rem;border-radius:20px;
+  font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+}
+.pill-othello{background:rgba(78,205,196,0.12);color:var(--othello-c);border:1px solid rgba(78,205,196,0.25);}
+.pill-macbeth{background:rgba(199,125,255,0.12);color:var(--macbeth-c);border:1px solid rgba(199,125,255,0.25);}
+.pill-hamlet{background:rgba(247,127,90,0.12);color:var(--hamlet-c);border:1px solid rgba(247,127,90,0.25);}
+.pill-admin{background:rgba(255,204,68,0.12);color:var(--admin-c);border:1px solid rgba(255,204,68,0.25);}
+
+.sb-nav{flex:1;padding:0.8rem 0;}
+.nav-section-label{
+  padding:0.6rem 1.2rem 0.25rem;font-size:0.62rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--muted2);
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:0.6rem 1.2rem;cursor:pointer;
+  font-size:0.9rem;color:var(--muted);
+  border-left:2px solid transparent;
+  transition:all 0.18s;
+}
+.nav-item i{width:16px;text-align:center;font-size:0.85rem;}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03);}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(255,200,80,0.05);}
+
+.sb-footer{padding:1rem 1.2rem;border-top:1px solid var(--border);}
+.logout-btn{
+  width:100%;padding:0.6rem;border-radius:8px;
+  background:transparent;border:1px solid rgba(240,90,90,0.25);
+  color:rgba(240,90,90,0.6);font-family:'DM Sans',sans-serif;font-size:0.85rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.logout-btn:hover{background:rgba(240,90,90,0.08);border-color:rgba(240,90,90,0.5);color:#f08080;}
+
+/* MAIN */
+.main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10;
+}
+.topbar-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);}
+.topbar-meta{font-size:0.8rem;color:var(--muted);}
+.topbar-meta span{color:var(--gold);}
+
+.view{display:none;padding:2rem;animation:fadeUp 0.35s ease;}
+.view.active{display:block;}
+
+/* ============================================================
+   DASHBOARD COMPONENTS
+   ============================================================ */
+.hero-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+  padding:2rem 2rem 1.6rem;margin-bottom:1.8rem;position:relative;overflow:hidden;
+}
+.hero-card::before{
+  content:'';position:absolute;top:0;right:0;width:260px;height:100%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,200,80,0.03));
+}
+.hero-eyebrow{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
+.hero-title{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:var(--text);margin-bottom:0.3rem;}
+.hero-sub{font-size:1rem;color:var(--muted);font-style:italic;}
+
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.8rem;}
+.stat-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem 1rem;text-align:center;
+}
+.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.4rem;}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:0.05em;color:var(--gold);line-height:1;}
+.stat-note{font-size:0.75rem;color:var(--muted2);margin-top:0.25rem;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:1.8rem;}
+@media(max-width:860px){.two-col{grid-template-columns:1fr;}}
+.card-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;}
+.card-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
+.card-title i{font-size:0.8rem;}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;font-size:0.88rem;}
+.data-table th{text-align:left;padding:0.5rem 0.7rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
+.data-table td{padding:0.7rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:rgba(255,255,255,0.02);}
+
+/* Rank badges */
+.rank{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;}
+.rank-1{background:rgba(255,200,80,0.18);color:var(--gold);border:1px solid rgba(255,200,80,0.35);}
+.rank-2{background:rgba(180,180,180,0.1);color:#c0c0c0;border:1px solid rgba(180,180,180,0.2);}
+.rank-3{background:rgba(205,127,50,0.12);color:#cd7f32;border:1px solid rgba(205,127,50,0.3);}
+.rank-x{background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--border);}
+
+/* Status chips */
+.chip{display:inline-block;padding:0.18rem 0.55rem;border-radius:20px;font-size:0.7rem;font-weight:500;}
+.chip-win{background:rgba(67,217,140,0.12);color:var(--success);border:1px solid rgba(67,217,140,0.22);}
+.chip-2nd{background:rgba(255,200,80,0.1);color:var(--gold);border:1px solid rgba(255,200,80,0.2);}
+.chip-3rd{background:rgba(205,127,50,0.1);color:#cd7f32;border:1px solid rgba(205,127,50,0.2);}
+.chip-part{background:rgba(120,120,140,0.12);color:var(--muted);border:1px solid rgba(120,120,140,0.18);}
+
+/* Points value */
+.pts{font-weight:600;color:var(--gold2);}
+
+/* Leaderboard bars */
+.lb-row{margin-bottom:1.1rem;}
+.lb-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.35rem;}
+.lb-name{font-size:0.9rem;font-weight:500;}
+.lb-pts{font-size:0.78rem;color:var(--muted);}
+.lb-track{height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;}
+.lb-bar{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+
+/* Event items */
+.event-item{display:flex;align-items:center;gap:10px;padding:0.65rem 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.event-item:last-child{border-bottom:none;}
+.event-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.event-name{flex:1;font-size:0.9rem;font-style:italic;color:var(--text);}
+.event-cat{font-size:0.7rem;color:var(--muted);}
+
+/* ============================================================
+   ADMIN PORTAL
+   ============================================================ */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-bottom:1.8rem;}
+.admin-team-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;
+}
+.admin-team-header{
+  padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.admin-team-name{font-weight:600;font-size:1rem;}
+.admin-team-pts{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.05em;}
+.admin-team-body{padding:1rem 1.2rem;}
+.admin-event-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.03);
+  font-size:0.85rem;
+}
+.admin-event-row:last-child{border-bottom:none;}
+
+.score-input{
+  width:60px;padding:0.3rem 0.5rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.85rem;text-align:center;
+  outline:none;transition:border-color 0.2s;
+}
+.score-input:focus{border-color:rgba(255,200,80,0.4);}
+
+.save-btn{
+  padding:0.65rem 1.6rem;border-radius:8px;
+  background:linear-gradient(135deg,var(--gold),#e0a000);
+  border:none;color:#0a0a0f;font-family:'DM Sans',sans-serif;font-weight:600;
+  font-size:0.9rem;cursor:pointer;transition:transform 0.15s,box-shadow 0.2s;
+}
+.save-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,200,80,0.25);}
+
+.save-notice{
+  display:none;padding:0.6rem 1rem;border-radius:8px;margin-top:1rem;
+  background:rgba(67,217,140,0.1);border:1px solid rgba(67,217,140,0.2);
+  color:var(--success);font-size:0.85rem;
+}
+
+/* overall leaderboard table */
+.overall-table td:first-child{font-weight:500;}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:700px){
+  .sidebar{width:200px;}
+  .main{margin-left:200px;}
+  .view{padding:1.2rem;}
+}
+@media(max-width:500px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+}
+</style>
 </head>
 <body>
-<div class="login-container">
-  <div class="logo-icon"><i class="fas fa-trophy"></i></div>
-  <h1>ITQAN Artsfest 2K26</h1>
-  <p>Enter your credentials</p>
-  <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-triangle"></i> <span id="errorText">Invalid credentials</span></div>
-  <div class="input-group"><label>Username</label><input type="text" id="username" placeholder="Enter username"></div>
-  <div class="input-group"><label>Password</label><input type="password" id="password" placeholder="Enter password"></div>
-  <button class="login-btn" onclick="attemptLogin()">Login</button>
-  <div class="info-cards">
-    <div class="info-card">👑 Admin</div>
-    <div class="info-card">🎭 Othello</div>
-    <div class="info-card">👑 Macbeth</div>
-    <div class="info-card">💀 Hamlet</div>
+
+<!-- ============================================================
+     LOGIN PAGE
+     ============================================================ -->
+<div id="loginPage" class="page active">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="art-bg">ARTZEE</div>
+
+  <div class="login-wrap">
+    <div class="logo-lock">
+      <div class="logo-icon-ring">🎭</div>
+      <div class="logo-name">ARTZEE</div>
+      <div class="logo-tagline">Arts Fest 2K26 · Where Talent Meets Glory</div>
+    </div>
+
+    <div class="divider-line">
+      <span></span><p>Sign in to your team</p><span></span>
+    </div>
+
+    <div id="errBox" class="err-box">
+      <i class="fas fa-triangle-exclamation"></i>
+      <span id="errText">Invalid username or password</span>
+    </div>
+
+    <div class="field">
+      <label>Username</label>
+      <div class="inp-wrap">
+        <i class="fas fa-user"></i>
+        <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username">
+      </div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <div class="inp-wrap">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
+      </div>
+    </div>
+    <button class="login-btn" onclick="doLogin()">
+      <i class="fas fa-sign-in-alt" style="margin-right:6px;"></i> Enter the Fest
+    </button>
+
+    <div class="team-hints">
+      <span class="hint-chip">👑 Admin</span>
+      <span class="hint-chip">🎭 Othello</span>
+      <span class="hint-chip">⚔️ Macbeth</span>
+      <span class="hint-chip">💀 Hamlet</span>
+    </div>
   </div>
 </div>
 
-<script>
-function simpleHash(str) {
-  let hash = 0;
-  for(let i = 0; i < str.length; i++) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(i);
-    hash = hash & hash;
-  }
-  return Math.abs(hash).toString(16);
-}
+<!-- ============================================================
+     APP SHELL
+     ============================================================ -->
+<div id="appPage" class="page">
 
-const DEFAULT_CREDENTIALS = {
-  admin: { username: "admin", passwordHash: simpleHash("Admin@2026!itqan"), redirect: "admin-portal.html", team: "admin" },
-  othello: { username: "othello_team", passwordHash: simpleHash("Artsfest2026!"), redirect: "othello-dashboard.html", team: "othello" },
-  macbeth: { username: "macbeth_team", passwordHash: simpleHash("Macbeth@2026"), redirect: "macbeth-dashboard.html", team: "macbeth" },
-  hamlet: { username: "hamlet_team", passwordHash: simpleHash("Hamlet#Arts"), redirect: "hamlet-dashboard.html", team: "hamlet" }
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">ARTZEE</div>
+      <div class="sb-sub">Arts Fest 2K26</div>
+      <div id="sbTeamPill" class="team-pill pill-admin">Admin</div>
+    </div>
+
+    <div class="sb-nav" id="sidebarNav">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="sb-footer">
+      <button class="logout-btn" onclick="doLogout()">
+        <i class="fas fa-sign-out-alt" style="margin-right:6px;"></i> Sign Out
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-meta">ARTZEE 2K26 · <span id="topbarTeam">—</span></div>
+    </div>
+
+    <!-- ====== VIEWS ====== -->
+
+    <!-- DASHBOARD VIEW -->
+    <div class="view active" id="viewDash">
+      <div class="hero-card">
+        <div class="hero-eyebrow" id="heroEyebrow">Welcome Back</div>
+        <div class="hero-title" id="heroTitle">ARTZEE 2K26</div>
+        <div class="hero-sub" id="heroSub">Your arts fest command centre</div>
+      </div>
+
+      <div class="stats-row" id="statsRow">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="two-col">
+        <div class="card-box">
+          <div class="card-title"><i class="fas fa-trophy"></i> Overall Leaderboard</div>
+          <div id="leaderboardBars"><!-- JS --></div>
+        </div>
+        <div class="card-box">
+          <div class="card-title"><i class="fas fa-calendar-star"></i> Events At a Glance</div>
+          <div id="eventsGlance"><!-- JS --></div>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title"><i class="fas fa-list-ul"></i> My Team's Event Results</div>
+        <table class="data-table" id="myEventsTable">
+          <thead>
+            <tr>
+              <th>#</th><th>Event</th><th>Category</th><th>Points</th><th>Position</th>
+            </tr>
+          </thead>
+          <tbody id="myEventsTbody"><!-- JS --></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD VIEW -->
+    <div class="view" id="viewLB">
+      <div class="hero-card" style="margin-bottom:1.4rem;">
+        <div class="hero-eyebrow">Overall Rankings</div>
+        <div class="hero-title">Live Leaderboard</div>
+        <div class="hero-sub">Scores update in real-time as events conclude</div>
+      </div>
+      <div class="card-box">
+        <div class="card-title"><i class="fas fa-ranking-star"></i> Team Standings</div>
+        <table class="data-table overall-table" id="overallTable">
+          <thead>
+            <tr><th>Rank</th><th>Team</th><th>Events Won</th><th>2nd Place</th><th>3rd Place</th><th>Total Pts</th></tr>
+          </thead>
+          <tbody id="overallTbody"><!-- JS --></tbody>
+        </table>
+      </div>
+
+      <div class="two-col" style="margin-top:1.4rem;">
+        <div class="card-box">
+          <div class="card-title"><i class="fas fa-medal"></i> Event-wise Results</div>
+          <table class="data-table" id="eventResultsTable">
+            <thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead>
+            <tbody id="eventResultsTbody"><!-- JS --></tbody>
+          </table>
+        </div>
+        <div class="card-box">
+          <div class="card-title"><i class="fas fa-chart-bar"></i> Points Breakdown</div>
+          <div id="pointsBars"><!-- JS --></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENTS VIEW -->
+    <div class="view" id="viewEvents">
+      <div class="hero-card" style="margin-bottom:1.4rem;">
+        <div class="hero-eyebrow">Event Schedule</div>
+        <div class="hero-title">All Events</div>
+        <div class="hero-sub">Complete listing of ARTZEE 2K26 competitions</div>
+      </div>
+      <div class="card-box">
+        <div class="card-title"><i class="fas fa-calendar-days"></i> Event Directory</div>
+        <table class="data-table" id="allEventsTable">
+          <thead><tr><th>#</th><th>Event</th><th>Category</th><th>1st (pts)</th><th>2nd (pts)</th><th>3rd (pts)</th></tr></thead>
+          <tbody id="allEventsTbody"><!-- JS --></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div class="view" id="viewAdmin">
+      <div class="hero-card" style="margin-bottom:1.4rem;">
+        <div class="hero-eyebrow">Admin Control Panel</div>
+        <div class="hero-title">Score Manager</div>
+        <div class="hero-sub">Update team positions per event — saves to browser storage</div>
+      </div>
+
+      <div class="admin-grid" id="adminTeamCards"><!-- JS --></div>
+
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <button class="save-btn" onclick="saveScores()">
+          <i class="fas fa-save" style="margin-right:6px;"></i> Save All Scores
+        </button>
+        <div class="save-notice" id="saveNotice">
+          <i class="fas fa-circle-check" style="margin-right:6px;"></i> Scores saved successfully!
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /appPage -->
+
+<script>
+/* ================================================================
+   DATA
+   ================================================================ */
+const EVENTS = [
+  {id:'e1', name:'Mono Act',         cat:'Drama',    pts:[10,7,5]},
+  {id:'e2', name:'Group Dance',      cat:'Dance',    pts:[10,7,5]},
+  {id:'e3', name:'Solo Singing',     cat:'Music',    pts:[10,7,5]},
+  {id:'e4', name:'Mime',             cat:'Drama',    pts:[10,7,5]},
+  {id:'e5', name:'Instrumental',     cat:'Music',    pts:[10,7,5]},
+  {id:'e6', name:'Street Play',      cat:'Drama',    pts:[10,7,5]},
+  {id:'e7', name:'Painting',         cat:'Visual',   pts:[10,7,5]},
+  {id:'e8', name:'Photography',      cat:'Visual',   pts:[10,7,5]},
+  {id:'e9', name:'Debate',           cat:'Literary', pts:[10,7,5]},
+  {id:'e10',name:'Poetry Slam',      cat:'Literary', pts:[10,7,5]},
+  {id:'e11',name:'Skit',             cat:'Drama',    pts:[10,7,5]},
+  {id:'e12',name:'Folk Dance',       cat:'Dance',    pts:[10,7,5]},
+  {id:'e13',name:'Western Vocals',   cat:'Music',    pts:[10,7,5]},
+  {id:'e14',name:'Mehendi',          cat:'Visual',   pts:[10,7,5]},
+  {id:'e15',name:'Short Film',       cat:'Visual',   pts:[10,7,5]},
+];
+
+const TEAMS = ['othello','macbeth','hamlet'];
+const TEAM_META = {
+  othello: {label:'Team Othello', emoji:'🎭', color:'var(--othello-c)', pill:'pill-othello'},
+  macbeth: {label:'Team Macbeth', emoji:'⚔️', color:'var(--macbeth-c)', pill:'pill-macbeth'},
+  hamlet:  {label:'Team Hamlet',  emoji:'💀', color:'var(--hamlet-c)',  pill:'pill-hamlet'},
+  admin:   {label:'Admin',        emoji:'👑', color:'var(--admin-c)',   pill:'pill-admin'},
 };
 
-let CREDENTIALS = {};
-function loadCredentials() {
-  const saved = localStorage.getItem("itqan_credentials");
-  if(saved) {
-    try {
-      CREDENTIALS = JSON.parse(saved);
-    } catch(e) { CREDENTIALS = JSON.parse(JSON.stringify(DEFAULT_CREDENTIALS)); }
-  } else {
-    CREDENTIALS = JSON.parse(JSON.stringify(DEFAULT_CREDENTIALS));
-    localStorage.setItem("itqan_credentials", JSON.stringify(CREDENTIALS));
-  }
-}
-loadCredentials();
-
-function attemptLogin() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
-  const passwordHash = simpleHash(password);
-  
-  let matched = null;
-  for(let key in CREDENTIALS) {
-    if(CREDENTIALS[key].username === username && CREDENTIALS[key].passwordHash === passwordHash) {
-      matched = CREDENTIALS[key];
-      break;
-    }
-  }
-  
-  if(matched) {
-    sessionStorage.setItem("logged_in", "true");
-    sessionStorage.setItem("user_team", matched.team);
-    sessionStorage.setItem("login_time", Date.now());
-    window.location.href = matched.redirect;
-  } else {
-    document.getElementById("errorMsg").style.display = "block";
-    setTimeout(() => document.getElementById("errorMsg").style.display = "none", 3000);
-  }
+function simpleHash(s){
+  let h=0;
+  for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h=h&h;}
+  return Math.abs(h).toString(16);
 }
 
-document.getElementById("password").addEventListener("keypress", function(e) {
-  if(e.key === "Enter") attemptLogin();
-});
+const DEFAULT_CREDS = {
+  admin:   {username:'admin',       hash: simpleHash('Admin@2026!artzee'), team:'admin'},
+  othello: {username:'othello_team',hash: simpleHash('Artzee2026!'),       team:'othello'},
+  macbeth: {username:'macbeth_team',hash: simpleHash('Macbeth@2026'),      team:'macbeth'},
+  hamlet:  {username:'hamlet_team', hash: simpleHash('Hamlet#Arts'),       team:'hamlet'},
+};
+
+/* Default scores: {eventId: {othello: 0|1|2|3, macbeth: ..., hamlet: ...}}
+   0=not placed, 1=1st, 2=2nd, 3=3rd */
+function getDefaultScores(){
+  const s={};
+  EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});
+  // some pre-filled results for demo
+  s.e1={othello:1,macbeth:2,hamlet:3};
+  s.e2={othello:3,macbeth:1,hamlet:2};
+  s.e3={othello:2,macbeth:3,hamlet:1};
+  s.e4={othello:1,macbeth:0,hamlet:2};
+  s.e5={othello:2,macbeth:1,hamlet:3};
+  s.e7={othello:3,macbeth:2,hamlet:1};
+  s.e9={othello:1,macbeth:3,hamlet:2};
+  return s;
+}
+
+/* ================================================================
+   STATE
+   ================================================================ */
+let currentUser = null; // {team, username}
+let scores = {};        // {eventId: {team: position}}
+
+function loadData(){
+  try{scores=JSON.parse(localStorage.getItem('artzee_scores')||'null')||getDefaultScores();}
+  catch(e){scores=getDefaultScores();}
+}
+function saveData(){localStorage.setItem('artzee_scores',JSON.stringify(scores));}
+
+/* ================================================================
+   COMPUTED
+   ================================================================ */
+function calcTeamStats(team){
+  let won=0,sec=0,trd=0,total=0;
+  EVENTS.forEach(e=>{
+    const pos=scores[e.id]?scores[e.id][team]:0;
+    if(pos===1){won++;total+=e.pts[0];}
+    else if(pos===2){sec++;total+=e.pts[1];}
+    else if(pos===3){trd++;total+=e.pts[2];}
+  });
+  return{won,sec,trd,total};
+}
+function getRankedTeams(){
+  return TEAMS.map(t=>({team:t,...calcTeamStats(t)}))
+    .sort((a,b)=>b.total-a.total||b.won-a.won);
+}
+function maxTotal(){return Math.max(...TEAMS.map(t=>calcTeamStats(t).total),1);}
+
+/* ================================================================
+   LOGIN / LOGOUT
+   ================================================================ */
+function doLogin(){
+  const user=document.getElementById('loginUser').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const h=simpleHash(pass);
+  let found=null;
+  for(const key in DEFAULT_CREDS){
+    if(DEFAULT_CREDS[key].username===user && DEFAULT_CREDS[key].hash===h){found=DEFAULT_CREDS[key];break;}
+  }
+  if(found){
+    currentUser={team:found.team,username:user};
+    sessionStorage.setItem('artzee_user',JSON.stringify(currentUser));
+    openApp();
+  } else {
+    const eb=document.getElementById('errBox');
+    eb.style.display='flex';
+    setTimeout(()=>eb.style.display='none',3000);
+  }
+}
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function doLogout(){
+  sessionStorage.removeItem('artzee_user');
+  document.getElementById('appPage').classList.remove('active');
+  document.getElementById('loginPage').classList.add('active');
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+
+function openApp(){
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('appPage').classList.add('active');
+  buildApp();
+  switchView('viewDash','Dashboard');
+}
+
+/* ================================================================
+   BUILD APP
+   ================================================================ */
+function buildApp(){
+  const {team}=currentUser;
+  const meta=TEAM_META[team];
+  // pill
+  const pill=document.getElementById('sbTeamPill');
+  pill.textContent=meta.emoji+' '+meta.label;
+  pill.className='team-pill '+meta.pill;
+  // topbar
+  document.getElementById('topbarTeam').textContent=meta.label;
+
+  // hero
+  document.getElementById('heroEyebrow').textContent=team==='admin'?'Admin Portal':'Welcome, '+meta.label;
+  document.getElementById('heroTitle').textContent=team==='admin'?'Control Centre':meta.label+' Dashboard';
+  document.getElementById('heroSub').textContent=team==='admin'?'Manage scores and view all event results.':'Track your team\'s performance across all events.';
+
+  buildSidebar(team);
+  buildStats(team);
+  buildLeaderboardBars();
+  buildEventsGlance();
+  buildMyEvents(team);
+  buildOverallTable();
+  buildEventResults();
+  buildPointsBars();
+  buildAllEvents();
+  if(team==='admin') buildAdminCards();
+}
+
+/* ===== SIDEBAR ===== */
+function buildSidebar(team){
+  const nav=document.getElementById('sidebarNav');
+  const items=[
+    {id:'viewDash',   icon:'fa-gauge',         label:'Dashboard'},
+    {id:'viewLB',     icon:'fa-ranking-star',  label:'Leaderboard'},
+    {id:'viewEvents', icon:'fa-calendar-days', label:'All Events'},
+  ];
+  if(team==='admin') items.push({id:'viewAdmin',icon:'fa-sliders',label:'Admin Panel'});
+
+  nav.innerHTML=`<div class="nav-section-label">Navigation</div>`
+    +items.map(it=>`
+    <div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')">
+      <i class="fas ${it.icon}"></i> ${it.label}
+    </div>`).join('');
+}
+
+function switchView(id,title){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`.nav-item[data-view="${id}"]`)?.classList.add('active');
+  document.getElementById('topbarTitle').textContent=title;
+}
+
+/* ===== STATS ===== */
+function buildStats(team){
+  const row=document.getElementById('statsRow');
+  if(team==='admin'){
+    const ranked=getRankedTeams();
+    const leader=ranked[0];
+    const total=EVENTS.reduce((a,e)=>{
+      let placed=0;TEAMS.forEach(t=>{if(scores[e.id]&&scores[e.id][t]>0)placed++;});
+      return a+(placed>0?1:0);
+    },0);
+    row.innerHTML=`
+      <div class="stat-card"><div class="stat-label">Teams</div><div class="stat-value">3</div><div class="stat-note">competing</div></div>
+      <div class="stat-card"><div class="stat-label">Total Events</div><div class="stat-value">${EVENTS.length}</div><div class="stat-note">scheduled</div></div>
+      <div class="stat-card"><div class="stat-label">Results In</div><div class="stat-value">${total}</div><div class="stat-note">of ${EVENTS.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Leading Team</div><div class="stat-value" style="font-size:1.4rem;color:${TEAM_META[leader.team].color}">${TEAM_META[leader.team].emoji}</div><div class="stat-note">${TEAM_META[leader.team].label} · ${leader.total} pts</div></div>
+    `;
+  } else {
+    const s=calcTeamStats(team);
+    const ranked=getRankedTeams();
+    const rank=ranked.findIndex(r=>r.team===team)+1;
+    row.innerHTML=`
+      <div class="stat-card"><div class="stat-label">Total Points</div><div class="stat-value">${s.total}</div><div class="stat-note">accumulated</div></div>
+      <div class="stat-card"><div class="stat-label">1st Places</div><div class="stat-value" style="color:var(--gold)">${s.won}</div><div class="stat-note">gold finishes</div></div>
+      <div class="stat-card"><div class="stat-label">2nd Places</div><div class="stat-value" style="color:#c0c0c0">${s.sec}</div><div class="stat-note">silver finishes</div></div>
+      <div class="stat-card"><div class="stat-label">Current Rank</div><div class="stat-value">#${rank}</div><div class="stat-note">of 3 teams</div></div>
+    `;
+  }
+}
+
+/* ===== LEADERBOARD BARS ===== */
+function buildLeaderboardBars(){
+  const el=document.getElementById('leaderboardBars');
+  const ranked=getRankedTeams();
+  const mx=maxTotal();
+  const rankColors=['var(--gold)','#c0c0c0','#cd7f32'];
+  el.innerHTML=ranked.map((r,i)=>`
+    <div class="lb-row">
+      <div class="lb-meta">
+        <span class="lb-name" style="color:${TEAM_META[r.team].color}">${TEAM_META[r.team].emoji} ${TEAM_META[r.team].label}</span>
+        <span class="lb-pts">${r.total} pts</span>
+      </div>
+      <div class="lb-track">
+        <div class="lb-bar" style="width:${Math.round((r.total/mx)*100)}%;background:${rankColors[i]||'var(--muted2)'}"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ===== EVENTS GLANCE ===== */
+function buildEventsGlance(){
+  const el=document.getElementById('eventsGlance');
+  // show events with results
+  const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
+  const pending=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
+  const list=[...done.slice(0,5),...pending.slice(0,3)];
+  const catColors={'Drama':'var(--macbeth-c)','Dance':'var(--othello-c)','Music':'var(--gold)','Visual':'var(--hamlet-c)','Literary':'var(--success)'};
+  el.innerHTML=list.map(e=>{
+    const isDone=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);
+    return `<div class="event-item">
+      <div class="event-dot" style="background:${isDone?catColors[e.cat]||'var(--muted2)':'var(--muted2)'}"></div>
+      <span class="event-name">${e.name}</span>
+      <span class="event-cat">${isDone?'✓ Done':'Pending'}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ===== MY EVENTS TABLE ===== */
+function buildMyEvents(team){
+  const tb=document.getElementById('myEventsTbody');
+  if(team==='admin'){tb.innerHTML=`<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:1.5rem 0">Admin view — see All Events</td></tr>`;return;}
+  tb.innerHTML=EVENTS.map((e,i)=>{
+    const pos=(scores[e.id]||{})[team]||0;
+    const pts=pos>0?e.pts[pos-1]:0;
+    const rankEl=pos===1?`<span class="rank rank-1">1</span>`:pos===2?`<span class="rank rank-2">2</span>`:pos===3?`<span class="rank rank-3">3</span>`:`<span class="rank rank-x">—</span>`;
+    const chipEl=pos===1?`<span class="chip chip-win">1st Place</span>`:pos===2?`<span class="chip chip-2nd">2nd Place</span>`:pos===3?`<span class="chip chip-3rd">3rd Place</span>`:`<span class="chip chip-part">Pending</span>`;
+    return `<tr>
+      <td>${rankEl}</td>
+      <td style="font-style:italic">${e.name}</td>
+      <td style="color:var(--muted);font-size:0.8rem">${e.cat}</td>
+      <td class="pts">${pts>0?'+'+pts:'—'}</td>
+      <td>${chipEl}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ===== OVERALL TABLE ===== */
+function buildOverallTable(){
+  const tb=document.getElementById('overallTbody');
+  const ranked=getRankedTeams();
+  tb.innerHTML=ranked.map((r,i)=>`
+    <tr>
+      <td>${i===0?`<span class="rank rank-1">1</span>`:i===1?`<span class="rank rank-2">2</span>`:`<span class="rank rank-3">3</span>`}</td>
+      <td><span style="color:${TEAM_META[r.team].color};font-weight:500">${TEAM_META[r.team].emoji} ${TEAM_META[r.team].label}</span></td>
+      <td class="pts">${r.won}</td>
+      <td class="pts">${r.sec}</td>
+      <td class="pts">${r.trd}</td>
+      <td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${r.total}</td>
+    </tr>
+  `).join('');
+}
+
+/* ===== EVENT RESULTS TABLE ===== */
+function buildEventResults(){
+  const tb=document.getElementById('eventResultsTbody');
+  tb.innerHTML=EVENTS.map(e=>{
+    const getTeam=pos=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===pos);
+    const t1=getTeam(1),t2=getTeam(2),t3=getTeam(3);
+    const fmt=t=>t?`<span style="color:${TEAM_META[t].color}">${TEAM_META[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;
+    return `<tr>
+      <td style="font-style:italic;font-size:0.85rem">${e.name}</td>
+      <td>${fmt(t1)}</td><td>${fmt(t2)}</td><td>${fmt(t3)}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ===== POINTS BARS ===== */
+function buildPointsBars(){
+  const el=document.getElementById('pointsBars');
+  const ranked=getRankedTeams();
+  const mx=maxTotal();
+  el.innerHTML=ranked.map(r=>`
+    <div class="lb-row">
+      <div class="lb-meta">
+        <span class="lb-name" style="color:${TEAM_META[r.team].color}">${TEAM_META[r.team].emoji} ${TEAM_META[r.team].label}</span>
+        <span class="lb-pts">${r.total} pts</span>
+      </div>
+      <div class="lb-track"><div class="lb-bar" style="width:${Math.round((r.total/mx)*100)}%;background:${TEAM_META[r.team].color}"></div></div>
+    </div>
+  `).join('');
+}
+
+/* ===== ALL EVENTS TABLE ===== */
+function buildAllEvents(){
+  const tb=document.getElementById('allEventsTbody');
+  tb.innerHTML=EVENTS.map((e,i)=>`
+    <tr>
+      <td style="color:var(--muted2)">${i+1}</td>
+      <td style="font-style:italic">${e.name}</td>
+      <td><span style="font-size:0.75rem;color:var(--muted)">${e.cat}</span></td>
+      <td class="pts">${e.pts[0]}</td>
+      <td style="color:#c0c0c0">${e.pts[1]}</td>
+      <td style="color:#cd7f32">${e.pts[2]}</td>
+    </tr>
+  `).join('');
+}
+
+/* ===== ADMIN CARDS ===== */
+function buildAdminCards(){
+  const el=document.getElementById('adminTeamCards');
+  el.innerHTML=TEAMS.map(team=>`
+    <div class="admin-team-card">
+      <div class="admin-team-header">
+        <span class="admin-team-name" style="color:${TEAM_META[team].color}">${TEAM_META[team].emoji} ${TEAM_META[team].label}</span>
+        <span class="admin-team-pts" style="color:${TEAM_META[team].color}" id="adminPts_${team}">${calcTeamStats(team).total} pts</span>
+      </div>
+      <div class="admin-team-body">
+        ${EVENTS.map(e=>`
+          <div class="admin-event-row">
+            <span style="font-size:0.82rem;font-style:italic;color:var(--text)">${e.name}</span>
+            <select class="score-input" id="sel_${e.id}_${team}" onchange="updateScore('${e.id}','${team}',this.value)" style="width:90px">
+              <option value="0" ${(scores[e.id]||{})[team]===0?'selected':''}>—</option>
+              <option value="1" ${(scores[e.id]||{})[team]===1?'selected':''}>🥇 1st (${e.pts[0]})</option>
+              <option value="2" ${(scores[e.id]||{})[team]===2?'selected':''}>🥈 2nd (${e.pts[1]})</option>
+              <option value="3" ${(scores[e.id]||{})[team]===3?'selected':''}>🥉 3rd (${e.pts[2]})</option>
+            </select>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateScore(eventId,team,pos){
+  if(!scores[eventId]) scores[eventId]={othello:0,macbeth:0,hamlet:0};
+  scores[eventId][team]=parseInt(pos);
+  // live-update pts label
+  document.getElementById('adminPts_'+team).textContent=calcTeamStats(team).total+' pts';
+}
+
+function saveScores(){
+  saveData();
+  // rebuild all views
+  buildStats(currentUser.team);
+  buildLeaderboardBars();
+  buildEventsGlance();
+  buildMyEvents(currentUser.team);
+  buildOverallTable();
+  buildEventResults();
+  buildPointsBars();
+  // show notice
+  const n=document.getElementById('saveNotice');
+  n.style.display='flex';
+  setTimeout(()=>n.style.display='none',3000);
+}
+
+/* ================================================================
+   INIT
+   ================================================================ */
+loadData();
+// check for existing session
+try{
+  const saved=JSON.parse(sessionStorage.getItem('artzee_user')||'null');
+  if(saved){currentUser=saved;openApp();}
+}catch(e){}
 </script>
 </body>
 </html>
