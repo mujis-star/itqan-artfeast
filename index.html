@@ -337,6 +337,80 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .overall-table td:first-child{font-weight:500;}
 
 /* ============================================================
+   CHANGE PASSWORD / MODAL
+   ============================================================ */
+.cp-section{margin-bottom:1.6rem;}
+.cp-section-title{
+  font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:6px;
+}
+.cp-field{margin-bottom:1rem;}
+.cp-field label{display:block;font-size:0.73rem;font-weight:500;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.4rem;}
+.cp-field .inp-wrap{position:relative;}
+.cp-field .inp-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:0.82rem;}
+.cp-field input{
+  width:100%;padding:0.7rem 2.4rem 0.7rem 2.4rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:0.93rem;color:var(--text);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.cp-field input:focus{border-color:rgba(255,200,80,0.4);box-shadow:0 0 0 3px rgba(255,200,80,0.06);}
+.cp-field input::placeholder{color:var(--muted2);}
+.eye-toggle{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--muted2);cursor:pointer;font-size:0.85rem;padding:2px;
+}
+.eye-toggle:hover{color:var(--muted);}
+
+.cp-btn{
+  padding:0.7rem 1.8rem;border-radius:8px;
+  background:linear-gradient(135deg,var(--gold),#e0a000);
+  border:none;color:#0a0a0f;font-family:'DM Sans',sans-serif;font-weight:600;
+  font-size:0.9rem;cursor:pointer;transition:transform 0.15s,box-shadow 0.2s;
+}
+.cp-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,200,80,0.25);}
+.cp-btn-ghost{
+  padding:0.7rem 1.4rem;border-radius:8px;
+  background:transparent;border:1px solid var(--border);
+  color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;
+  transition:all 0.2s;
+}
+.cp-btn-ghost:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
+
+.notice{
+  padding:0.65rem 1rem;border-radius:8px;font-size:0.85rem;margin-top:0.8rem;
+  display:none;align-items:center;gap:8px;
+}
+.notice-ok{background:rgba(67,217,140,0.1);border:1px solid rgba(67,217,140,0.2);color:var(--success);}
+.notice-err{background:rgba(240,90,90,0.1);border:1px solid rgba(240,90,90,0.25);color:#f08080;}
+
+.strength-bar{height:4px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:6px;overflow:hidden;}
+.strength-fill{height:100%;border-radius:2px;transition:width 0.3s,background 0.3s;}
+.strength-label{font-size:0.7rem;color:var(--muted2);margin-top:3px;}
+
+/* Admin reset table */
+.reset-table{width:100%;border-collapse:collapse;}
+.reset-table th{text-align:left;padding:0.5rem 0.7rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
+.reset-table td{padding:0.8rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle;}
+.reset-table tr:last-child td{border-bottom:none;}
+.reset-input{
+  width:180px;padding:0.45rem 0.7rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;
+  transition:border-color 0.2s;
+}
+.reset-input:focus{border-color:rgba(255,200,80,0.4);}
+.reset-btn-sm{
+  padding:0.42rem 1rem;border-radius:7px;
+  background:linear-gradient(135deg,var(--gold),#e0a000);
+  border:none;color:#0a0a0f;font-family:'DM Sans',sans-serif;font-weight:600;
+  font-size:0.8rem;cursor:pointer;white-space:nowrap;
+  transition:transform 0.12s;
+}
+.reset-btn-sm:hover{transform:translateY(-1px);}
+.reset-status{font-size:0.78rem;color:var(--success);display:none;margin-left:6px;}
+
+/* ============================================================
    SCROLLBAR
    ============================================================ */
 ::-webkit-scrollbar{width:4px;}
@@ -528,6 +602,113 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- CHANGE PASSWORD VIEW -->
+    <div class="view" id="viewPassword">
+      <div class="hero-card" style="margin-bottom:1.4rem;">
+        <div class="hero-eyebrow">Account Security</div>
+        <div class="hero-title">Change Password</div>
+        <div class="hero-sub">Update your login credentials. You'll stay signed in after changing.</div>
+      </div>
+
+      <div style="max-width:480px;">
+        <div class="card-box">
+          <div class="cp-section-title"><i class="fas fa-key"></i> Update Your Password</div>
+
+          <div class="cp-field">
+            <label>Current Password</label>
+            <div class="inp-wrap">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="cpCurrent" placeholder="Enter current password">
+              <button class="eye-toggle" onclick="toggleEye('cpCurrent',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+
+          <div class="cp-field">
+            <label>New Password</label>
+            <div class="inp-wrap">
+              <i class="fas fa-lock-open"></i>
+              <input type="password" id="cpNew" placeholder="At least 6 characters" oninput="checkStrength(this.value)">
+              <button class="eye-toggle" onclick="toggleEye('cpNew',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
+            </div>
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill" style="width:0%"></div></div>
+            <div class="strength-label" id="strengthLabel"></div>
+          </div>
+
+          <div class="cp-field">
+            <label>Confirm New Password</label>
+            <div class="inp-wrap">
+              <i class="fas fa-check-circle"></i>
+              <input type="password" id="cpConfirm" placeholder="Repeat new password">
+              <button class="eye-toggle" onclick="toggleEye('cpConfirm',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:0.4rem;">
+            <button class="cp-btn" onclick="doChangePassword()">
+              <i class="fas fa-save" style="margin-right:5px;"></i> Update Password
+            </button>
+            <button class="cp-btn-ghost" onclick="clearCpFields()">Clear</button>
+          </div>
+
+          <div class="notice notice-ok" id="cpOk" style="margin-top:0.8rem;"><i class="fas fa-circle-check"></i> Password updated successfully!</div>
+          <div class="notice notice-err" id="cpErr" style="margin-top:0.8rem;"><i class="fas fa-triangle-exclamation"></i> <span id="cpErrText"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN RESET VIEW -->
+    <div class="view" id="viewReset">
+      <div class="hero-card" style="margin-bottom:1.4rem;">
+        <div class="hero-eyebrow">Admin · Password Control</div>
+        <div class="hero-title">Reset Team Passwords</div>
+        <div class="hero-sub">Set a new password for any team account. Changes take effect immediately.</div>
+      </div>
+
+      <div class="card-box" style="margin-bottom:1.4rem;">
+        <div class="cp-section-title"><i class="fas fa-users-gear"></i> Team Account Passwords</div>
+        <table class="reset-table">
+          <thead>
+            <tr><th>Team</th><th>Username</th><th>New Password</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="color:var(--othello-c);font-weight:500">🎭 Othello</span></td>
+              <td><code style="font-size:0.8rem;color:var(--muted)">othello_team</code></td>
+              <td><input class="reset-input" type="password" id="rp_othello" placeholder="New password"></td>
+              <td><button class="reset-btn-sm" onclick="adminResetPw('othello')">Reset</button><span class="reset-status" id="rs_othello">✓ Done</span></td>
+            </tr>
+            <tr>
+              <td><span style="color:var(--macbeth-c);font-weight:500">⚔️ Macbeth</span></td>
+              <td><code style="font-size:0.8rem;color:var(--muted)">macbeth_team</code></td>
+              <td><input class="reset-input" type="password" id="rp_macbeth" placeholder="New password"></td>
+              <td><button class="reset-btn-sm" onclick="adminResetPw('macbeth')">Reset</button><span class="reset-status" id="rs_macbeth">✓ Done</span></td>
+            </tr>
+            <tr>
+              <td><span style="color:var(--hamlet-c);font-weight:500">💀 Hamlet</span></td>
+              <td><code style="font-size:0.8rem;color:var(--muted)">hamlet_team</code></td>
+              <td><input class="reset-input" type="password" id="rp_hamlet" placeholder="New password"></td>
+              <td><button class="reset-btn-sm" onclick="adminResetPw('hamlet')">Reset</button><span class="reset-status" id="rs_hamlet">✓ Done</span></td>
+            </tr>
+            <tr>
+              <td><span style="color:var(--admin-c);font-weight:500">👑 Admin</span></td>
+              <td><code style="font-size:0.8rem;color:var(--muted)">admin</code></td>
+              <td><input class="reset-input" type="password" id="rp_admin" placeholder="New password"></td>
+              <td><button class="reset-btn-sm" onclick="adminResetPw('admin')">Reset</button><span class="reset-status" id="rs_admin">✓ Done</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-box" style="max-width:480px;">
+        <div class="cp-section-title"><i class="fas fa-rotate-left"></i> Restore Factory Defaults</div>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:1rem;">Restore all team passwords to their original defaults set at launch.</p>
+        <button class="cp-btn" onclick="resetAllPasswords()" style="background:linear-gradient(135deg,#c0392b,#922b21);">
+          <i class="fas fa-trash-restore" style="margin-right:5px;"></i> Reset All to Defaults
+        </button>
+        <div class="notice notice-ok" id="resetAllOk" style="margin-top:0.8rem;"><i class="fas fa-circle-check"></i> All passwords restored to defaults!</div>
+      </div>
+    </div>
+
     <!-- ADMIN VIEW -->
     <div class="view" id="viewAdmin">
       <div class="hero-card" style="margin-bottom:1.4rem;">
@@ -644,24 +825,6 @@ function maxTotal(){return Math.max(...TEAMS.map(t=>calcTeamStats(t).total),1);}
 /* ================================================================
    LOGIN / LOGOUT
    ================================================================ */
-function doLogin(){
-  const user=document.getElementById('loginUser').value.trim();
-  const pass=document.getElementById('loginPass').value;
-  const h=simpleHash(pass);
-  let found=null;
-  for(const key in DEFAULT_CREDS){
-    if(DEFAULT_CREDS[key].username===user && DEFAULT_CREDS[key].hash===h){found=DEFAULT_CREDS[key];break;}
-  }
-  if(found){
-    currentUser={team:found.team,username:user};
-    sessionStorage.setItem('artzee_user',JSON.stringify(currentUser));
-    openApp();
-  } else {
-    const eb=document.getElementById('errBox');
-    eb.style.display='flex';
-    setTimeout(()=>eb.style.display='none',3000);
-  }
-}
 document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
@@ -713,18 +876,25 @@ function buildApp(){
 /* ===== SIDEBAR ===== */
 function buildSidebar(team){
   const nav=document.getElementById('sidebarNav');
-  const items=[
+  const mainItems=[
     {id:'viewDash',   icon:'fa-gauge',         label:'Dashboard'},
     {id:'viewLB',     icon:'fa-ranking-star',  label:'Leaderboard'},
     {id:'viewEvents', icon:'fa-calendar-days', label:'All Events'},
   ];
-  if(team==='admin') items.push({id:'viewAdmin',icon:'fa-sliders',label:'Admin Panel'});
+  const adminItems=team==='admin'?[
+    {id:'viewAdmin', icon:'fa-sliders',      label:'Score Manager'},
+    {id:'viewReset', icon:'fa-users-gear',   label:'Reset Passwords'},
+  ]:[];
+  const accountItems=[
+    {id:'viewPassword', icon:'fa-key', label:'Change Password'},
+  ];
 
-  nav.innerHTML=`<div class="nav-section-label">Navigation</div>`
-    +items.map(it=>`
-    <div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')">
-      <i class="fas ${it.icon}"></i> ${it.label}
-    </div>`).join('');
+  nav.innerHTML=
+    `<div class="nav-section-label">Navigation</div>`
+    +mainItems.map(it=>`<div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')"><i class="fas ${it.icon}"></i> ${it.label}</div>`).join('')
+    +(adminItems.length?`<div class="nav-section-label" style="margin-top:0.6rem">Admin</div>`+adminItems.map(it=>`<div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')"><i class="fas ${it.icon}"></i> ${it.label}</div>`).join(''):'')
+    +`<div class="nav-section-label" style="margin-top:0.6rem">Account</div>`
+    +accountItems.map(it=>`<div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')"><i class="fas ${it.icon}"></i> ${it.label}</div>`).join('');
 }
 
 function switchView(id,title){
@@ -931,9 +1101,154 @@ function saveScores(){
 }
 
 /* ================================================================
+   PASSWORD MANAGEMENT
+   ================================================================ */
+
+/* -- credential store (localStorage) -- */
+function loadCreds(){
+  try{return JSON.parse(localStorage.getItem('artzee_creds')||'null')||null;}
+  catch(e){return null;}
+}
+function saveCreds(c){localStorage.setItem('artzee_creds',JSON.stringify(c));}
+
+/* live credentials object (starts from DEFAULT_CREDS hashes, can be overridden) */
+let liveCreds=null;
+function initCreds(){
+  liveCreds=loadCreds();
+  if(!liveCreds){
+    // first run: copy defaults
+    liveCreds={};
+    for(const k in DEFAULT_CREDS) liveCreds[k]={username:DEFAULT_CREDS[k].username,hash:DEFAULT_CREDS[k].hash,team:DEFAULT_CREDS[k].team};
+    saveCreds(liveCreds);
+  }
+}
+
+/* patch doLogin to use liveCreds */
+function doLogin(){
+  const user=document.getElementById('loginUser').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const h=simpleHash(pass);
+  let found=null;
+  for(const key in liveCreds){
+    if(liveCreds[key].username===user && liveCreds[key].hash===h){found=liveCreds[key];break;}
+  }
+  if(found){
+    currentUser={team:found.team,username:user};
+    sessionStorage.setItem('artzee_user',JSON.stringify(currentUser));
+    openApp();
+  } else {
+    const eb=document.getElementById('errBox');
+    eb.style.display='flex';
+    setTimeout(()=>eb.style.display='none',3000);
+  }
+}
+
+/* toggle show/hide password */
+function toggleEye(inputId,btn){
+  const inp=document.getElementById(inputId);
+  const ic=btn.querySelector('i');
+  if(inp.type==='password'){inp.type='text';ic.className='fas fa-eye-slash';}
+  else{inp.type='password';ic.className='fas fa-eye';}
+}
+
+/* password strength */
+function checkStrength(val){
+  const fill=document.getElementById('strengthFill');
+  const label=document.getElementById('strengthLabel');
+  if(!val){fill.style.width='0%';label.textContent='';return;}
+  let score=0;
+  if(val.length>=6) score++;
+  if(val.length>=10) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+  const levels=[
+    {w:'20%',bg:'#e74c3c',t:'Very weak'},
+    {w:'40%',bg:'#e67e22',t:'Weak'},
+    {w:'60%',bg:'#f1c40f',t:'Fair'},
+    {w:'80%',bg:'#2ecc71',t:'Strong'},
+    {w:'100%',bg:'#27ae60',t:'Very strong'},
+  ];
+  const l=levels[Math.min(score-1,4)]||levels[0];
+  fill.style.width=l.w; fill.style.background=l.bg;
+  label.textContent=l.t; label.style.color=l.bg;
+}
+
+function clearCpFields(){
+  ['cpCurrent','cpNew','cpConfirm'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.value='';el.type='password';
+  });
+  document.getElementById('strengthFill').style.width='0%';
+  document.getElementById('strengthLabel').textContent='';
+  document.getElementById('cpOk').style.display='none';
+  document.getElementById('cpErr').style.display='none';
+}
+
+function showCpErr(msg){
+  const e=document.getElementById('cpErr');
+  document.getElementById('cpErrText').textContent=msg;
+  e.style.display='flex';
+  document.getElementById('cpOk').style.display='none';
+  setTimeout(()=>e.style.display='none',4000);
+}
+function showCpOk(){
+  document.getElementById('cpOk').style.display='flex';
+  document.getElementById('cpErr').style.display='none';
+  setTimeout(()=>document.getElementById('cpOk').style.display='none',4000);
+}
+
+/* change own password */
+function doChangePassword(){
+  const cur=document.getElementById('cpCurrent').value;
+  const nw=document.getElementById('cpNew').value;
+  const cf=document.getElementById('cpConfirm').value;
+  if(!cur||!nw||!cf){showCpErr('Please fill in all fields.');return;}
+  if(nw.length<6){showCpErr('New password must be at least 6 characters.');return;}
+  if(nw!==cf){showCpErr('New passwords do not match.');return;}
+
+  const team=currentUser.team;
+  const curHash=simpleHash(cur);
+  if(liveCreds[team].hash!==curHash){showCpErr('Current password is incorrect.');return;}
+  if(simpleHash(nw)===curHash){showCpErr('New password must be different from current.');return;}
+
+  liveCreds[team].hash=simpleHash(nw);
+  saveCreds(liveCreds);
+  clearCpFields();
+  showCpOk();
+}
+
+/* admin: reset a specific team's password */
+function adminResetPw(team){
+  const inp=document.getElementById('rp_'+team);
+  const val=inp.value.trim();
+  if(!val||val.length<4){
+    inp.style.borderColor='rgba(240,90,90,0.5)';
+    setTimeout(()=>inp.style.borderColor='',2000);
+    return;
+  }
+  liveCreds[team].hash=simpleHash(val);
+  saveCreds(liveCreds);
+  inp.value='';
+  const st=document.getElementById('rs_'+team);
+  st.style.display='inline';
+  setTimeout(()=>st.style.display='none',3000);
+}
+
+/* admin: restore all to defaults */
+function resetAllPasswords(){
+  for(const k in DEFAULT_CREDS) liveCreds[k].hash=DEFAULT_CREDS[k].hash;
+  saveCreds(liveCreds);
+  const n=document.getElementById('resetAllOk');
+  n.style.display='flex';
+  setTimeout(()=>n.style.display='none',4000);
+}
+
+/* ================================================================
    INIT
    ================================================================ */
 loadData();
+initCreds();
 // check for existing session
 try{
   const saved=JSON.parse(sessionStorage.getItem('artzee_user')||'null');
