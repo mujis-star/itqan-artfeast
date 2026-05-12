@@ -3,1257 +3,752 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARTZEE Arts Fest 2K26</title>
+<title>ZENITH Arts Fest 2K26</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ===== ROOT ===== */
-:root {
-  --bg: #0a0a0f;
-  --bg2: #111118;
-  --bg3: #18181f;
-  --border: rgba(255,255,255,0.07);
-  --border-gold: rgba(255,200,80,0.25);
-  --gold: #ffcc44;
-  --gold2: #ffd966;
-  --gold-dim: #a88820;
-  --text: #f0ede8;
-  --muted: #7a7880;
-  --muted2: #5a5860;
-  --othello-c: #4ecdc4;
-  --macbeth-c: #c77dff;
-  --hamlet-c: #f77f5a;
-  --admin-c: #ffcc44;
-  --success: #43d98c;
-  --danger: #f05a5a;
+:root{
+  --bg:#09090f;--bg2:#111118;--bg3:#17171f;--bg4:#1e1e28;
+  --border:rgba(255,255,255,.07);--borderg:rgba(255,200,80,.28);
+  --gold:#ffcc44;--gold2:#ffe080;--golddim:#a88820;
+  --text:#f0ede8;--muted:#7a7880;--muted2:#4a4858;
+  --oc:#4ecdc4;--mc:#c77dff;--hc:#f77f5a;--ac:#ffcc44;
+  --ok:#43d98c;--err:#f05a5a;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+.page{display:none!important;}.page.active{display:block!important;}
+#pgLogin.active{display:flex!important;}#pgApp.active{display:flex!important;}
 
-/* ===== PAGE SYSTEM ===== */
-.page{display:none!important;}
-.page.active{display:block!important;}
-#loginPage.active{display:flex!important;}
-#appPage.active{display:flex!important;}
+/* LOGIN */
+#pgLogin{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
+.b1{width:440px;height:440px;background:rgba(255,200,80,.06);top:-130px;left:-150px;animation:bm 13s ease-in-out infinite alternate;}
+.b2{width:320px;height:320px;background:rgba(78,205,196,.05);bottom:-100px;right:-80px;animation:bm 10s 2s ease-in-out infinite alternate-reverse;}
+.b3{width:210px;height:210px;background:rgba(199,125,255,.04);top:38%;right:8%;animation:bm 15s 5s ease-in-out infinite alternate;}
+@keyframes bm{from{transform:translate(0,0)scale(1);}to{transform:translate(26px,16px)scale(1.1);}}
+.artbg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:clamp(90px,18vw,280px);color:rgba(255,200,80,.025);letter-spacing:.05em;user-select:none;pointer-events:none;z-index:0;}
+.lcard{position:relative;z-index:1;width:min(430px,93vw);background:var(--bg2);border:1px solid var(--borderg);border-radius:20px;padding:2.8rem 2.4rem 2.2rem;box-shadow:0 40px 80px rgba(0,0,0,.65);animation:fadeUp .55s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.logolock{text-align:center;margin-bottom:1.8rem;}
+.logoring{display:inline-flex;align-items:center;justify-content:center;width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,#3a3010,#1a1a10);border:2px solid rgba(255,200,80,.3);font-size:1.8rem;margin-bottom:.8rem;}
+.logoname{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.12em;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff8d0);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.logotag{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-top:.25rem;}
+.divln{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;}
+.divln span{flex:1;height:1px;background:var(--border);}
+.divln p{font-size:.7rem;color:var(--muted2);letter-spacing:.1em;white-space:nowrap;}
+.fld{margin-bottom:1rem;}
+.fld label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;}
+.inpw{position:relative;}
+.inpw .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:.83rem;pointer-events:none;}
+.inpw input{width:100%;padding:.72rem 2.4rem .72rem 2.4rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.93rem;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;}
+.inpw input::placeholder{color:var(--muted2);}
+.inpw input:focus{border-color:rgba(255,200,80,.4);box-shadow:0 0 0 3px rgba(255,200,80,.06);}
+.eyebtn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted2);cursor:pointer;font-size:.85rem;padding:2px;}
+.eyebtn:hover{color:var(--muted);}
+.loginbtn{width:100%;padding:.82rem;margin-top:.5rem;background:linear-gradient(135deg,var(--gold),#e0a010);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;color:#0a0a0f;cursor:pointer;transition:transform .15s,box-shadow .2s;}
+.loginbtn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,200,80,.25);}
+.errbox{background:rgba(240,90,90,.1);border:1px solid rgba(240,90,90,.25);border-radius:8px;padding:.6rem 1rem;font-size:.87rem;color:#f08080;margin-bottom:1rem;display:none;align-items:center;gap:8px;}
+.hints{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:1.5rem;}
+.hchip{font-size:.7rem;padding:.28rem .7rem;border-radius:20px;border:1px solid var(--border);color:var(--muted);}
 
-/* ============================================================
-   LOGIN PAGE
-   ============================================================ */
-#loginPage{
-  min-height:100vh;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  background:var(--bg);
-  position:relative;
-  overflow:hidden;
-}
+/* APP SHELL */
+#pgApp{min-height:100vh;flex-direction:row;}
+.sb{width:242px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;overflow-y:auto;z-index:20;}
+.sbhd{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border);}
+.sblogo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.14em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.sbsub{font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.05em;}
+.pill{display:inline-block;margin-top:.6rem;padding:.22rem .7rem;border-radius:20px;font-size:.67rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.po{background:rgba(78,205,196,.12);color:var(--oc);border:1px solid rgba(78,205,196,.25);}
+.pm{background:rgba(199,125,255,.12);color:var(--mc);border:1px solid rgba(199,125,255,.25);}
+.ph{background:rgba(247,127,90,.12);color:var(--hc);border:1px solid rgba(247,127,90,.25);}
+.pa{background:rgba(255,204,68,.12);color:var(--ac);border:1px solid rgba(255,204,68,.25);}
+.sbnav{flex:1;padding:.8rem 0;}
+.nsec{padding:.55rem 1.2rem .2rem;font-size:.61rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);}
+.ni{display:flex;align-items:center;gap:10px;padding:.58rem 1.2rem;cursor:pointer;font-size:.9rem;color:var(--muted);border-left:2px solid transparent;transition:all .18s;}
+.ni i{width:16px;text-align:center;font-size:.84rem;}
+.ni:hover{color:var(--text);background:rgba(255,255,255,.03);}
+.ni.active{color:var(--gold);border-left-color:var(--gold);background:rgba(255,200,80,.05);}
+.sbft{padding:1rem 1.2rem;border-top:1px solid var(--border);}
+.logoutbtn{width:100%;padding:.6rem;border-radius:8px;background:transparent;border:1px solid rgba(240,90,90,.25);color:rgba(240,90,90,.6);font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.logoutbtn:hover{background:rgba(240,90,90,.08);border-color:rgba(240,90,90,.5);color:#f08080;}
 
-/* animated grain */
-#loginPage::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity:0.4;
-}
-
-/* big art background letters */
-.art-bg{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,22vw,340px);
-  color:rgba(255,200,80,0.03);letter-spacing:0.04em;user-select:none;pointer-events:none;
-  z-index:0;white-space:nowrap;
-}
-
-/* floating blobs */
-.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
-.blob-1{width:400px;height:400px;background:rgba(255,200,80,0.06);top:-100px;left:-120px;animation:blobMove 12s ease-in-out infinite alternate;}
-.blob-2{width:300px;height:300px;background:rgba(78,205,196,0.05);bottom:-80px;right:-60px;animation:blobMove 9s ease-in-out 2s infinite alternate-reverse;}
-.blob-3{width:200px;height:200px;background:rgba(199,125,255,0.04);top:40%;right:10%;animation:blobMove 14s ease-in-out 4s infinite alternate;}
-@keyframes blobMove{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,20px) scale(1.1);}}
-
-/* login card */
-.login-wrap{
-  position:relative;z-index:1;
-  width:min(440px,93vw);
-  background:var(--bg2);
-  border:1px solid var(--border-gold);
-  border-radius:20px;
-  padding:3rem 2.5rem 2.5rem;
-  box-shadow:0 0 0 1px rgba(255,200,80,0.04), 0 40px 80px rgba(0,0,0,0.6);
-  animation:fadeUp 0.6s ease;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-
-/* Logo */
-.logo-lock{text-align:center;margin-bottom:2rem;}
-.logo-icon-ring{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:68px;height:68px;border-radius:50%;
-  background:linear-gradient(135deg,#3a3010,#1a1a10);
-  border:2px solid rgba(255,200,80,0.3);
-  font-size:1.8rem;margin-bottom:0.9rem;
-}
-.logo-name{
-  font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:0.1em;
-  background:linear-gradient(135deg,var(--gold),var(--gold2),#fff8d0);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  line-height:1;
-}
-.logo-tagline{
-  font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;
-  color:var(--muted);margin-top:0.3rem;
-}
-
-/* form */
-.divider-line{
-  display:flex;align-items:center;gap:10px;margin-bottom:1.6rem;
-}
-.divider-line span{flex:1;height:1px;background:var(--border);}
-.divider-line p{font-size:0.72rem;color:var(--muted2);letter-spacing:0.1em;white-space:nowrap;}
-
-.field{margin-bottom:1.1rem;}
-.field label{display:block;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.45rem;}
-.field .inp-wrap{position:relative;}
-.field .inp-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:0.85rem;}
-.field input{
-  width:100%;padding:0.75rem 1rem 0.75rem 2.5rem;
-  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
-  font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);outline:none;
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
-.field input::placeholder{color:var(--muted2);}
-.field input:focus{border-color:rgba(255,200,80,0.4);box-shadow:0 0 0 3px rgba(255,200,80,0.06);}
-
-.login-btn{
-  width:100%;padding:0.85rem;margin-top:0.5rem;
-  background:linear-gradient(135deg,var(--gold),#e8b020);
-  border:none;border-radius:10px;
-  font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;
-  color:#0a0a0f;cursor:pointer;
-  transition:transform 0.15s,box-shadow 0.2s;
-  letter-spacing:0.03em;
-}
-.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,200,80,0.25);}
-.login-btn:active{transform:translateY(0);}
-
-.err-box{
-  background:rgba(240,90,90,0.1);border:1px solid rgba(240,90,90,0.25);
-  border-radius:8px;padding:0.6rem 1rem;font-size:0.87rem;color:#f08080;
-  margin-bottom:1rem;display:none;align-items:center;gap:8px;
-}
-
-.team-hints{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:1.6rem;}
-.hint-chip{
-  font-size:0.7rem;padding:0.28rem 0.7rem;border-radius:20px;
-  border:1px solid var(--border);color:var(--muted);cursor:default;
-}
-
-/* ============================================================
-   APP SHELL
-   ============================================================ */
-#appPage{
-  min-height:100vh;flex-direction:row;align-items:stretch;
-}
-
-/* SIDEBAR */
-.sidebar{
-  width:240px;flex-shrink:0;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  position:fixed;height:100vh;overflow-y:auto;z-index:20;
-}
-.sb-header{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border);}
-.sb-logo{
-  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.12em;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  line-height:1;
-}
-.sb-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;letter-spacing:0.05em;}
-.team-pill{
-  display:inline-block;margin-top:0.6rem;padding:0.22rem 0.7rem;border-radius:20px;
-  font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
-}
-.pill-othello{background:rgba(78,205,196,0.12);color:var(--othello-c);border:1px solid rgba(78,205,196,0.25);}
-.pill-macbeth{background:rgba(199,125,255,0.12);color:var(--macbeth-c);border:1px solid rgba(199,125,255,0.25);}
-.pill-hamlet{background:rgba(247,127,90,0.12);color:var(--hamlet-c);border:1px solid rgba(247,127,90,0.25);}
-.pill-admin{background:rgba(255,204,68,0.12);color:var(--admin-c);border:1px solid rgba(255,204,68,0.25);}
-
-.sb-nav{flex:1;padding:0.8rem 0;}
-.nav-section-label{
-  padding:0.6rem 1.2rem 0.25rem;font-size:0.62rem;letter-spacing:0.18em;
-  text-transform:uppercase;color:var(--muted2);
-}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:0.6rem 1.2rem;cursor:pointer;
-  font-size:0.9rem;color:var(--muted);
-  border-left:2px solid transparent;
-  transition:all 0.18s;
-}
-.nav-item i{width:16px;text-align:center;font-size:0.85rem;}
-.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03);}
-.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(255,200,80,0.05);}
-
-.sb-footer{padding:1rem 1.2rem;border-top:1px solid var(--border);}
-.logout-btn{
-  width:100%;padding:0.6rem;border-radius:8px;
-  background:transparent;border:1px solid rgba(240,90,90,0.25);
-  color:rgba(240,90,90,0.6);font-family:'DM Sans',sans-serif;font-size:0.85rem;
-  cursor:pointer;transition:all 0.2s;
-}
-.logout-btn:hover{background:rgba(240,90,90,0.08);border-color:rgba(240,90,90,0.5);color:#f08080;}
-
-/* MAIN */
-.main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
-.topbar{
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:10;
-}
-.topbar-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);}
-.topbar-meta{font-size:0.8rem;color:var(--muted);}
-.topbar-meta span{color:var(--gold);}
-
-.view{display:none;padding:2rem;animation:fadeUp 0.35s ease;}
+.main{margin-left:242px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.tbtitle{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;}
+.tbmeta{font-size:.8rem;color:var(--muted);}
+.tbmeta span{color:var(--gold);}
+.view{display:none;padding:2rem;animation:fadeUp .32s ease;}
 .view.active{display:block;}
 
-/* ============================================================
-   DASHBOARD COMPONENTS
-   ============================================================ */
-.hero-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:16px;
-  padding:2rem 2rem 1.6rem;margin-bottom:1.8rem;position:relative;overflow:hidden;
-}
-.hero-card::before{
-  content:'';position:absolute;top:0;right:0;width:260px;height:100%;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,200,80,0.03));
-}
-.hero-eyebrow{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
-.hero-title{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:var(--text);margin-bottom:0.3rem;}
-.hero-sub{font-size:1rem;color:var(--muted);font-style:italic;}
+/* COMPONENTS */
+.hero{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.8rem 2rem 1.5rem;margin-bottom:1.6rem;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;top:0;right:0;width:240px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,200,80,.03));pointer-events:none;}
+.heroey{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem;}
+.herot{font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:900;margin-bottom:.25rem;}
+.heros{font-size:.97rem;color:var(--muted);font-style:italic;}
+.srow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.6rem;}
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.15rem 1rem;text-align:center;}
+.sclbl{font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.35rem;}
+.scval{font-family:'Bebas Neue',sans-serif;font-size:2.3rem;letter-spacing:.05em;color:var(--gold);line-height:1;}
+.scnote{font-size:.73rem;color:var(--muted2);margin-top:.2rem;}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:1.6rem;}
+@media(max-width:860px){.twocol{grid-template-columns:1fr;}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;margin-bottom:1.4rem;}
+.cardt{font-size:.73rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;}
+.cardt .lft{display:flex;align-items:center;gap:6px;}
 
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.8rem;}
-.stat-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:12px;
-  padding:1.2rem 1rem;text-align:center;
-}
-.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.4rem;}
-.stat-value{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:0.05em;color:var(--gold);line-height:1;}
-.stat-note{font-size:0.75rem;color:var(--muted2);margin-top:0.25rem;}
+/* TABLE */
+.dt{width:100%;border-collapse:collapse;font-size:.88rem;}
+.dt th{text-align:left;padding:.5rem .7rem;font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
+.dt td{padding:.68rem .7rem;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:hover td{background:rgba(255,255,255,.015);}
+.dt tr.editing td{background:rgba(255,200,80,.04);}
 
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:1.8rem;}
-@media(max-width:860px){.two-col{grid-template-columns:1fr;}}
-.card-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;}
-.card-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
-.card-title i{font-size:0.8rem;}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:.36rem .9rem;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .15s;border:none;white-space:nowrap;}
+.bsm{padding:.27rem .6rem;font-size:.74rem;}
+.bg{background:linear-gradient(135deg,var(--gold),#e0a010);color:#0a0a0f;font-weight:600;}
+.bg:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(255,200,80,.25);}
+.bo{background:rgba(255,200,80,.1);border:1px solid rgba(255,200,80,.3);color:var(--gold);}
+.bo:hover{background:rgba(255,200,80,.2);}
+.bd{background:rgba(240,90,90,.1);border:1px solid rgba(240,90,90,.25);color:#f08080;}
+.bd:hover{background:rgba(240,90,90,.2);}
+.bx{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);}
+.bx:hover{color:var(--text);}
+.bp{background:rgba(67,217,140,.1);border:1px solid rgba(67,217,140,.2);color:var(--ok);}
+.bp:hover{background:rgba(67,217,140,.2);}
 
-/* Table */
-.data-table{width:100%;border-collapse:collapse;font-size:0.88rem;}
-.data-table th{text-align:left;padding:0.5rem 0.7rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
-.data-table td{padding:0.7rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle;}
-.data-table tr:last-child td{border-bottom:none;}
-.data-table tr:hover td{background:rgba(255,255,255,0.02);}
+/* INLINE EDIT */
+.ie{padding:.28rem .5rem;background:var(--bg3);border:1px solid rgba(255,200,80,.4);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;width:100%;}
+.ie:focus{box-shadow:0 0 0 2px rgba(255,200,80,.12);}
+.iesm{width:70px;}
+.iesel{padding:.28rem .4rem;background:var(--bg3);border:1px solid rgba(255,200,80,.4);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;}
 
-/* Rank badges */
-.rank{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;}
-.rank-1{background:rgba(255,200,80,0.18);color:var(--gold);border:1px solid rgba(255,200,80,0.35);}
-.rank-2{background:rgba(180,180,180,0.1);color:#c0c0c0;border:1px solid rgba(180,180,180,0.2);}
-.rank-3{background:rgba(205,127,50,0.12);color:#cd7f32;border:1px solid rgba(205,127,50,0.3);}
-.rank-x{background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--border);}
-
-/* Status chips */
-.chip{display:inline-block;padding:0.18rem 0.55rem;border-radius:20px;font-size:0.7rem;font-weight:500;}
-.chip-win{background:rgba(67,217,140,0.12);color:var(--success);border:1px solid rgba(67,217,140,0.22);}
-.chip-2nd{background:rgba(255,200,80,0.1);color:var(--gold);border:1px solid rgba(255,200,80,0.2);}
-.chip-3rd{background:rgba(205,127,50,0.1);color:#cd7f32;border:1px solid rgba(205,127,50,0.2);}
-.chip-part{background:rgba(120,120,140,0.12);color:var(--muted);border:1px solid rgba(120,120,140,0.18);}
-
-/* Points value */
+/* RANK / CHIP */
+.rk{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-family:'Bebas Neue',sans-serif;font-size:.85rem;}
+.rk1{background:rgba(255,200,80,.18);color:var(--gold);border:1px solid rgba(255,200,80,.35);}
+.rk2{background:rgba(192,192,192,.1);color:#c0c0c0;border:1px solid rgba(192,192,192,.2);}
+.rk3{background:rgba(205,127,50,.12);color:#cd7f32;border:1px solid rgba(205,127,50,.3);}
+.rkx{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border);}
+.chip{display:inline-block;padding:.18rem .55rem;border-radius:20px;font-size:.7rem;font-weight:500;}
+.ch1{background:rgba(67,217,140,.12);color:var(--ok);border:1px solid rgba(67,217,140,.22);}
+.ch2{background:rgba(255,200,80,.1);color:var(--gold);border:1px solid rgba(255,200,80,.2);}
+.ch3{background:rgba(205,127,50,.1);color:#cd7f32;border:1px solid rgba(205,127,50,.2);}
+.chp{background:rgba(120,120,140,.12);color:var(--muted);border:1px solid rgba(120,120,140,.18);}
 .pts{font-weight:600;color:var(--gold2);}
 
-/* Leaderboard bars */
-.lb-row{margin-bottom:1.1rem;}
-.lb-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.35rem;}
-.lb-name{font-size:0.9rem;font-weight:500;}
-.lb-pts{font-size:0.78rem;color:var(--muted);}
-.lb-track{height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;}
-.lb-bar{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+/* LB BARS */
+.lbrow{margin-bottom:1.1rem;}
+.lbmeta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.32rem;}
+.lbname{font-size:.9rem;font-weight:500;}
+.lbpts{font-size:.78rem;color:var(--muted);}
+.lbtrack{height:5px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
+.lbbar{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
 
-/* Event items */
-.event-item{display:flex;align-items:center;gap:10px;padding:0.65rem 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.event-item:last-child{border-bottom:none;}
-.event-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.event-name{flex:1;font-size:0.9rem;font-style:italic;color:var(--text);}
-.event-cat{font-size:0.7rem;color:var(--muted);}
+/* EV GLANCE */
+.evitem{display:flex;align-items:center;gap:10px;padding:.62rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.evitem:last-child{border-bottom:none;}
+.evdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.evname{flex:1;font-size:.88rem;font-style:italic;}
+.evcat{font-size:.7rem;color:var(--muted);}
 
-/* ============================================================
-   ADMIN PORTAL
-   ============================================================ */
-.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-bottom:1.8rem;}
-.admin-team-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
-  overflow:hidden;
-}
-.admin-team-header{
-  padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-}
-.admin-team-name{font-weight:600;font-size:1rem;}
-.admin-team-pts{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.05em;}
-.admin-team-body{padding:1rem 1.2rem;}
-.admin-event-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.03);
-  font-size:0.85rem;
-}
-.admin-event-row:last-child{border-bottom:none;}
+/* FILTER BAR */
+.fbar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem;}
+.finp{padding:.46rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;min-width:180px;}
+.finp:focus{border-color:rgba(255,200,80,.4);}
+.finp::placeholder{color:var(--muted2);}
+.fsel{padding:.46rem .7rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;}
 
-.score-input{
-  width:60px;padding:0.3rem 0.5rem;
-  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
-  color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.85rem;text-align:center;
-  outline:none;transition:border-color 0.2s;
-}
-.score-input:focus{border-color:rgba(255,200,80,0.4);}
+/* NOTICE */
+.notice{padding:.62rem 1rem;border-radius:8px;font-size:.84rem;display:none;align-items:center;gap:8px;margin-top:.8rem;}
+.nok{background:rgba(67,217,140,.1);border:1px solid rgba(67,217,140,.2);color:var(--ok);}
+.nerr{background:rgba(240,90,90,.1);border:1px solid rgba(240,90,90,.25);color:#f08080;}
 
-.save-btn{
-  padding:0.65rem 1.6rem;border-radius:8px;
-  background:linear-gradient(135deg,var(--gold),#e0a000);
-  border:none;color:#0a0a0f;font-family:'DM Sans',sans-serif;font-weight:600;
-  font-size:0.9rem;cursor:pointer;transition:transform 0.15s,box-shadow 0.2s;
-}
-.save-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,200,80,0.25);}
+/* ADMIN CARDS */
+.agrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:1.2rem;margin-bottom:1.6rem;}
+.atc{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.ath{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.atn{font-weight:600;font-size:1rem;}
+.atp{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.05em;}
+.atb{padding:1rem 1.2rem;}
+.ater{display:flex;align-items:center;justify-content:space-between;padding:.48rem 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.84rem;gap:.5rem;}
+.ater:last-child{border-bottom:none;}
+.scsel{padding:.3rem .45rem;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;flex-shrink:0;}
+.scsel:focus{border-color:rgba(255,200,80,.4);}
 
-.save-notice{
-  display:none;padding:0.6rem 1rem;border-radius:8px;margin-top:1rem;
-  background:rgba(67,217,140,0.1);border:1px solid rgba(67,217,140,0.2);
-  color:var(--success);font-size:0.85rem;
-}
+/* PASSWORD */
+.cpfld{margin-bottom:1rem;}
+.cpfld label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;}
+.strbar{height:4px;background:rgba(255,255,255,.05);border-radius:2px;margin-top:6px;overflow:hidden;}
+.strfill{height:100%;border-radius:2px;transition:width .3s,background .3s;}
+.strlbl{font-size:.7rem;color:var(--muted2);margin-top:3px;}
+.rtbl{width:100%;border-collapse:collapse;}
+.rtbl th{text-align:left;padding:.5rem .7rem;font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
+.rtbl td{padding:.75rem .7rem;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
+.rtbl tr:last-child td{border-bottom:none;}
+.ri{width:170px;padding:.42rem .65rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;}
+.ri:focus{border-color:rgba(255,200,80,.4);}
+.rstatus{font-size:.77rem;color:var(--ok);display:none;margin-left:5px;}
 
-/* overall leaderboard table */
-.overall-table td:first-child{font-weight:500;}
+/* STUDENTS */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;}
+.scard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.1rem;position:relative;transition:border-color .2s;}
+.scard:hover{border-color:rgba(255,200,80,.15);}
+.sacts{position:absolute;top:.75rem;right:.75rem;display:flex;gap:3px;}
+.savatar{width:52px;height:52px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:.75rem;}
+.sname{font-weight:600;font-size:.93rem;margin-bottom:.18rem;}
+.sroll{font-size:.74rem;color:var(--muted);margin-bottom:.55rem;}
+.stags{display:flex;flex-wrap:wrap;gap:3px;}
+.stag{font-size:.64rem;padding:.14rem .48rem;border-radius:20px;}
+.snote{font-size:.73rem;color:var(--gold);font-style:italic;margin-top:.38rem;}
 
-/* ============================================================
-   CHANGE PASSWORD / MODAL
-   ============================================================ */
-.cp-section{margin-bottom:1.6rem;}
-.cp-section-title{
-  font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:6px;
-}
-.cp-field{margin-bottom:1rem;}
-.cp-field label{display:block;font-size:0.73rem;font-weight:500;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.4rem;}
-.cp-field .inp-wrap{position:relative;}
-.cp-field .inp-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:0.82rem;}
-.cp-field input{
-  width:100%;padding:0.7rem 2.4rem 0.7rem 2.4rem;
-  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
-  font-family:'DM Sans',sans-serif;font-size:0.93rem;color:var(--text);outline:none;
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
-.cp-field input:focus{border-color:rgba(255,200,80,0.4);box-shadow:0 0 0 3px rgba(255,200,80,0.06);}
-.cp-field input::placeholder{color:var(--muted2);}
-.eye-toggle{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  background:none;border:none;color:var(--muted2);cursor:pointer;font-size:0.85rem;padding:2px;
-}
-.eye-toggle:hover{color:var(--muted);}
+/* EVENT CHECKBOXES */
+.evchk{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;max-height:180px;overflow-y:auto;padding:.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-top:.3rem;}
+.evchk label{font-size:.77rem;color:var(--muted);display:flex;align-items:center;gap:5px;cursor:pointer;}
+.evchk input[type=checkbox]{accent-color:var(--gold);cursor:pointer;}
 
-.cp-btn{
-  padding:0.7rem 1.8rem;border-radius:8px;
-  background:linear-gradient(135deg,var(--gold),#e0a000);
-  border:none;color:#0a0a0f;font-family:'DM Sans',sans-serif;font-weight:600;
-  font-size:0.9rem;cursor:pointer;transition:transform 0.15s,box-shadow 0.2s;
-}
-.cp-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,200,80,0.25);}
-.cp-btn-ghost{
-  padding:0.7rem 1.4rem;border-radius:8px;
-  background:transparent;border:1px solid var(--border);
-  color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;
-  transition:all 0.2s;
-}
-.cp-btn-ghost:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
+/* MODAL */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s;}
+.mov.open{opacity:1;pointer-events:all;}
+.mbox{background:var(--bg2);border:1px solid var(--borderg);border-radius:18px;width:min(560px,95vw);max-height:88vh;overflow-y:auto;padding:2rem;animation:fadeUp .28s ease;box-shadow:0 40px 80px rgba(0,0,0,.7);}
+.mhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;}
+.mtitle{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;}
+.mclose{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:4px;}
+.mclose:hover{color:var(--text);}
+.mbody{margin-bottom:1.4rem;}
+.mft{display:flex;gap:.7rem;flex-wrap:wrap;}
+.mrow2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
+.mfld{margin-bottom:.8rem;}
+.mfld label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;}
+.mfld input,.mfld select,.mfld textarea{width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s;}
+.mfld input:focus,.mfld select:focus,.mfld textarea:focus{border-color:rgba(255,200,80,.4);box-shadow:0 0 0 3px rgba(255,200,80,.06);}
+.mfld input::placeholder,.mfld textarea::placeholder{color:var(--muted2);}
+.mfld textarea{min-height:70px;resize:vertical;}
 
-.notice{
-  padding:0.65rem 1rem;border-radius:8px;font-size:0.85rem;margin-top:0.8rem;
-  display:none;align-items:center;gap:8px;
-}
-.notice-ok{background:rgba(67,217,140,0.1);border:1px solid rgba(67,217,140,0.2);color:var(--success);}
-.notice-err{background:rgba(240,90,90,0.1);border:1px solid rgba(240,90,90,0.25);color:#f08080;}
+/* CONFIRM */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:110;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.cov.open{opacity:1;pointer-events:all;}
+.cbox{background:var(--bg2);border:1px solid rgba(240,90,90,.3);border-radius:16px;width:min(380px,93vw);padding:1.8rem;text-align:center;animation:fadeUp .24s ease;}
+.ctitle{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.6rem;}
+.cmsg{font-size:.9rem;color:var(--muted);margin-bottom:1.4rem;}
+.cbtns{display:flex;gap:.7rem;justify-content:center;}
 
-.strength-bar{height:4px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:6px;overflow:hidden;}
-.strength-fill{height:100%;border-radius:2px;transition:width 0.3s,background 0.3s;}
-.strength-label{font-size:0.7rem;color:var(--muted2);margin-top:3px;}
-
-/* Admin reset table */
-.reset-table{width:100%;border-collapse:collapse;}
-.reset-table th{text-align:left;padding:0.5rem 0.7rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
-.reset-table td{padding:0.8rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle;}
-.reset-table tr:last-child td{border-bottom:none;}
-.reset-input{
-  width:180px;padding:0.45rem 0.7rem;
-  background:var(--bg3);border:1px solid var(--border);border-radius:8px;
-  color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;
-  transition:border-color 0.2s;
-}
-.reset-input:focus{border-color:rgba(255,200,80,0.4);}
-.reset-btn-sm{
-  padding:0.42rem 1rem;border-radius:7px;
-  background:linear-gradient(135deg,var(--gold),#e0a000);
-  border:none;color:#0a0a0f;font-family:'DM Sans',sans-serif;font-weight:600;
-  font-size:0.8rem;cursor:pointer;white-space:nowrap;
-  transition:transform 0.12s;
-}
-.reset-btn-sm:hover{transform:translateY(-1px);}
-.reset-status{font-size:0.78rem;color:var(--success);display:none;margin-left:6px;}
-
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media(max-width:700px){
-  .sidebar{width:200px;}
-  .main{margin-left:200px;}
-  .view{padding:1.2rem;}
-}
-@media(max-width:500px){
-  .sidebar{display:none;}
-  .main{margin-left:0;}
-}
+@media(max-width:700px){.sb{width:196px;}.main{margin-left:196px;}.view{padding:1.2rem;}}
+@media(max-width:500px){.sb{display:none;}.main{margin-left:0;}}
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     LOGIN PAGE
-     ============================================================ -->
-<div id="loginPage" class="page active">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="art-bg">ARTZEE</div>
-
-  <div class="login-wrap">
-    <div class="logo-lock">
-      <div class="logo-icon-ring">🎭</div>
-      <div class="logo-name">ARTZEE</div>
-      <div class="logo-tagline">Arts Fest 2K26 · Where Talent Meets Glory</div>
+<!-- LOGIN -->
+<div id="pgLogin" class="page active">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="artbg">ZENITH</div>
+  <div class="lcard">
+    <div class="logolock">
+      <div class="logoring">🎭</div>
+      <div class="logoname">ZENITH</div>
+      <div class="logotag">Arts Fest 2K26 · Where Talent Meets Glory</div>
     </div>
-
-    <div class="divider-line">
-      <span></span><p>Sign in to your team</p><span></span>
-    </div>
-
-    <div id="errBox" class="err-box">
-      <i class="fas fa-triangle-exclamation"></i>
-      <span id="errText">Invalid username or password</span>
-    </div>
-
-    <div class="field">
-      <label>Username</label>
-      <div class="inp-wrap">
-        <i class="fas fa-user"></i>
-        <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username">
-      </div>
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <div class="inp-wrap">
-        <i class="fas fa-lock"></i>
-        <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
-      </div>
-    </div>
-    <button class="login-btn" onclick="doLogin()">
-      <i class="fas fa-sign-in-alt" style="margin-right:6px;"></i> Enter the Fest
-    </button>
-
-    <div class="team-hints">
-      <span class="hint-chip">👑 Admin</span>
-      <span class="hint-chip">🎭 Othello</span>
-      <span class="hint-chip">⚔️ Macbeth</span>
-      <span class="hint-chip">💀 Hamlet</span>
-    </div>
+    <div class="divln"><span></span><p>Sign in to your team</p><span></span></div>
+    <div id="errbox" class="errbox"><i class="fas fa-triangle-exclamation"></i><span>Invalid credentials</span></div>
+    <div class="fld"><label>Username</label><div class="inpw"><i class="ico fas fa-user"></i><input type="text" id="lgU" placeholder="Enter username" autocomplete="username"></div></div>
+    <div class="fld"><label>Password</label><div class="inpw"><i class="ico fas fa-lock"></i><input type="password" id="lgP" placeholder="Enter password" autocomplete="current-password"><button class="eyebtn" onclick="toggleEye('lgP',this)"><i class="fas fa-eye"></i></button></div></div>
+    <button class="loginbtn" onclick="doLogin()"><i class="fas fa-sign-in-alt" style="margin-right:6px"></i>Enter the Fest</button>
+    <div class="hints"><span class="hchip">👑 Admin</span><span class="hchip">🎭 Othello</span><span class="hchip">⚔️ Macbeth</span><span class="hchip">💀 Hamlet</span></div>
   </div>
 </div>
 
-<!-- ============================================================
-     APP SHELL
-     ============================================================ -->
-<div id="appPage" class="page">
-
-  <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <div class="sb-header">
-      <div class="sb-logo">ARTZEE</div>
-      <div class="sb-sub">Arts Fest 2K26</div>
-      <div id="sbTeamPill" class="team-pill pill-admin">Admin</div>
+<!-- APP -->
+<div id="pgApp" class="page">
+  <nav class="sb">
+    <div class="sbhd">
+      <div class="sblogo">ZENITH</div>
+      <div class="sbsub">Arts Fest 2K26</div>
+      <div id="sbPill" class="pill pa">👑 Admin</div>
     </div>
-
-    <div class="sb-nav" id="sidebarNav">
-      <!-- filled by JS -->
-    </div>
-
-    <div class="sb-footer">
-      <button class="logout-btn" onclick="doLogout()">
-        <i class="fas fa-sign-out-alt" style="margin-right:6px;"></i> Sign Out
-      </button>
-    </div>
+    <div class="sbnav" id="sbNav"></div>
+    <div class="sbft"><button class="logoutbtn" onclick="doLogout()"><i class="fas fa-sign-out-alt" style="margin-right:6px"></i>Sign Out</button></div>
   </nav>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
-      <div class="topbar-title" id="topbarTitle">Dashboard</div>
-      <div class="topbar-meta">ARTZEE 2K26 · <span id="topbarTeam">—</span></div>
+      <div class="tbtitle" id="tbTitle">Dashboard</div>
+      <div class="tbmeta">ZENITH 2K26 · <span id="tbTeam">—</span></div>
     </div>
 
-    <!-- ====== VIEWS ====== -->
-
-    <!-- DASHBOARD VIEW -->
-    <div class="view active" id="viewDash">
-      <div class="hero-card">
-        <div class="hero-eyebrow" id="heroEyebrow">Welcome Back</div>
-        <div class="hero-title" id="heroTitle">ARTZEE 2K26</div>
-        <div class="hero-sub" id="heroSub">Your arts fest command centre</div>
-      </div>
-
-      <div class="stats-row" id="statsRow">
-        <!-- filled by JS -->
-      </div>
-
-      <div class="two-col">
-        <div class="card-box">
-          <div class="card-title"><i class="fas fa-trophy"></i> Overall Leaderboard</div>
-          <div id="leaderboardBars"><!-- JS --></div>
-        </div>
-        <div class="card-box">
-          <div class="card-title"><i class="fas fa-calendar-star"></i> Events At a Glance</div>
-          <div id="eventsGlance"><!-- JS --></div>
-        </div>
-      </div>
-
-      <div class="card-box">
-        <div class="card-title"><i class="fas fa-list-ul"></i> My Team's Event Results</div>
-        <table class="data-table" id="myEventsTable">
-          <thead>
-            <tr>
-              <th>#</th><th>Event</th><th>Category</th><th>Points</th><th>Position</th>
-            </tr>
-          </thead>
-          <tbody id="myEventsTbody"><!-- JS --></tbody>
-        </table>
+    <!-- DASHBOARD -->
+    <div class="view active" id="vDash">
+      <div class="hero"><div class="heroey" id="hEy">Welcome</div><div class="herot" id="hT">ZENITH 2K26</div><div class="heros" id="hS">Arts Fest Command Centre</div></div>
+      <div class="srow" id="statsRow"></div>
+      <div class="twocol">
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-trophy"></i>Leaderboard</div></div><div id="lbBars"></div></div>
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-calendar-star"></i>Events Glance</div></div><div id="evGlance"></div></div>
       </div>
     </div>
 
-    <!-- LEADERBOARD VIEW -->
-    <div class="view" id="viewLB">
-      <div class="hero-card" style="margin-bottom:1.4rem;">
-        <div class="hero-eyebrow">Overall Rankings</div>
-        <div class="hero-title">Live Leaderboard</div>
-        <div class="hero-sub">Scores update in real-time as events conclude</div>
-      </div>
-      <div class="card-box">
-        <div class="card-title"><i class="fas fa-ranking-star"></i> Team Standings</div>
-        <table class="data-table overall-table" id="overallTable">
-          <thead>
-            <tr><th>Rank</th><th>Team</th><th>Events Won</th><th>2nd Place</th><th>3rd Place</th><th>Total Pts</th></tr>
-          </thead>
-          <tbody id="overallTbody"><!-- JS --></tbody>
-        </table>
-      </div>
-
-      <div class="two-col" style="margin-top:1.4rem;">
-        <div class="card-box">
-          <div class="card-title"><i class="fas fa-medal"></i> Event-wise Results</div>
-          <table class="data-table" id="eventResultsTable">
-            <thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead>
-            <tbody id="eventResultsTbody"><!-- JS --></tbody>
-          </table>
+    <!-- EVENTS -->
+    <div class="view" id="vEvents">
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Schedule</div><div class="herot">All Events</div><div class="heros">Full list of ZENITH 2K26 competitions</div></div>
+      <div class="card">
+        <div class="cardt"><div class="lft"><i class="fas fa-calendar-days"></i>Event Directory</div><div id="evBtns"></div></div>
+        <div class="fbar">
+          <input class="finp" placeholder="🔍  Search events…" id="evSearch" oninput="renderEvents()">
+          <select class="fsel" id="evCatF" onchange="renderEvents()"><option value="">All Categories</option></select>
         </div>
-        <div class="card-box">
-          <div class="card-title"><i class="fas fa-chart-bar"></i> Points Breakdown</div>
-          <div id="pointsBars"><!-- JS --></div>
-        </div>
+        <table class="dt"><thead><tr><th>#</th><th>Event Name</th><th>Category</th><th>1st Pts</th><th>2nd Pts</th><th>3rd Pts</th><th id="evActH">Actions</th></tr></thead><tbody id="evTbody"></tbody></table>
       </div>
     </div>
 
-    <!-- EVENTS VIEW -->
-    <div class="view" id="viewEvents">
-      <div class="hero-card" style="margin-bottom:1.4rem;">
-        <div class="hero-eyebrow">Event Schedule</div>
-        <div class="hero-title">All Events</div>
-        <div class="hero-sub">Complete listing of ARTZEE 2K26 competitions</div>
+    <!-- LEADERBOARD -->
+    <div class="view" id="vLB">
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
+      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div>
+        <table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table>
       </div>
-      <div class="card-box">
-        <div class="card-title"><i class="fas fa-calendar-days"></i> Event Directory</div>
-        <table class="data-table" id="allEventsTable">
-          <thead><tr><th>#</th><th>Event</th><th>Category</th><th>1st (pts)</th><th>2nd (pts)</th><th>3rd (pts)</th></tr></thead>
-          <tbody id="allEventsTbody"><!-- JS --></tbody>
-        </table>
+      <div class="twocol">
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></table></div>
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-chart-bar"></i>Points</div></div><div id="ptsBars"></div></div>
       </div>
     </div>
 
-    <!-- CHANGE PASSWORD VIEW -->
-    <div class="view" id="viewPassword">
-      <div class="hero-card" style="margin-bottom:1.4rem;">
-        <div class="hero-eyebrow">Account Security</div>
-        <div class="hero-title">Change Password</div>
-        <div class="hero-sub">Update your login credentials. You'll stay signed in after changing.</div>
+    <!-- STUDENTS -->
+    <div class="view" id="vStudents">
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Participants</div><div class="herot">Students</div><div class="heros">All registered participants across teams</div></div>
+      <div class="srow" id="stuStats"></div>
+      <div class="card">
+        <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Student Directory</div><div id="stuBtns"></div></div>
+        <div class="fbar">
+          <input class="finp" placeholder="🔍  Search name or roll…" id="stuSearch" oninput="renderStudents()">
+          <select class="fsel" id="stuTeamF" onchange="renderStudents()"><option value="">All Teams</option><option value="othello">🎭 Othello</option><option value="macbeth">⚔️ Macbeth</option><option value="hamlet">💀 Hamlet</option></select>
+          <select class="fsel" id="stuViewM" onchange="renderStudents()"><option value="grid">Grid View</option><option value="table">Table View</option></select>
+        </div>
+        <div id="stuCon"></div>
       </div>
+    </div>
 
-      <div style="max-width:480px;">
-        <div class="card-box">
-          <div class="cp-section-title"><i class="fas fa-key"></i> Update Your Password</div>
+    <!-- SCORE MANAGER -->
+    <div class="view" id="vAdmin">
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin Panel</div><div class="herot">Score Manager</div><div class="heros">Set team positions per event — auto-saved</div></div>
+      <div class="agrid" id="adminCards"></div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <button class="btn bg" onclick="saveScores()"><i class="fas fa-save"></i>Save All Scores</button>
+        <div class="notice nok" id="saveNotice"><i class="fas fa-circle-check"></i> Scores saved!</div>
+      </div>
+    </div>
 
-          <div class="cp-field">
-            <label>Current Password</label>
-            <div class="inp-wrap">
-              <i class="fas fa-lock"></i>
-              <input type="password" id="cpCurrent" placeholder="Enter current password">
-              <button class="eye-toggle" onclick="toggleEye('cpCurrent',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
-            </div>
+    <!-- CHANGE PASSWORD -->
+    <div class="view" id="vPw">
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Security</div><div class="herot">Change Password</div><div class="heros">Update your login credentials</div></div>
+      <div style="max-width:470px">
+        <div class="card">
+          <div class="cardt"><div class="lft"><i class="fas fa-key"></i>Update Password</div></div>
+          <div class="cpfld"><label>Current Password</label><div class="inpw"><i class="ico fas fa-lock"></i><input type="password" id="cpCur" placeholder="Current password"><button class="eyebtn" onclick="toggleEye('cpCur',this)"><i class="fas fa-eye"></i></button></div></div>
+          <div class="cpfld"><label>New Password</label><div class="inpw"><i class="ico fas fa-lock-open"></i><input type="password" id="cpNew" placeholder="At least 6 characters" oninput="chkStr(this.value)"><button class="eyebtn" onclick="toggleEye('cpNew',this)"><i class="fas fa-eye"></i></button></div><div class="strbar"><div class="strfill" id="strFill" style="width:0%"></div></div><div class="strlbl" id="strLbl"></div></div>
+          <div class="cpfld"><label>Confirm Password</label><div class="inpw"><i class="ico fas fa-check-circle"></i><input type="password" id="cpCfm" placeholder="Repeat new password"><button class="eyebtn" onclick="toggleEye('cpCfm',this)"><i class="fas fa-eye"></i></button></div></div>
+          <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem">
+            <button class="btn bg" onclick="doChangePw()"><i class="fas fa-save"></i>Update</button>
+            <button class="btn bx" onclick="clearPw()">Clear</button>
           </div>
-
-          <div class="cp-field">
-            <label>New Password</label>
-            <div class="inp-wrap">
-              <i class="fas fa-lock-open"></i>
-              <input type="password" id="cpNew" placeholder="At least 6 characters" oninput="checkStrength(this.value)">
-              <button class="eye-toggle" onclick="toggleEye('cpNew',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
-            </div>
-            <div class="strength-bar"><div class="strength-fill" id="strengthFill" style="width:0%"></div></div>
-            <div class="strength-label" id="strengthLabel"></div>
-          </div>
-
-          <div class="cp-field">
-            <label>Confirm New Password</label>
-            <div class="inp-wrap">
-              <i class="fas fa-check-circle"></i>
-              <input type="password" id="cpConfirm" placeholder="Repeat new password">
-              <button class="eye-toggle" onclick="toggleEye('cpConfirm',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
-            </div>
-          </div>
-
-          <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:0.4rem;">
-            <button class="cp-btn" onclick="doChangePassword()">
-              <i class="fas fa-save" style="margin-right:5px;"></i> Update Password
-            </button>
-            <button class="cp-btn-ghost" onclick="clearCpFields()">Clear</button>
-          </div>
-
-          <div class="notice notice-ok" id="cpOk" style="margin-top:0.8rem;"><i class="fas fa-circle-check"></i> Password updated successfully!</div>
-          <div class="notice notice-err" id="cpErr" style="margin-top:0.8rem;"><i class="fas fa-triangle-exclamation"></i> <span id="cpErrText"></span></div>
+          <div class="notice nok" id="pwOk"><i class="fas fa-circle-check"></i> Password updated!</div>
+          <div class="notice nerr" id="pwErr"><i class="fas fa-triangle-exclamation"></i> <span id="pwErrTxt"></span></div>
         </div>
       </div>
     </div>
 
-    <!-- ADMIN RESET VIEW -->
-    <div class="view" id="viewReset">
-      <div class="hero-card" style="margin-bottom:1.4rem;">
-        <div class="hero-eyebrow">Admin · Password Control</div>
-        <div class="hero-title">Reset Team Passwords</div>
-        <div class="hero-sub">Set a new password for any team account. Changes take effect immediately.</div>
-      </div>
-
-      <div class="card-box" style="margin-bottom:1.4rem;">
-        <div class="cp-section-title"><i class="fas fa-users-gear"></i> Team Account Passwords</div>
-        <table class="reset-table">
-          <thead>
-            <tr><th>Team</th><th>Username</th><th>New Password</th><th>Action</th></tr>
-          </thead>
+    <!-- RESET PASSWORDS -->
+    <div class="view" id="vReset">
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Security</div><div class="herot">Reset Passwords</div><div class="heros">Change any team account password instantly</div></div>
+      <div class="card" style="margin-bottom:1.4rem">
+        <div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div>
+        <table class="rtbl">
+          <thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead>
           <tbody>
-            <tr>
-              <td><span style="color:var(--othello-c);font-weight:500">🎭 Othello</span></td>
-              <td><code style="font-size:0.8rem;color:var(--muted)">othello_team</code></td>
-              <td><input class="reset-input" type="password" id="rp_othello" placeholder="New password"></td>
-              <td><button class="reset-btn-sm" onclick="adminResetPw('othello')">Reset</button><span class="reset-status" id="rs_othello">✓ Done</span></td>
-            </tr>
-            <tr>
-              <td><span style="color:var(--macbeth-c);font-weight:500">⚔️ Macbeth</span></td>
-              <td><code style="font-size:0.8rem;color:var(--muted)">macbeth_team</code></td>
-              <td><input class="reset-input" type="password" id="rp_macbeth" placeholder="New password"></td>
-              <td><button class="reset-btn-sm" onclick="adminResetPw('macbeth')">Reset</button><span class="reset-status" id="rs_macbeth">✓ Done</span></td>
-            </tr>
-            <tr>
-              <td><span style="color:var(--hamlet-c);font-weight:500">💀 Hamlet</span></td>
-              <td><code style="font-size:0.8rem;color:var(--muted)">hamlet_team</code></td>
-              <td><input class="reset-input" type="password" id="rp_hamlet" placeholder="New password"></td>
-              <td><button class="reset-btn-sm" onclick="adminResetPw('hamlet')">Reset</button><span class="reset-status" id="rs_hamlet">✓ Done</span></td>
-            </tr>
-            <tr>
-              <td><span style="color:var(--admin-c);font-weight:500">👑 Admin</span></td>
-              <td><code style="font-size:0.8rem;color:var(--muted)">admin</code></td>
-              <td><input class="reset-input" type="password" id="rp_admin" placeholder="New password"></td>
-              <td><button class="reset-btn-sm" onclick="adminResetPw('admin')">Reset</button><span class="reset-status" id="rs_admin">✓ Done</span></td>
-            </tr>
+            <tr><td><span style="color:var(--oc);font-weight:500">🎭 Othello</span></td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
+            <tr><td><span style="color:var(--mc);font-weight:500">⚔️ Macbeth</span></td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
+            <tr><td><span style="color:var(--hc);font-weight:500">💀 Hamlet</span></td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr>
+            <tr><td><span style="color:var(--ac);font-weight:500">👑 Admin</span></td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr>
           </tbody>
         </table>
       </div>
-
-      <div class="card-box" style="max-width:480px;">
-        <div class="cp-section-title"><i class="fas fa-rotate-left"></i> Restore Factory Defaults</div>
-        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:1rem;">Restore all team passwords to their original defaults set at launch.</p>
-        <button class="cp-btn" onclick="resetAllPasswords()" style="background:linear-gradient(135deg,#c0392b,#922b21);">
-          <i class="fas fa-trash-restore" style="margin-right:5px;"></i> Reset All to Defaults
-        </button>
-        <div class="notice notice-ok" id="resetAllOk" style="margin-top:0.8rem;"><i class="fas fa-circle-check"></i> All passwords restored to defaults!</div>
-      </div>
-    </div>
-
-    <!-- ADMIN VIEW -->
-    <div class="view" id="viewAdmin">
-      <div class="hero-card" style="margin-bottom:1.4rem;">
-        <div class="hero-eyebrow">Admin Control Panel</div>
-        <div class="hero-title">Score Manager</div>
-        <div class="hero-sub">Update team positions per event — saves to browser storage</div>
-      </div>
-
-      <div class="admin-grid" id="adminTeamCards"><!-- JS --></div>
-
-      <div style="display:flex;align-items:center;gap:1rem;">
-        <button class="save-btn" onclick="saveScores()">
-          <i class="fas fa-save" style="margin-right:6px;"></i> Save All Scores
-        </button>
-        <div class="save-notice" id="saveNotice">
-          <i class="fas fa-circle-check" style="margin-right:6px;"></i> Scores saved successfully!
-        </div>
+      <div class="card" style="max-width:420px">
+        <div class="cardt"><div class="lft"><i class="fas fa-rotate-left"></i>Factory Reset</div></div>
+        <p style="font-size:.87rem;color:var(--muted);margin-bottom:1rem">Restore all passwords to their original defaults.</p>
+        <button class="btn" style="background:linear-gradient(135deg,#c0392b,#922b21);color:#fff;font-weight:600;border:none;cursor:pointer" onclick="resetAllPw()"><i class="fas fa-trash-restore"></i>Reset All to Defaults</button>
+        <div class="notice nok" id="rAllOk"><i class="fas fa-circle-check"></i> All passwords restored!</div>
       </div>
     </div>
 
   </div><!-- /main -->
-</div><!-- /appPage -->
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div class="mov" id="mOv" onclick="if(event.target===this)closeM()">
+  <div class="mbox">
+    <div class="mhd"><div class="mtitle" id="mTitle">—</div><button class="mclose" onclick="closeM()"><i class="fas fa-times"></i></button></div>
+    <div class="mbody" id="mBody"></div>
+    <div class="mft" id="mFt"></div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div class="cov" id="cOv">
+  <div class="cbox">
+    <div class="ctitle" id="cTitle">Confirm</div>
+    <div class="cmsg" id="cMsg"></div>
+    <div class="cbtns"><button class="btn bd" id="cOk">Confirm</button><button class="btn bx" onclick="closeC()">Cancel</button></div>
+  </div>
+</div>
 
 <script>
-/* ================================================================
-   DATA
-   ================================================================ */
-const EVENTS = [
-  {id:'e1', name:'Mono Act',         cat:'Drama',    pts:[10,7,5]},
-  {id:'e2', name:'Group Dance',      cat:'Dance',    pts:[10,7,5]},
-  {id:'e3', name:'Solo Singing',     cat:'Music',    pts:[10,7,5]},
-  {id:'e4', name:'Mime',             cat:'Drama',    pts:[10,7,5]},
-  {id:'e5', name:'Instrumental',     cat:'Music',    pts:[10,7,5]},
-  {id:'e6', name:'Street Play',      cat:'Drama',    pts:[10,7,5]},
-  {id:'e7', name:'Painting',         cat:'Visual',   pts:[10,7,5]},
-  {id:'e8', name:'Photography',      cat:'Visual',   pts:[10,7,5]},
-  {id:'e9', name:'Debate',           cat:'Literary', pts:[10,7,5]},
-  {id:'e10',name:'Poetry Slam',      cat:'Literary', pts:[10,7,5]},
-  {id:'e11',name:'Skit',             cat:'Drama',    pts:[10,7,5]},
-  {id:'e12',name:'Folk Dance',       cat:'Dance',    pts:[10,7,5]},
-  {id:'e13',name:'Western Vocals',   cat:'Music',    pts:[10,7,5]},
-  {id:'e14',name:'Mehendi',          cat:'Visual',   pts:[10,7,5]},
-  {id:'e15',name:'Short Film',       cat:'Visual',   pts:[10,7,5]},
+/* ══ DATA ══ */
+let EVENTS=[
+  {id:'e01',name:'Mono Act',          cat:'Stage',    pts:[10,7,5]},
+  {id:'e02',name:'Group Skit',        cat:'Stage',    pts:[10,7,5]},
+  {id:'e03',name:'Mime',              cat:'Stage',    pts:[10,7,5]},
+  {id:'e04',name:'Street Play',       cat:'Stage',    pts:[10,7,5]},
+  {id:'e05',name:'Stand-Up Comedy',   cat:'Stage',    pts:[10,7,5]},
+  {id:'e06',name:'Solo Dance',        cat:'Dance',    pts:[10,7,5]},
+  {id:'e07',name:'Group Dance',       cat:'Dance',    pts:[10,7,5]},
+  {id:'e08',name:'Folk Dance',        cat:'Dance',    pts:[10,7,5]},
+  {id:'e09',name:'Solo Singing',      cat:'Music',    pts:[10,7,5]},
+  {id:'e10',name:'Group Singing',     cat:'Music',    pts:[10,7,5]},
+  {id:'e11',name:'Instrumental',      cat:'Music',    pts:[10,7,5]},
+  {id:'e12',name:'Beatboxing',        cat:'Music',    pts:[10,7,5]},
+  {id:'e13',name:'Painting',          cat:'Visual',   pts:[10,7,5]},
+  {id:'e14',name:'Sketching',         cat:'Visual',   pts:[10,7,5]},
+  {id:'e15',name:'Photography',       cat:'Visual',   pts:[10,7,5]},
+  {id:'e16',name:'Rangoli',           cat:'Visual',   pts:[10,7,5]},
+  {id:'e17',name:'Mehendi',           cat:'Visual',   pts:[10,7,5]},
+  {id:'e18',name:'Debate',            cat:'Literary', pts:[10,7,5]},
+  {id:'e19',name:'Poetry Slam',       cat:'Literary', pts:[10,7,5]},
+  {id:'e20',name:'Elocution',         cat:'Literary', pts:[10,7,5]},
+  {id:'e21',name:'Story Writing',     cat:'Literary', pts:[10,7,5]},
+  {id:'e22',name:'Short Film',        cat:'Media',    pts:[10,7,5]},
+  {id:'e23',name:'Photography Story', cat:'Media',    pts:[10,7,5]},
+  {id:'e24',name:'Quiz',              cat:'General',  pts:[10,7,5]},
+  {id:'e25',name:'Treasure Hunt',     cat:'General',  pts:[10,7,5]},
 ];
+let students=[
+  {id:'s01',name:'Aisha Rahman',   roll:'OTH-001',team:'othello',grade:'11-A',events:['e01','e09','e18'],note:'Team Captain'},
+  {id:'s02',name:'Rayan Farooq',   roll:'OTH-002',team:'othello',grade:'11-A',events:['e06','e07'],note:'Dance Lead'},
+  {id:'s03',name:'Fatima Noor',    roll:'OTH-003',team:'othello',grade:'12-B',events:['e13','e14','e15'],note:'Art Head'},
+  {id:'s04',name:'Zaid Hussain',   roll:'OTH-004',team:'othello',grade:'10-C',events:['e02','e03'],note:''},
+  {id:'s05',name:'Mariam Siddiq',  roll:'OTH-005',team:'othello',grade:'11-B',events:['e22','e23'],note:'Film Director'},
+  {id:'s06',name:'Omar Abdullah',  roll:'OTH-006',team:'othello',grade:'12-A',events:['e24','e25'],note:''},
+  {id:'s07',name:'Sara Malik',     roll:'MAC-001',team:'macbeth',grade:'11-A',events:['e09','e10','e11'],note:'Music Head'},
+  {id:'s08',name:'Hamza Qureshi',  roll:'MAC-002',team:'macbeth',grade:'12-C',events:['e01','e04'],note:'Drama Lead'},
+  {id:'s09',name:'Layla Ahmed',    roll:'MAC-003',team:'macbeth',grade:'10-A',events:['e16','e17'],note:'Visual Arts'},
+  {id:'s10',name:'Bilal Tariq',    roll:'MAC-004',team:'macbeth',grade:'11-C',events:['e06','e08'],note:''},
+  {id:'s11',name:'Nadia Yusuf',    roll:'MAC-005',team:'macbeth',grade:'12-A',events:['e18','e19','e20'],note:'Team Captain'},
+  {id:'s12',name:'Khalid Ansari',  roll:'MAC-006',team:'macbeth',grade:'10-B',events:['e12','e05'],note:''},
+  {id:'s13',name:'Hana Ibrahim',   roll:'HAM-001',team:'hamlet', grade:'11-B',events:['e06','e07','e08'],note:'Dance Captain'},
+  {id:'s14',name:'Yousef Rashid',  roll:'HAM-002',team:'hamlet', grade:'12-B',events:['e01','e02','e03'],note:'Drama Head'},
+  {id:'s15',name:'Amira Shaikh',   roll:'HAM-003',team:'hamlet', grade:'10-A',events:['e13','e16'],note:''},
+  {id:'s16',name:'Faris Nawaz',    roll:'HAM-004',team:'hamlet', grade:'11-A',events:['e09','e12'],note:'Music Lead'},
+  {id:'s17',name:'Dina Osman',     roll:'HAM-005',team:'hamlet', grade:'12-C',events:['e21','e19'],note:'Team Captain'},
+  {id:'s18',name:'Tarek Mansour',  roll:'HAM-006',team:'hamlet', grade:'10-C',events:['e24','e25'],note:''},
+];
+const TEAMS=['othello','macbeth','hamlet'];
+const TM={othello:{label:'Team Othello',emoji:'🎭',color:'var(--oc)',pill:'po'},macbeth:{label:'Team Macbeth',emoji:'⚔️',color:'var(--mc)',pill:'pm'},hamlet:{label:'Team Hamlet',emoji:'💀',color:'var(--hc)',pill:'ph'},admin:{label:'Admin',emoji:'👑',color:'var(--ac)',pill:'pa'}};
+const AVMJ=['🎨','🎭','🎶','📸','✏️','🎤','💃','🥁','🎬','📖','🖌️','🎺'];
+const CATCOL={Stage:'var(--mc)',Dance:'var(--oc)',Music:'var(--gold)',Visual:'var(--hc)',Literary:'var(--ok)',Media:'#6aaef5',General:'var(--muted)'};
 
-const TEAMS = ['othello','macbeth','hamlet'];
-const TEAM_META = {
-  othello: {label:'Team Othello', emoji:'🎭', color:'var(--othello-c)', pill:'pill-othello'},
-  macbeth: {label:'Team Macbeth', emoji:'⚔️', color:'var(--macbeth-c)', pill:'pill-macbeth'},
-  hamlet:  {label:'Team Hamlet',  emoji:'💀', color:'var(--hamlet-c)',  pill:'pill-hamlet'},
-  admin:   {label:'Admin',        emoji:'👑', color:'var(--admin-c)',   pill:'pill-admin'},
-};
+function h(s){let x=0;for(let i=0;i<s.length;i++){x=((x<<5)-x)+s.charCodeAt(i);x=x&x;}return Math.abs(x).toString(16);}
+const DC={admin:{username:'admin',hash:h('Admin@Zenith26'),team:'admin'},othello:{username:'othello_team',hash:h('Zenith@Othello'),team:'othello'},macbeth:{username:'macbeth_team',hash:h('Zenith@Macbeth'),team:'macbeth'},hamlet:{username:'hamlet_team',hash:h('Zenith@Hamlet'),team:'hamlet'}};
 
-function simpleHash(s){
-  let h=0;
-  for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h=h&h;}
-  return Math.abs(h).toString(16);
-}
-
-const DEFAULT_CREDS = {
-  admin:   {username:'admin',       hash: simpleHash('Admin@2026!artzee'), team:'admin'},
-  othello: {username:'othello_team',hash: simpleHash('Artzee2026!'),       team:'othello'},
-  macbeth: {username:'macbeth_team',hash: simpleHash('Macbeth@2026'),      team:'macbeth'},
-  hamlet:  {username:'hamlet_team', hash: simpleHash('Hamlet#Arts'),       team:'hamlet'},
-};
-
-/* Default scores: {eventId: {othello: 0|1|2|3, macbeth: ..., hamlet: ...}}
-   0=not placed, 1=1st, 2=2nd, 3=3rd */
-function getDefaultScores(){
-  const s={};
-  EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});
-  // some pre-filled results for demo
-  s.e1={othello:1,macbeth:2,hamlet:3};
-  s.e2={othello:3,macbeth:1,hamlet:2};
-  s.e3={othello:2,macbeth:3,hamlet:1};
-  s.e4={othello:1,macbeth:0,hamlet:2};
-  s.e5={othello:2,macbeth:1,hamlet:3};
-  s.e7={othello:3,macbeth:2,hamlet:1};
-  s.e9={othello:1,macbeth:3,hamlet:2};
+function defScores(){
+  const s={};EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});
+  const pre={e01:[1,2,3],e02:[3,1,2],e03:[2,3,1],e04:[1,0,2],e05:[2,1,3],e06:[3,1,2],e07:[1,2,3],e08:[2,3,1],e09:[1,3,2],e10:[2,1,3],e11:[3,2,1],e12:[0,1,2],e13:[2,1,3],e14:[1,3,2],e15:[3,2,1],e16:[1,2,3],e17:[2,0,1],e18:[1,2,3],e19:[3,1,2],e20:[2,3,1]};
+  Object.entries(pre).forEach(([id,[o,m,h2]])=>{if(s[id])s[id]={othello:o,macbeth:m,hamlet:h2};});
   return s;
 }
 
-/* ================================================================
-   STATE
-   ================================================================ */
-let currentUser = null; // {team, username}
-let scores = {};        // {eventId: {team: position}}
-
-function loadData(){
-  try{scores=JSON.parse(localStorage.getItem('artzee_scores')||'null')||getDefaultScores();}
-  catch(e){scores=getDefaultScores();}
-}
-function saveData(){localStorage.setItem('artzee_scores',JSON.stringify(scores));}
-
-/* ================================================================
-   COMPUTED
-   ================================================================ */
-function calcTeamStats(team){
-  let won=0,sec=0,trd=0,total=0;
-  EVENTS.forEach(e=>{
-    const pos=scores[e.id]?scores[e.id][team]:0;
-    if(pos===1){won++;total+=e.pts[0];}
-    else if(pos===2){sec++;total+=e.pts[1];}
-    else if(pos===3){trd++;total+=e.pts[2];}
-  });
-  return{won,sec,trd,total};
-}
-function getRankedTeams(){
-  return TEAMS.map(t=>({team:t,...calcTeamStats(t)}))
-    .sort((a,b)=>b.total-a.total||b.won-a.won);
-}
-function maxTotal(){return Math.max(...TEAMS.map(t=>calcTeamStats(t).total),1);}
-
-/* ================================================================
-   LOGIN / LOGOUT
-   ================================================================ */
-document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-
-function doLogout(){
-  sessionStorage.removeItem('artzee_user');
-  document.getElementById('appPage').classList.remove('active');
-  document.getElementById('loginPage').classList.add('active');
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+/* ══ STATE ══ */
+let CU=null,scores={},creds=null;
+function saveAll(){localStorage.setItem('z_scores',JSON.stringify(scores));localStorage.setItem('z_creds',JSON.stringify(creds));localStorage.setItem('z_events',JSON.stringify(EVENTS));localStorage.setItem('z_students',JSON.stringify(students));}
+function loadAll(){
+  try{scores=JSON.parse(localStorage.getItem('z_scores')||'null')||defScores();}catch(e){scores=defScores();}
+  try{creds=JSON.parse(localStorage.getItem('z_creds')||'null')||null;}catch(e){creds=null;}
+  if(!creds){creds={};for(const k in DC)creds[k]={...DC[k]};}
+  try{const ev=JSON.parse(localStorage.getItem('z_events')||'null');if(ev&&ev.length)EVENTS=ev;}catch(e){}
+  try{const st=JSON.parse(localStorage.getItem('z_students')||'null');if(st&&st.length)students=st;}catch(e){}
+  EVENTS.forEach(e=>{if(!scores[e.id])scores[e.id]={othello:0,macbeth:0,hamlet:0};});
 }
 
-function openApp(){
-  document.getElementById('loginPage').classList.remove('active');
-  document.getElementById('appPage').classList.add('active');
-  buildApp();
-  switchView('viewDash','Dashboard');
-}
+/* ══ COMPUTED ══ */
+function tStats(t){let w=0,s2=0,s3=0,tot=0;EVENTS.forEach(e=>{const p=(scores[e.id]||{})[t]||0;if(p===1){w++;tot+=e.pts[0];}else if(p===2){s2++;tot+=e.pts[1];}else if(p===3){s3++;tot+=e.pts[2];}});return{won:w,sec:s2,trd:s3,total:tot};}
+function ranked(){return TEAMS.map(t=>({team:t,...tStats(t)})).sort((a,b)=>b.total-a.total||b.won-a.won);}
+function maxPts(){return Math.max(...TEAMS.map(t=>tStats(t).total),1);}
+function isAdmin(){return CU&&CU.team==='admin';}
+function uniqCats(){return[...new Set(EVENTS.map(e=>e.cat))];}
+function chipFor(p){return p===1?`<span class="chip ch1">1st</span>`:p===2?`<span class="chip ch2">2nd</span>`:p===3?`<span class="chip ch3">3rd</span>`:`<span class="chip chp">Pending</span>`;}
 
-/* ================================================================
-   BUILD APP
-   ================================================================ */
+/* ══ AUTH ══ */
+function doLogin(){
+  const user=document.getElementById('lgU').value.trim(),pass=document.getElementById('lgP').value,hv=h(pass);
+  let found=null;for(const k in creds){if(creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}}
+  if(found){CU={team:found.team,username:user};sessionStorage.setItem('z_u',JSON.stringify(CU));openApp();}
+  else{const eb=document.getElementById('errbox');eb.style.display='flex';setTimeout(()=>eb.style.display='none',3200);}
+}
+document.getElementById('lgP').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('lgU').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+function doLogout(){sessionStorage.removeItem('z_u');document.getElementById('pgApp').classList.remove('active');document.getElementById('pgLogin').classList.add('active');document.getElementById('lgU').value='';document.getElementById('lgP').value='';}
+function openApp(){document.getElementById('pgLogin').classList.remove('active');document.getElementById('pgApp').classList.add('active');buildApp();switchView('vDash','Dashboard');}
+
+/* ══ BUILD APP ══ */
 function buildApp(){
-  const {team}=currentUser;
-  const meta=TEAM_META[team];
-  // pill
-  const pill=document.getElementById('sbTeamPill');
-  pill.textContent=meta.emoji+' '+meta.label;
-  pill.className='team-pill '+meta.pill;
-  // topbar
-  document.getElementById('topbarTeam').textContent=meta.label;
-
-  // hero
-  document.getElementById('heroEyebrow').textContent=team==='admin'?'Admin Portal':'Welcome, '+meta.label;
-  document.getElementById('heroTitle').textContent=team==='admin'?'Control Centre':meta.label+' Dashboard';
-  document.getElementById('heroSub').textContent=team==='admin'?'Manage scores and view all event results.':'Track your team\'s performance across all events.';
-
-  buildSidebar(team);
-  buildStats(team);
-  buildLeaderboardBars();
-  buildEventsGlance();
-  buildMyEvents(team);
-  buildOverallTable();
-  buildEventResults();
-  buildPointsBars();
-  buildAllEvents();
-  if(team==='admin') buildAdminCards();
+  const{team}=CU,m=TM[team];
+  document.getElementById('sbPill').textContent=m.emoji+' '+m.label;
+  document.getElementById('sbPill').className='pill '+m.pill;
+  document.getElementById('tbTeam').textContent=m.label;
+  document.getElementById('hEy').textContent=isAdmin()?'Admin Portal':'Welcome, '+m.label;
+  document.getElementById('hT').textContent=isAdmin()?'Control Centre':m.label+' Dashboard';
+  document.getElementById('hS').textContent=isAdmin()?'Manage scores, events, students & more.':'Track your team\'s performance across all events.';
+  buildSidebar(team);rebuildAll();
 }
 
-/* ===== SIDEBAR ===== */
 function buildSidebar(team){
-  const nav=document.getElementById('sidebarNav');
-  const mainItems=[
-    {id:'viewDash',   icon:'fa-gauge',         label:'Dashboard'},
-    {id:'viewLB',     icon:'fa-ranking-star',  label:'Leaderboard'},
-    {id:'viewEvents', icon:'fa-calendar-days', label:'All Events'},
-  ];
-  const adminItems=team==='admin'?[
-    {id:'viewAdmin', icon:'fa-sliders',      label:'Score Manager'},
-    {id:'viewReset', icon:'fa-users-gear',   label:'Reset Passwords'},
-  ]:[];
-  const accountItems=[
-    {id:'viewPassword', icon:'fa-key', label:'Change Password'},
-  ];
-
-  nav.innerHTML=
-    `<div class="nav-section-label">Navigation</div>`
-    +mainItems.map(it=>`<div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')"><i class="fas ${it.icon}"></i> ${it.label}</div>`).join('')
-    +(adminItems.length?`<div class="nav-section-label" style="margin-top:0.6rem">Admin</div>`+adminItems.map(it=>`<div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')"><i class="fas ${it.icon}"></i> ${it.label}</div>`).join(''):'')
-    +`<div class="nav-section-label" style="margin-top:0.6rem">Account</div>`
-    +accountItems.map(it=>`<div class="nav-item" data-view="${it.id}" onclick="switchView('${it.id}','${it.label}')"><i class="fas ${it.icon}"></i> ${it.label}</div>`).join('');
+  const nav=document.getElementById('sbNav');
+  const main=[{id:'vDash',ic:'fa-gauge',lb:'Dashboard'},{id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},{id:'vEvents',ic:'fa-calendar-days',lb:'Events'},{id:'vStudents',ic:'fa-users',lb:'Students'}];
+  const adm=isAdmin()?[{id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},{id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}]:[];
+  const acc=[{id:'vPw',ic:'fa-key',lb:'Change Password'}];
+  nav.innerHTML=`<div class="nsec">Navigation</div>`+main.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')
+    +(adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>`+adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join(''):'')
+    +`<div class="nsec" style="margin-top:.5rem">Account</div>`+acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('');
 }
-
 function switchView(id,title){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelector(`.nav-item[data-view="${id}"]`)?.classList.add('active');
-  document.getElementById('topbarTitle').textContent=title;
+  document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
+  document.getElementById('tbTitle').textContent=title;
 }
 
-/* ===== STATS ===== */
-function buildStats(team){
+/* ══ DASHBOARD ══ */
+function buildStats(){
   const row=document.getElementById('statsRow');
-  if(team==='admin'){
-    const ranked=getRankedTeams();
-    const leader=ranked[0];
-    const total=EVENTS.reduce((a,e)=>{
-      let placed=0;TEAMS.forEach(t=>{if(scores[e.id]&&scores[e.id][t]>0)placed++;});
-      return a+(placed>0?1:0);
-    },0);
-    row.innerHTML=`
-      <div class="stat-card"><div class="stat-label">Teams</div><div class="stat-value">3</div><div class="stat-note">competing</div></div>
-      <div class="stat-card"><div class="stat-label">Total Events</div><div class="stat-value">${EVENTS.length}</div><div class="stat-note">scheduled</div></div>
-      <div class="stat-card"><div class="stat-label">Results In</div><div class="stat-value">${total}</div><div class="stat-note">of ${EVENTS.length}</div></div>
-      <div class="stat-card"><div class="stat-label">Leading Team</div><div class="stat-value" style="font-size:1.4rem;color:${TEAM_META[leader.team].color}">${TEAM_META[leader.team].emoji}</div><div class="stat-note">${TEAM_META[leader.team].label} · ${leader.total} pts</div></div>
-    `;
+  if(isAdmin()){const r=ranked();const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0)).length;
+    row.innerHTML=`<div class="sc"><div class="sclbl">Total Events</div><div class="scval">${EVENTS.length}</div><div class="scnote">scheduled</div></div><div class="sc"><div class="sclbl">Results In</div><div class="scval">${done}</div><div class="scnote">of ${EVENTS.length}</div></div><div class="sc"><div class="sclbl">Students</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0].team].color}">${TM[r[0].team].emoji}</div><div class="scnote">${TM[r[0].team].label} · ${r[0].total}pts</div></div>`;
   } else {
-    const s=calcTeamStats(team);
-    const ranked=getRankedTeams();
-    const rank=ranked.findIndex(r=>r.team===team)+1;
-    row.innerHTML=`
-      <div class="stat-card"><div class="stat-label">Total Points</div><div class="stat-value">${s.total}</div><div class="stat-note">accumulated</div></div>
-      <div class="stat-card"><div class="stat-label">1st Places</div><div class="stat-value" style="color:var(--gold)">${s.won}</div><div class="stat-note">gold finishes</div></div>
-      <div class="stat-card"><div class="stat-label">2nd Places</div><div class="stat-value" style="color:#c0c0c0">${s.sec}</div><div class="stat-note">silver finishes</div></div>
-      <div class="stat-card"><div class="stat-label">Current Rank</div><div class="stat-value">#${rank}</div><div class="stat-note">of 3 teams</div></div>
-    `;
+    const s=tStats(CU.team),r=ranked(),rank=r.findIndex(x=>x.team===CU.team)+1,myStu=students.filter(x=>x.team===CU.team).length;
+    row.innerHTML=`<div class="sc"><div class="sclbl">Total Points</div><div class="scval">${s.total}</div><div class="scnote">accumulated</div></div><div class="sc"><div class="sclbl">1st Places</div><div class="scval" style="color:var(--gold)">${s.won}</div><div class="scnote">gold</div></div><div class="sc"><div class="sclbl">2nd Places</div><div class="scval" style="color:#c0c0c0">${s.sec}</div><div class="scnote">silver</div></div><div class="sc"><div class="sclbl">Current Rank</div><div class="scval">#${rank}</div><div class="scnote">of 3 teams</div></div><div class="sc"><div class="sclbl">Team Members</div><div class="scval">${myStu}</div><div class="scnote">students</div></div>`;
   }
 }
-
-/* ===== LEADERBOARD BARS ===== */
-function buildLeaderboardBars(){
-  const el=document.getElementById('leaderboardBars');
-  const ranked=getRankedTeams();
-  const mx=maxTotal();
-  const rankColors=['var(--gold)','#c0c0c0','#cd7f32'];
-  el.innerHTML=ranked.map((r,i)=>`
-    <div class="lb-row">
-      <div class="lb-meta">
-        <span class="lb-name" style="color:${TEAM_META[r.team].color}">${TEAM_META[r.team].emoji} ${TEAM_META[r.team].label}</span>
-        <span class="lb-pts">${r.total} pts</span>
-      </div>
-      <div class="lb-track">
-        <div class="lb-bar" style="width:${Math.round((r.total/mx)*100)}%;background:${rankColors[i]||'var(--muted2)'}"></div>
-      </div>
-    </div>
-  `).join('');
+function buildLBBars(){
+  const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];
+  el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');
 }
-
-/* ===== EVENTS GLANCE ===== */
-function buildEventsGlance(){
-  const el=document.getElementById('eventsGlance');
-  // show events with results
+function buildEvGlance(){
+  const el=document.getElementById('evGlance');
   const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
-  const pending=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
-  const list=[...done.slice(0,5),...pending.slice(0,3)];
-  const catColors={'Drama':'var(--macbeth-c)','Dance':'var(--othello-c)','Music':'var(--gold)','Visual':'var(--hamlet-c)','Literary':'var(--success)'};
-  el.innerHTML=list.map(e=>{
-    const isDone=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);
-    return `<div class="event-item">
-      <div class="event-dot" style="background:${isDone?catColors[e.cat]||'var(--muted2)':'var(--muted2)'}"></div>
-      <span class="event-name">${e.name}</span>
-      <span class="event-cat">${isDone?'✓ Done':'Pending'}</span>
-    </div>`;
-  }).join('');
+  const pend=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
+  el.innerHTML=[...done.slice(0,5),...pend.slice(0,4)].map(e=>{const d=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);return`<div class="evitem"><div class="evdot" style="background:${d?CATCOL[e.cat]||'var(--muted2)':'var(--muted2)'}"></div><span class="evname">${e.name}</span><span class="evcat">${d?'✓ Done':'Pending'}</span></div>`;}).join('');
 }
 
-/* ===== MY EVENTS TABLE ===== */
-function buildMyEvents(team){
-  const tb=document.getElementById('myEventsTbody');
-  if(team==='admin'){tb.innerHTML=`<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:1.5rem 0">Admin view — see All Events</td></tr>`;return;}
-  tb.innerHTML=EVENTS.map((e,i)=>{
-    const pos=(scores[e.id]||{})[team]||0;
-    const pts=pos>0?e.pts[pos-1]:0;
-    const rankEl=pos===1?`<span class="rank rank-1">1</span>`:pos===2?`<span class="rank rank-2">2</span>`:pos===3?`<span class="rank rank-3">3</span>`:`<span class="rank rank-x">—</span>`;
-    const chipEl=pos===1?`<span class="chip chip-win">1st Place</span>`:pos===2?`<span class="chip chip-2nd">2nd Place</span>`:pos===3?`<span class="chip chip-3rd">3rd Place</span>`:`<span class="chip chip-part">Pending</span>`;
-    return `<tr>
-      <td>${rankEl}</td>
-      <td style="font-style:italic">${e.name}</td>
-      <td style="color:var(--muted);font-size:0.8rem">${e.cat}</td>
-      <td class="pts">${pts>0?'+'+pts:'—'}</td>
-      <td>${chipEl}</td>
-    </tr>`;
-  }).join('');
+/* ══ EVENTS TAB — full CRUD ══ */
+function buildBtns(){
+  const eb=document.getElementById('evBtns');
+  if(eb)eb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddEventModal()"><i class="fas fa-plus"></i>Add Event</button>`:'';
+  const sb=document.getElementById('stuBtns');
+  if(sb)sb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddStuModal()"><i class="fas fa-user-plus"></i>Add Student</button>`:'';
+  const cf=document.getElementById('evCatF');
+  if(cf){cf.innerHTML=`<option value="">All Categories</option>`+uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('');}
 }
 
-/* ===== OVERALL TABLE ===== */
-function buildOverallTable(){
-  const tb=document.getElementById('overallTbody');
-  const ranked=getRankedTeams();
-  tb.innerHTML=ranked.map((r,i)=>`
-    <tr>
-      <td>${i===0?`<span class="rank rank-1">1</span>`:i===1?`<span class="rank rank-2">2</span>`:`<span class="rank rank-3">3</span>`}</td>
-      <td><span style="color:${TEAM_META[r.team].color};font-weight:500">${TEAM_META[r.team].emoji} ${TEAM_META[r.team].label}</span></td>
-      <td class="pts">${r.won}</td>
-      <td class="pts">${r.sec}</td>
-      <td class="pts">${r.trd}</td>
-      <td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${r.total}</td>
-    </tr>
-  `).join('');
+function renderEvents(){
+  const q=(document.getElementById('evSearch')?.value||'').toLowerCase();
+  const cat=document.getElementById('evCatF')?.value||'';
+  const list=EVENTS.filter(e=>(e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q))&&(!cat||e.cat===cat));
+  const adm=isAdmin();
+  document.getElementById('evActH').style.display=adm?'':'none';
+  document.getElementById('evTbody').innerHTML=list.map((e,i)=>`
+    <tr id="er_${e.id}">
+      <td style="color:var(--muted2)">${EVENTS.indexOf(e)+1}</td>
+      <td style="font-style:italic" id="en_${e.id}">${e.name}</td>
+      <td id="ec_${e.id}"><span style="font-size:.74rem;color:${CATCOL[e.cat]||'var(--muted)'}">${e.cat}</span></td>
+      <td class="pts" id="ep1_${e.id}">${e.pts[0]}</td>
+      <td style="color:#c0c0c0" id="ep2_${e.id}">${e.pts[1]}</td>
+      <td style="color:#cd7f32" id="ep3_${e.id}">${e.pts[2]}</td>
+      <td style="${adm?'':'display:none'}">
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn bo bsm" onclick="inlineEditEv('${e.id}')"><i class="fas fa-pen"></i>Edit</button>
+          <button class="btn bd bsm" onclick="confirmDel('Delete Event','Delete <b>${e.name}</b>? This cannot be undone.',()=>delEvent('${e.id}'))"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
 }
 
-/* ===== EVENT RESULTS TABLE ===== */
-function buildEventResults(){
-  const tb=document.getElementById('eventResultsTbody');
-  tb.innerHTML=EVENTS.map(e=>{
-    const getTeam=pos=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===pos);
-    const t1=getTeam(1),t2=getTeam(2),t3=getTeam(3);
-    const fmt=t=>t?`<span style="color:${TEAM_META[t].color}">${TEAM_META[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;
-    return `<tr>
-      <td style="font-style:italic;font-size:0.85rem">${e.name}</td>
-      <td>${fmt(t1)}</td><td>${fmt(t2)}</td><td>${fmt(t3)}</td>
-    </tr>`;
-  }).join('');
+function inlineEditEv(eid){
+  const e=EVENTS.find(x=>x.id===eid);if(!e)return;
+  const cats=uniqCats().concat(['Stage','Dance','Music','Visual','Literary','Media','General']).filter((v,i,a)=>a.indexOf(v)===i);
+  document.getElementById('en_'+eid).innerHTML=`<input class="ie" id="ien_${eid}" value="${e.name}" style="min-width:140px">`;
+  document.getElementById('ec_'+eid).innerHTML=`<select class="iesel" id="iec_${eid}">${cats.map(c=>`<option value="${c}" ${c===e.cat?'selected':''}>${c}</option>`).join('')}<option value="__new__">+ New…</option></select>`;
+  document.getElementById('ep1_'+eid).innerHTML=`<input class="ie iesm" id="iep1_${eid}" type="number" min="0" value="${e.pts[0]}">`;
+  document.getElementById('ep2_'+eid).innerHTML=`<input class="ie iesm" id="iep2_${eid}" type="number" min="0" value="${e.pts[1]}">`;
+  document.getElementById('ep3_'+eid).innerHTML=`<input class="ie iesm" id="iep3_${eid}" type="number" min="0" value="${e.pts[2]}">`;
+  document.getElementById('er_'+eid).classList.add('editing');
+  document.querySelector(`#er_${eid} td:last-child`).innerHTML=`<div style="display:flex;gap:4px"><button class="btn bp bsm" onclick="saveInlineEv('${eid}')"><i class="fas fa-check"></i>Save</button><button class="btn bx bsm" onclick="renderEvents()"><i class="fas fa-times"></i></button></div>`;
 }
-
-/* ===== POINTS BARS ===== */
-function buildPointsBars(){
-  const el=document.getElementById('pointsBars');
-  const ranked=getRankedTeams();
-  const mx=maxTotal();
-  el.innerHTML=ranked.map(r=>`
-    <div class="lb-row">
-      <div class="lb-meta">
-        <span class="lb-name" style="color:${TEAM_META[r.team].color}">${TEAM_META[r.team].emoji} ${TEAM_META[r.team].label}</span>
-        <span class="lb-pts">${r.total} pts</span>
-      </div>
-      <div class="lb-track"><div class="lb-bar" style="width:${Math.round((r.total/mx)*100)}%;background:${TEAM_META[r.team].color}"></div></div>
+function saveInlineEv(eid){
+  const e=EVENTS.find(x=>x.id===eid);if(!e)return;
+  let cat=document.getElementById('iec_'+eid).value;
+  if(cat==='__new__'){cat=prompt('New category name:');if(!cat)return;}
+  e.name=document.getElementById('ien_'+eid).value.trim()||e.name;
+  e.cat=cat||e.cat;
+  e.pts[0]=parseInt(document.getElementById('iep1_'+eid).value)||e.pts[0];
+  e.pts[1]=parseInt(document.getElementById('iep2_'+eid).value)||e.pts[1];
+  e.pts[2]=parseInt(document.getElementById('iep3_'+eid).value)||e.pts[2];
+  saveAll();rebuildAll();
+}
+function delEvent(eid){
+  EVENTS=EVENTS.filter(e=>e.id!==eid);delete scores[eid];
+  students.forEach(s=>{s.events=s.events.filter(x=>x!==eid);});
+  saveAll();rebuildAll();
+}
+function openAddEventModal(){
+  openM('Add New Event',`
+    <div class="mrow2">
+      <div class="mfld"><label>Event Name</label><input id="mEn" placeholder="e.g. Classical Dance"></div>
+      <div class="mfld"><label>Category</label><select id="mEc"><option value="">Select…</option>${uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('')}<option value="__new__">+ New Category…</option></select></div>
     </div>
-  `).join('');
-}
-
-/* ===== ALL EVENTS TABLE ===== */
-function buildAllEvents(){
-  const tb=document.getElementById('allEventsTbody');
-  tb.innerHTML=EVENTS.map((e,i)=>`
-    <tr>
-      <td style="color:var(--muted2)">${i+1}</td>
-      <td style="font-style:italic">${e.name}</td>
-      <td><span style="font-size:0.75rem;color:var(--muted)">${e.cat}</span></td>
-      <td class="pts">${e.pts[0]}</td>
-      <td style="color:#c0c0c0">${e.pts[1]}</td>
-      <td style="color:#cd7f32">${e.pts[2]}</td>
-    </tr>
-  `).join('');
-}
-
-/* ===== ADMIN CARDS ===== */
-function buildAdminCards(){
-  const el=document.getElementById('adminTeamCards');
-  el.innerHTML=TEAMS.map(team=>`
-    <div class="admin-team-card">
-      <div class="admin-team-header">
-        <span class="admin-team-name" style="color:${TEAM_META[team].color}">${TEAM_META[team].emoji} ${TEAM_META[team].label}</span>
-        <span class="admin-team-pts" style="color:${TEAM_META[team].color}" id="adminPts_${team}">${calcTeamStats(team).total} pts</span>
-      </div>
-      <div class="admin-team-body">
-        ${EVENTS.map(e=>`
-          <div class="admin-event-row">
-            <span style="font-size:0.82rem;font-style:italic;color:var(--text)">${e.name}</span>
-            <select class="score-input" id="sel_${e.id}_${team}" onchange="updateScore('${e.id}','${team}',this.value)" style="width:90px">
-              <option value="0" ${(scores[e.id]||{})[team]===0?'selected':''}>—</option>
-              <option value="1" ${(scores[e.id]||{})[team]===1?'selected':''}>🥇 1st (${e.pts[0]})</option>
-              <option value="2" ${(scores[e.id]||{})[team]===2?'selected':''}>🥈 2nd (${e.pts[1]})</option>
-              <option value="3" ${(scores[e.id]||{})[team]===3?'selected':''}>🥉 3rd (${e.pts[2]})</option>
-            </select>
-          </div>
-        `).join('')}
-      </div>
+    <div class="mrow2">
+      <div class="mfld"><label>1st Place Points</label><input id="mEp1" type="number" min="0" value="10"></div>
+      <div class="mfld"><label>2nd Place Points</label><input id="mEp2" type="number" min="0" value="7"></div>
     </div>
-  `).join('');
+    <div class="mfld"><label>3rd Place Points</label><input id="mEp3" type="number" min="0" value="5"></div>`,
+  `<button class="btn bg" onclick="submitAddEvent()"><i class="fas fa-plus"></i>Add Event</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+}
+function submitAddEvent(){
+  const n=document.getElementById('mEn').value.trim();let cat=document.getElementById('mEc').value;
+  if(!n||!cat){alert('Name and category required.');return;}
+  if(cat==='__new__'){cat=prompt('New category name:');if(!cat)return;}
+  const id='e'+String(Date.now());
+  EVENTS.push({id,name:n,cat,pts:[parseInt(document.getElementById('mEp1').value)||10,parseInt(document.getElementById('mEp2').value)||7,parseInt(document.getElementById('mEp3').value)||5]});
+  scores[id]={othello:0,macbeth:0,hamlet:0};
+  saveAll();rebuildAll();closeM();
 }
 
-function updateScore(eventId,team,pos){
-  if(!scores[eventId]) scores[eventId]={othello:0,macbeth:0,hamlet:0};
-  scores[eventId][team]=parseInt(pos);
-  // live-update pts label
-  document.getElementById('adminPts_'+team).textContent=calcTeamStats(team).total+' pts';
+/* ══ LEADERBOARD ══ */
+function buildOverall(){
+  const r=ranked();
+  document.getElementById('overallTb').innerHTML=r.map((x,i)=>`<tr><td>${i===0?`<span class="rk rk1">1</span>`:i===1?`<span class="rk rk2">2</span>`:`<span class="rk rk3">3</span>`}</td><td><span style="color:${TM[x.team].color};font-weight:500">${TM[x.team].emoji} ${TM[x.team].label}</span></td><td class="pts">${x.won}</td><td class="pts">${x.sec}</td><td class="pts">${x.trd}</td><td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${x.total}</td></tr>`).join('');
+}
+function buildEvRes(){
+  document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');
+}
+function buildPtsBars(){
+  const r=ranked(),mx=maxPts();
+  document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');
 }
 
-function saveScores(){
-  saveData();
-  // rebuild all views
-  buildStats(currentUser.team);
-  buildLeaderboardBars();
-  buildEventsGlance();
-  buildMyEvents(currentUser.team);
-  buildOverallTable();
-  buildEventResults();
-  buildPointsBars();
-  // show notice
-  const n=document.getElementById('saveNotice');
-  n.style.display='flex';
-  setTimeout(()=>n.style.display='none',3000);
+/* ══ STUDENTS — full CRUD ══ */
+function buildStuStats(){
+  const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};
+  document.getElementById('stuStats').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;
 }
-
-/* ================================================================
-   PASSWORD MANAGEMENT
-   ================================================================ */
-
-/* -- credential store (localStorage) -- */
-function loadCreds(){
-  try{return JSON.parse(localStorage.getItem('artzee_creds')||'null')||null;}
-  catch(e){return null;}
-}
-function saveCreds(c){localStorage.setItem('artzee_creds',JSON.stringify(c));}
-
-/* live credentials object (starts from DEFAULT_CREDS hashes, can be overridden) */
-let liveCreds=null;
-function initCreds(){
-  liveCreds=loadCreds();
-  if(!liveCreds){
-    // first run: copy defaults
-    liveCreds={};
-    for(const k in DEFAULT_CREDS) liveCreds[k]={username:DEFAULT_CREDS[k].username,hash:DEFAULT_CREDS[k].hash,team:DEFAULT_CREDS[k].team};
-    saveCreds(liveCreds);
-  }
-}
-
-/* patch doLogin to use liveCreds */
-function doLogin(){
-  const user=document.getElementById('loginUser').value.trim();
-  const pass=document.getElementById('loginPass').value;
-  const h=simpleHash(pass);
-  let found=null;
-  for(const key in liveCreds){
-    if(liveCreds[key].username===user && liveCreds[key].hash===h){found=liveCreds[key];break;}
-  }
-  if(found){
-    currentUser={team:found.team,username:user};
-    sessionStorage.setItem('artzee_user',JSON.stringify(currentUser));
-    openApp();
-  } else {
-    const eb=document.getElementById('errBox');
-    eb.style.display='flex';
-    setTimeout(()=>eb.style.display='none',3000);
-  }
-}
-
-/* toggle show/hide password */
-function toggleEye(inputId,btn){
-  const inp=document.getElementById(inputId);
-  const ic=btn.querySelector('i');
-  if(inp.type==='password'){inp.type='text';ic.className='fas fa-eye-slash';}
-  else{inp.type='password';ic.className='fas fa-eye';}
-}
-
-/* password strength */
-function checkStrength(val){
-  const fill=document.getElementById('strengthFill');
-  const label=document.getElementById('strengthLabel');
-  if(!val){fill.style.width='0%';label.textContent='';return;}
-  let score=0;
-  if(val.length>=6) score++;
-  if(val.length>=10) score++;
-  if(/[A-Z]/.test(val)) score++;
-  if(/[0-9]/.test(val)) score++;
-  if(/[^A-Za-z0-9]/.test(val)) score++;
-  const levels=[
-    {w:'20%',bg:'#e74c3c',t:'Very weak'},
-    {w:'40%',bg:'#e67e22',t:'Weak'},
-    {w:'60%',bg:'#f1c40f',t:'Fair'},
-    {w:'80%',bg:'#2ecc71',t:'Strong'},
-    {w:'100%',bg:'#27ae60',t:'Very strong'},
-  ];
-  const l=levels[Math.min(score-1,4)]||levels[0];
-  fill.style.width=l.w; fill.style.background=l.bg;
-  label.textContent=l.t; label.style.color=l.bg;
-}
-
-function clearCpFields(){
-  ['cpCurrent','cpNew','cpConfirm'].forEach(id=>{
-    const el=document.getElementById(id);
-    el.value='';el.type='password';
+function renderStudents(){
+  const q=(document.getElementById('stuSearch')?.value||'').toLowerCase();
+  const tf=document.getElementById('stuTeamF')?.value||'';
+  const mode=document.getElementById('stuViewM')?.value||'grid';
+  const team=CU?.team;
+  let list=students.filter(s=>{
+    const mq=s.name.toLowerCase().includes(q)||s.roll.toLowerCase().includes(q);
+    const mt=tf?s.team===tf:(isAdmin()?true:s.team===team);
+    return mq&&mt;
   });
-  document.getElementById('strengthFill').style.width='0%';
-  document.getElementById('strengthLabel').textContent='';
-  document.getElementById('cpOk').style.display='none';
-  document.getElementById('cpErr').style.display='none';
-}
+  const con=document.getElementById('stuCon');
+  const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
+  const bgT={othello:'rgba(78,205,196,.1)',macbeth:'rgba(199,125,255,.1)',hamlet:'rgba(247,127,90,.1)'};
 
-function showCpErr(msg){
-  const e=document.getElementById('cpErr');
-  document.getElementById('cpErrText').textContent=msg;
-  e.style.display='flex';
-  document.getElementById('cpOk').style.display='none';
-  setTimeout(()=>e.style.display='none',4000);
-}
-function showCpOk(){
-  document.getElementById('cpOk').style.display='flex';
-  document.getElementById('cpErr').style.display='none';
-  setTimeout(()=>document.getElementById('cpOk').style.display='none',4000);
-}
-
-/* change own password */
-function doChangePassword(){
-  const cur=document.getElementById('cpCurrent').value;
-  const nw=document.getElementById('cpNew').value;
-  const cf=document.getElementById('cpConfirm').value;
-  if(!cur||!nw||!cf){showCpErr('Please fill in all fields.');return;}
-  if(nw.length<6){showCpErr('New password must be at least 6 characters.');return;}
-  if(nw!==cf){showCpErr('New passwords do not match.');return;}
-
-  const team=currentUser.team;
-  const curHash=simpleHash(cur);
-  if(liveCreds[team].hash!==curHash){showCpErr('Current password is incorrect.');return;}
-  if(simpleHash(nw)===curHash){showCpErr('New password must be different from current.');return;}
-
-  liveCreds[team].hash=simpleHash(nw);
-  saveCreds(liveCreds);
-  clearCpFields();
-  showCpOk();
-}
-
-/* admin: reset a specific team's password */
-function adminResetPw(team){
-  const inp=document.getElementById('rp_'+team);
-  const val=inp.value.trim();
-  if(!val||val.length<4){
-    inp.style.borderColor='rgba(240,90,90,0.5)';
-    setTimeout(()=>inp.style.borderColor='',2000);
-    return;
+  if(mode==='table'){
+    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead><tbody>${
+      list.map(s=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id).join(', ');
+        return`<tr><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td style="font-size:.82rem">${s.grade||'—'}</td><td style="font-size:.76rem;color:var(--muted)">${evNm||'—'}</td><td style="font-size:.76rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditStuModal('${s.id}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>delStudent('${s.id}'))"><i class="fas fa-trash"></i></button></div></td>`:''}</tr>`;
+      }).join('')
+    }</tbody></table>`;
+  } else {
+    if(!list.length){con.innerHTML=`<div style="padding:2rem;text-align:center;color:var(--muted)">No students found.</div>`;return;}
+    con.innerHTML=`<div class="sgrid">${list.map((s,i)=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id);
+      return`<div class="scard">${isAdmin()?`<div class="sacts"><button class="btn bo bsm" onclick="openEditStuModal('${s.id}')"><i class="fas fa-pen"></i></button><button class="btn bd bsm" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>delStudent('${s.id}'))"><i class="fas fa-trash"></i></button></div>`:''}<div class="savatar" style="background:${bgT[s.team]};border-color:${clT[s.team]}">${AVMJ[i%AVMJ.length]}</div><div class="sname">${s.name}</div><div class="sroll">${s.roll}${s.grade?' · '+s.grade:''}</div><div class="stags"><span class="stag" style="background:${bgT[s.team]};color:${clT[s.team]};border:1px solid ${clT[s.team]}44">${TM[s.team].emoji} ${TM[s.team].label}</span>${evNm.slice(0,2).map(n=>`<span class="stag" style="background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border)">${n}</span>`).join('')}${evNm.length>2?`<span class="stag" style="background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border)">+${evNm.length-2}</span>`:''}</div>${s.note?`<div class="snote">${s.note}</div>`:''}</div>`;
+    }).join('')}</div>`;
   }
-  liveCreds[team].hash=simpleHash(val);
-  saveCreds(liveCreds);
-  inp.value='';
-  const st=document.getElementById('rs_'+team);
-  st.style.display='inline';
-  setTimeout(()=>st.style.display='none',3000);
 }
 
-/* admin: restore all to defaults */
-function resetAllPasswords(){
-  for(const k in DEFAULT_CREDS) liveCreds[k].hash=DEFAULT_CREDS[k].hash;
-  saveCreds(liveCreds);
-  const n=document.getElementById('resetAllOk');
-  n.style.display='flex';
-  setTimeout(()=>n.style.display='none',4000);
-}
+function teamOpts(sel=''){return TEAMS.map(t=>`<option value="${t}" ${t===sel?'selected':''}>${TM[t].emoji} ${TM[t].label}</option>`).join('');}
+function evCheckboxes(sel=[]){return`<div class="evchk">`+EVENTS.map(e=>`<label><input type="checkbox" value="${e.id}" ${sel.includes(e.id)?'checked':''}>${e.name}</label>`).join('')+`</div>`;}
+function getChecked(){return EVENTS.filter(e=>{const el=document.querySelector(`input[type=checkbox][value="${e.id}"]`);return el&&el.checked;}).map(e=>e.id);}
 
-/* ================================================================
-   INIT
-   ================================================================ */
-loadData();
-initCreds();
-// check for existing session
-try{
-  const saved=JSON.parse(sessionStorage.getItem('artzee_user')||'null');
-  if(saved){currentUser=saved;openApp();}
-}catch(e){}
+function openAddStuModal(){
+  openM('Add Student',`
+    <div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" placeholder="e.g. Aisha Rahman"></div><div class="mfld"><label>Roll No</label><input id="mSr" placeholder="e.g. OTH-007"></div></div>
+    <div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select team…</option>${teamOpts()}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" placeholder="e.g. 11-A"></div></div>
+    <div class="mfld"><label>Events Participating</label>${evCheckboxes()}</div>
+    <div class="mfld"><label>Role / Note (optional)</label><input id="mSno" placeholder="e.g. Team Captain, Dance Lead…"></div>`,
+  `<button class="btn bg" onclick="submitAddStu()"><i class="fas fa-user-plus"></i>Add Student</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+}
+function submitAddStu(){
+  const n=document.getElementById('mSn').value.trim(),r=document.getElementById('mSr').value.trim(),t=document.getElementById('mSt').value;
+  if(!n||!r||!t){alert('Name, Roll No and Team are required.');return;}
+  students.push({id:'s'+Date.now(),name:n,roll:r,team:t,grade:document.getElementById('mSg').value.trim(),events:getChecked(),note:document.getElementById('mSno').value.trim()});
+  saveAll();buildStuStats();renderStudents();closeM();
+}
+function openEditStuModal(sid){
+  const s=students.find(x=>x.id===sid);if(!s)return;
+  openM('Edit Student',`
+    <div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" value="${s.name}"></div><div class="mfld"><label>Roll No</label><input id="mSr" value="${s.roll}"></div></div>
+    <div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select…</option>${teamOpts(s.team)}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" value="${s.grade||''}"></div></div>
+    <div class="mfld"><label>Events Participating</label>${evCheckboxes(s.events)}</div>
+    <div class="mfld"><label>Role / Note</label><input id="mSno" value="${s.note||''}"></div>`,
+  `<button class="btn bg" onclick="submitEditStu('${sid}')"><i class="fas fa-save"></i>Save Changes</button><button class="btn bd" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>{delStudent('${sid}');closeM();})"><i class="fas fa-trash"></i>Delete</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+}
+function submitEditStu(sid){
+  const s=students.find(x=>x.id===sid);if(!s)return;
+  s.name=document.getElementById('mSn').value.trim()||s.name;
+  s.roll=document.getElementById('mSr').value.trim()||s.roll;
+  s.team=document.getElementById('mSt').value||s.team;
+  s.grade=document.getElementById('mSg').value.trim();
+  s.note=document.getElementById('mSno').value.trim();
+  s.events=getChecked();
+  saveAll();buildStuStats();renderStudents();closeM();
+}
+function delStudent(sid){students=students.filter(x=>x.id!==sid);saveAll();buildStuStats();renderStudents();}
+
+/* ══ SCORE MANAGER ══ */
+function buildAdminCards(){
+  document.getElementById('adminCards').innerHTML=TEAMS.map(team=>`
+    <div class="atc"><div class="ath"><span class="atn" style="color:${TM[team].color}">${TM[team].emoji} ${TM[team].label}</span><span class="atp" style="color:${TM[team].color}" id="adP_${team}">${tStats(team).total} pts</span></div>
+    <div class="atb">${EVENTS.map(e=>`<div class="ater"><span style="font-size:.81rem;font-style:italic;flex:1">${e.name}</span><select class="scsel" id="ads_${e.id}_${team}" onchange="upScore('${e.id}','${team}',this.value)"><option value="0" ${(scores[e.id]||{})[team]===0?'selected':''}>—</option><option value="1" ${(scores[e.id]||{})[team]===1?'selected':''}>🥇 1st</option><option value="2" ${(scores[e.id]||{})[team]===2?'selected':''}>🥈 2nd</option><option value="3" ${(scores[e.id]||{})[team]===3?'selected':''}>🥉 3rd</option></select></div>`).join('')}</div></div>`).join('');
+}
+function upScore(eid,team,pos){if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};scores[eid][team]=parseInt(pos);document.getElementById('adP_'+team).textContent=tStats(team).total+' pts';}
+function saveScores(){saveAll();rebuildAll();const n=document.getElementById('saveNotice');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
+
+/* ══ MODAL / CONFIRM ══ */
+function openM(title,body,footer){document.getElementById('mTitle').textContent=title;document.getElementById('mBody').innerHTML=body;document.getElementById('mFt').innerHTML=footer;document.getElementById('mOv').classList.add('open');}
+function closeM(){document.getElementById('mOv').classList.remove('open');}
+function confirmDel(title,msg,onOk){document.getElementById('cTitle').textContent=title;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOk').onclick=()=>{onOk();closeC();};document.getElementById('cOv').classList.add('open');}
+function closeC(){document.getElementById('cOv').classList.remove('open');}
+
+/* ══ REBUILD ══ */
+function rebuildAll(){buildStats();buildLBBars();buildEvGlance();buildOverall();buildEvRes();buildPtsBars();buildBtns();renderEvents();buildStuStats();renderStudents();if(isAdmin())buildAdminCards();}
+
+/* ══ PASSWORD ══ */
+function toggleEye(id,btn){const el=document.getElementById(id),ic=btn.querySelector('i');el.type=el.type==='password'?'text':'password';ic.className=el.type==='text'?'fas fa-eye-slash':'fas fa-eye';}
+function chkStr(val){const f=document.getElementById('strFill'),l=document.getElementById('strLbl');if(!val){f.style.width='0%';l.textContent='';return;}let sc=0;if(val.length>=6)sc++;if(val.length>=10)sc++;if(/[A-Z]/.test(val))sc++;if(/[0-9]/.test(val))sc++;if(/[^A-Za-z0-9]/.test(val))sc++;const lv=[{w:'20%',bg:'#e74c3c',t:'Very weak'},{w:'40%',bg:'#e67e22',t:'Weak'},{w:'60%',bg:'#f1c40f',t:'Fair'},{w:'80%',bg:'#2ecc71',t:'Strong'},{w:'100%',bg:'#27ae60',t:'Very strong'}];const lx=lv[Math.min(sc-1,4)]||lv[0];f.style.width=lx.w;f.style.background=lx.bg;l.textContent=lx.t;l.style.color=lx.bg;}
+function clearPw(){['cpCur','cpNew','cpCfm'].forEach(id=>{const e=document.getElementById(id);if(e){e.value='';e.type='password';}});document.getElementById('strFill').style.width='0%';document.getElementById('strLbl').textContent='';document.getElementById('pwOk').style.display='none';document.getElementById('pwErr').style.display='none';}
+function showPwErr(msg){document.getElementById('pwErrTxt').textContent=msg;document.getElementById('pwErr').style.display='flex';document.getElementById('pwOk').style.display='none';setTimeout(()=>document.getElementById('pwErr').style.display='none',4000);}
+function doChangePw(){const cur=document.getElementById('cpCur').value,nw=document.getElementById('cpNew').value,cf=document.getElementById('cpCfm').value;if(!cur||!nw||!cf){showPwErr('Fill in all fields.');return;}if(nw.length<6){showPwErr('At least 6 characters required.');return;}if(nw!==cf){showPwErr('Passwords do not match.');return;}const t=CU.team;if(creds[t].hash!==h(cur)){showPwErr('Current password incorrect.');return;}if(h(nw)===creds[t].hash){showPwErr('New password must differ from current.');return;}creds[t].hash=h(nw);saveAll();clearPw();const ok=document.getElementById('pwOk');ok.style.display='flex';setTimeout(()=>ok.style.display='none',4000);}
+function adminReset(team){const inp=document.getElementById('rp_'+team),val=inp.value.trim();if(!val||val.length<4){inp.style.borderColor='rgba(240,90,90,.5)';setTimeout(()=>inp.style.borderColor='',2000);return;}creds[team].hash=h(val);saveAll();inp.value='';const st=document.getElementById('rs_'+team);st.style.display='inline';setTimeout(()=>st.style.display='none',3000);}
+function resetAllPw(){for(const k in DC)creds[k].hash=DC[k].hash;saveAll();const n=document.getElementById('rAllOk');n.style.display='flex';setTimeout(()=>n.style.display='none',4000);}
+
+/* ══ INIT ══ */
+loadAll();
+try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
 </script>
 </body>
 </html>
