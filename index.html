@@ -473,19 +473,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-<script>
+<script type="module">
+// 1. Static Module Imports at the top of the block
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 /* ════════════════════════════════════════════════════════════
    FIREBASE SETUP
-   ─────────────────────────────────────────────────────────────
-   HOW TO CONNECT FIREBASE (5 minutes):
-   1. Go to https://firebase.google.com → Get Started
-   2. Create project → name it "zenith-artsfest"
-   3. Click "Firestore Database" → Create → Start in test mode
-   4. Project Settings → Your Apps → click </> (Web) → Register
-   5. Copy your firebaseConfig object and paste it below
-   6. Set FIREBASE_ENABLED = true
-   ─────────────────────────────────────────────────────────────
-   Until then, all data saves to localStorage (browser only).
 ════════════════════════════════════════════════════════════ */
 const FIREBASE_ENABLED = true;
 const firebaseConfig = {
@@ -497,41 +491,51 @@ const firebaseConfig = {
   appId: "1:506898514611:web:0ea13ddd075a020062e6c6",
   measurementId: "G-MER952XSYP"
 };
-/* ─────────────────────────────────────────────────────────────
-   Firebase read/write wrappers (auto-used when enabled)
-════════════════════════════════════════════════════════════ */
+
 let db = null;
+
 async function initFirebase(){
   if(!FIREBASE_ENABLED) return;
-  try{
-    const {initializeApp}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const {getFirestore,doc,setDoc,getDoc,onSnapshot,collection}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const app=initializeApp(firebaseConfig);
-    db=getFirestore(app);
+  try {
+    // Initialize standard instances
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    
     /* Listen for real-time changes */
-    const ref=doc(db,'zenith','data');
-    onSnapshot(ref,snap=>{
+    const ref = doc(db, 'zenith', 'data');
+    onSnapshot(ref, snap => {
       if(snap.exists()){
-        const d=snap.data();
-        if(d.scores)scores=d.scores;
-        if(d.events)EVENTS=d.events;
-        if(d.students)students=d.students;
-        if(d.eventGrades)eventGrades=d.eventGrades;
-        if(d.gradeDefPts)gradeDefPts=d.gradeDefPts;
-        if(CU)rebuildAll();
+        const d = snap.data();
+        if(d.scores) scores = d.scores;
+        if(d.events) EVENTS = d.events;
+        if(d.students) students = d.students;
+        if(d.eventGrades) eventGrades = d.eventGrades;
+        if(d.gradeDefPts) gradeDefPts = d.gradeDefPts;
+        if(CU) rebuildAll();
       }
     });
     console.log('✅ Firebase connected — real-time sync active!');
-  } catch(err){console.error('Firebase error:',err);}
-}
-async function saveToFirebase(){
-  if(!FIREBASE_ENABLED||!db) return;
-  try{
-    const {doc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
-  } catch(err){console.error('Firebase save error:',err);}
+  } catch(err) {
+    console.error('Firebase connection error:', err);
+  }
 }
 
+async function saveToFirebase(){
+  if(!FIREBASE_ENABLED || !db) return;
+  try {
+    await setDoc(doc(db, 'zenith', 'data'), {
+      scores,
+      events: EVENTS,
+      students,
+      eventGrades,
+      gradeDefPts
+    }, { merge: true });
+  } catch(err) {
+    console.error('Firebase save error:', err);
+  }
+}
+
+// ... Rest of your existing variables below (let EVENTS=[...], let students=[...], etc.)
 /* ══ DATA ══ */
 let EVENTS=[
   {id:'e01',name:'Mono Act',          cat:'Stage',    pts:[10,7,5],grade:''},
