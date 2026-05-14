@@ -535,6 +535,50 @@ async function saveToFirebase(){
   }
 }
 
+
+
+
+// Expose functions globally to maintain compatibility with your HTML inline onclick handlers
+window.doLogin = doLogin;
+window.doLogout = doLogout;
+window.switchView = switchView;
+window.toggleEye = toggleEye;
+window.chkStr = chkStr;
+window.doChangePw = doChangePw;
+window.clearPw = clearPw;
+window.adminReset = adminReset;
+window.resetAllPw = resetAllPw;
+window.inlineEditEv = inlineEditEv;
+window.saveInlineEv = saveInlineEv;
+window.confirmDel = confirmDel;
+window.openAddEventModal = openAddEventModal;
+window.submitAddEvent = submitAddEvent;
+window.openAddStuModal = openAddStuModal;
+window.submitAddStu = submitAddStu;
+window.openEditStuModal = openEditStuModal;
+window.submitEditStu = submitEditStu;
+window.renderEvents = renderEvents;
+window.renderStudents = renderStudents;
+window.renderProg = renderProg;
+window.openAddCandModal = openAddCandModal;
+window.submitAddCand = submitAddCand;
+window.openEditCandModal = openEditCandModal;
+window.submitEditCand = submitEditCand;
+window.removeCand = removeCand;
+window.upScore = upScore;
+window.upGrade = upGrade;
+window.saveScores = saveScores;
+window.saveGradeDef = saveGradeDef;
+window.resetGradeDef = resetGradeDef;
+window.closeM = closeM;
+window.closeC = closeC;
+
+
+  
+
+
+  
+
 // ... Rest of your existing variables below (let EVENTS=[...], let students=[...], etc.)
 /* ══ DATA ══ */
 let EVENTS=[
