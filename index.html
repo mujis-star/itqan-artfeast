@@ -510,12 +510,13 @@ async function initFirebase(){
     onSnapshot(doc(db,'zenith','data'),snap=>{
       if(!snap.exists())return;
       const d=snap.data();
+      /* ⚠️ NEVER overwrite creds from Firebase — passwords are local-only */
       if(d.scores)scores=d.scores;
       if(d.events&&d.events.length)EVENTS=d.events;
       if(d.students&&d.students.length)students=d.students;
       if(d.eventGrades)eventGrades=d.eventGrades;
       if(d.gradeDefPts)gradeDefPts=d.gradeDefPts;
-      if(d.creds)creds=d.creds;
+      /* only rebuild UI if user is already logged in */
       if(CU)rebuildAll();
     });
     console.log('✅ Firebase connected — real-time sync active!');
@@ -523,8 +524,10 @@ async function initFirebase(){
 }
 async function saveToFirebase(){
   if(!db)return;
-  try{await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts,creds},{merge:true});}
-  catch(err){console.error('Firebase save error:',err);}
+  try{
+    /* ⚠️ Never save creds to Firebase — keep passwords local only */
+    await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
+  }catch(err){console.error('Firebase save error:',err);}
 }
 
 /* ── DATA ── */
@@ -590,12 +593,12 @@ let CU=null,scores={},creds=null,eventGrades={},gradeDefPts={...DEFAULT_GRADE_PT
 
 function saveAll(){
   localStorage.setItem('z_scores',JSON.stringify(scores));
-  localStorage.setItem('z_creds',JSON.stringify(creds));
+  localStorage.setItem('z_creds',JSON.stringify(creds));   /* passwords: localStorage ONLY */
   localStorage.setItem('z_events',JSON.stringify(EVENTS));
   localStorage.setItem('z_students',JSON.stringify(students));
   localStorage.setItem('z_egrades',JSON.stringify(eventGrades));
   localStorage.setItem('z_gradedef',JSON.stringify(gradeDefPts));
-  saveToFirebase();
+  saveToFirebase(); /* creds excluded inside saveToFirebase */
 }
 function loadAll(){
   try{scores=JSON.parse(localStorage.getItem('z_scores')||'null')||defScores();}catch(e){scores=defScores();}
@@ -622,10 +625,30 @@ function setEG(eid,team,grade){if(!eventGrades[eid])eventGrades[eid]={};eventGra
 
 /* ── AUTH ── */
 function doLogin(){
-  const user=document.getElementById('lgU').value.trim(),pass=document.getElementById('lgP').value,hv=h(pass);
-  let found=null;for(const k in creds){if(creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}}
-  if(found){CU={team:found.team,username:user};sessionStorage.setItem('z_u',JSON.stringify(CU));openApp();}
-  else{const eb=document.getElementById('errbox');eb.style.display='flex';setTimeout(()=>eb.style.display='none',3200);}
+  const user=document.getElementById('lgU').value.trim();
+  const pass=document.getElementById('lgP').value;
+  const hv=h(pass);
+  /* use stored creds, but always fall back to defaults if missing */
+  const activeCreds=(creds&&Object.keys(creds).length>0)?creds:DC;
+  let found=null;
+  for(const k in activeCreds){
+    if(activeCreds[k].username===user&&activeCreds[k].hash===hv){found=activeCreds[k];break;}
+  }
+  /* also always check DC defaults as fallback */
+  if(!found){
+    for(const k in DC){
+      if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
+    }
+  }
+  if(found){
+    CU={team:found.team,username:user};
+    sessionStorage.setItem('z_u',JSON.stringify(CU));
+    openApp();
+  } else {
+    const eb=document.getElementById('errbox');
+    eb.style.display='flex';
+    setTimeout(()=>eb.style.display='none',3200);
+  }
 }
 document.getElementById('lgP').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('lgU').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
