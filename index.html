@@ -21,7 +21,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .page{display:none!important;}.page.active{display:block!important;}
 #pgLogin.active{display:flex!important;}#pgApp.active{display:flex!important;}
 
-/* LOGIN */
+/* ── LOGIN ── */
 #pgLogin{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
 .b1{width:440px;height:440px;background:rgba(255,200,80,.06);top:-130px;left:-150px;animation:bm 13s ease-in-out infinite alternate;}
@@ -53,7 +53,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .hints{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:1.5rem;}
 .hchip{font-size:.7rem;padding:.28rem .7rem;border-radius:20px;border:1px solid var(--border);color:var(--muted);}
 
-/* APP SHELL */
+/* ── APP SHELL ── */
 #pgApp{min-height:100vh;flex-direction:row;}
 .sb{width:242px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;overflow-y:auto;z-index:20;}
 .sbhd{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border);}
@@ -82,7 +82,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .view{display:none;padding:2rem;animation:fadeUp .32s ease;}
 .view.active{display:block;}
 
-/* COMPONENTS */
+/* ── COMPONENTS ── */
 .hero{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.8rem 2rem 1.5rem;margin-bottom:1.6rem;position:relative;overflow:hidden;}
 .hero::after{content:'';position:absolute;top:0;right:0;width:240px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,200,80,.03));pointer-events:none;}
 .heroey{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem;}
@@ -98,16 +98,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;margin-bottom:1.4rem;}
 .cardt{font-size:.73rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;}
 .cardt .lft{display:flex;align-items:center;gap:6px;}
-
-/* TABLE */
 .dt{width:100%;border-collapse:collapse;font-size:.88rem;}
 .dt th{text-align:left;padding:.5rem .7rem;font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);border-bottom:1px solid var(--border);}
 .dt td{padding:.68rem .7rem;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
 .dt tr:last-child td{border-bottom:none;}
 .dt tr:hover td{background:rgba(255,255,255,.015);}
 .dt tr.editing td{background:rgba(255,200,80,.04);}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:.36rem .9rem;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .15s;border:none;white-space:nowrap;}
 .bsm{padding:.27rem .6rem;font-size:.74rem;}
 .bg{background:linear-gradient(135deg,var(--gold),#e0a010);color:#0a0a0f;font-weight:600;}
@@ -120,14 +116,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .bx:hover{color:var(--text);}
 .bp{background:rgba(67,217,140,.1);border:1px solid rgba(67,217,140,.2);color:var(--ok);}
 .bp:hover{background:rgba(67,217,140,.2);}
-
-/* INLINE EDIT */
 .ie{padding:.28rem .5rem;background:var(--bg3);border:1px solid rgba(255,200,80,.4);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;width:100%;}
 .ie:focus{box-shadow:0 0 0 2px rgba(255,200,80,.12);}
 .iesm{width:70px;}
 .iesel{padding:.28rem .4rem;background:var(--bg3);border:1px solid rgba(255,200,80,.4);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;}
-
-/* RANK / CHIP */
 .rk{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-family:'Bebas Neue',sans-serif;font-size:.85rem;}
 .rk1{background:rgba(255,200,80,.18);color:var(--gold);border:1px solid rgba(255,200,80,.35);}
 .rk2{background:rgba(192,192,192,.1);color:#c0c0c0;border:1px solid rgba(192,192,192,.2);}
@@ -139,35 +131,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ch3{background:rgba(205,127,50,.1);color:#cd7f32;border:1px solid rgba(205,127,50,.2);}
 .chp{background:rgba(120,120,140,.12);color:var(--muted);border:1px solid rgba(120,120,140,.18);}
 .pts{font-weight:600;color:var(--gold2);}
-
-/* LB BARS */
 .lbrow{margin-bottom:1.1rem;}
 .lbmeta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.32rem;}
 .lbname{font-size:.9rem;font-weight:500;}
 .lbpts{font-size:.78rem;color:var(--muted);}
 .lbtrack{height:5px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
 .lbbar{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
-
-/* EV GLANCE */
 .evitem{display:flex;align-items:center;gap:10px;padding:.62rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
 .evitem:last-child{border-bottom:none;}
 .evdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .evname{flex:1;font-size:.88rem;font-style:italic;}
 .evcat{font-size:.7rem;color:var(--muted);}
-
-/* FILTER BAR */
 .fbar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem;}
 .finp{padding:.46rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;min-width:180px;}
 .finp:focus{border-color:rgba(255,200,80,.4);}
 .finp::placeholder{color:var(--muted2);}
 .fsel{padding:.46rem .7rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;}
-
-/* NOTICE */
 .notice{padding:.62rem 1rem;border-radius:8px;font-size:.84rem;display:none;align-items:center;gap:8px;margin-top:.8rem;}
 .nok{background:rgba(67,217,140,.1);border:1px solid rgba(67,217,140,.2);color:var(--ok);}
 .nerr{background:rgba(240,90,90,.1);border:1px solid rgba(240,90,90,.25);color:#f08080;}
-
-/* ADMIN CARDS */
 .agrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:1.2rem;margin-bottom:1.6rem;}
 .atc{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
 .ath{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
@@ -178,8 +160,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ater:last-child{border-bottom:none;}
 .scsel{padding:.3rem .45rem;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;flex-shrink:0;}
 .scsel:focus{border-color:rgba(255,200,80,.4);}
-
-/* PASSWORD */
 .cpfld{margin-bottom:1rem;}
 .cpfld label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;}
 .strbar{height:4px;background:rgba(255,255,255,.05);border-radius:2px;margin-top:6px;overflow:hidden;}
@@ -192,8 +172,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ri{width:170px;padding:.42rem .65rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;}
 .ri:focus{border-color:rgba(255,200,80,.4);}
 .rstatus{font-size:.77rem;color:var(--ok);display:none;margin-left:5px;}
-
-/* STUDENTS */
 .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;}
 .scard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.1rem;position:relative;transition:border-color .2s;}
 .scard:hover{border-color:rgba(255,200,80,.15);}
@@ -204,13 +182,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .stags{display:flex;flex-wrap:wrap;gap:3px;}
 .stag{font-size:.64rem;padding:.14rem .48rem;border-radius:20px;}
 .snote{font-size:.73rem;color:var(--gold);font-style:italic;margin-top:.38rem;}
-
-/* EVENT CHECKBOXES */
 .evchk{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;max-height:180px;overflow-y:auto;padding:.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-top:.3rem;}
 .evchk label{font-size:.77rem;color:var(--muted);display:flex;align-items:center;gap:5px;cursor:pointer;}
 .evchk input[type=checkbox]{accent-color:var(--gold);cursor:pointer;}
-
-/* MODAL */
 .mov{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s;}
 .mov.open{opacity:1;pointer-events:all;}
 .mbox{background:var(--bg2);border:1px solid var(--borderg);border-radius:18px;width:min(560px,95vw);max-height:88vh;overflow-y:auto;padding:2rem;animation:fadeUp .28s ease;box-shadow:0 40px 80px rgba(0,0,0,.7);}
@@ -227,16 +201,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .mfld input:focus,.mfld select:focus,.mfld textarea:focus{border-color:rgba(255,200,80,.4);box-shadow:0 0 0 3px rgba(255,200,80,.06);}
 .mfld input::placeholder,.mfld textarea::placeholder{color:var(--muted2);}
 .mfld textarea{min-height:70px;resize:vertical;}
-
-/* CONFIRM */
 .cov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:110;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
 .cov.open{opacity:1;pointer-events:all;}
 .cbox{background:var(--bg2);border:1px solid rgba(240,90,90,.3);border-radius:16px;width:min(380px,93vw);padding:1.8rem;text-align:center;animation:fadeUp .24s ease;}
 .ctitle{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.6rem;}
 .cmsg{font-size:.9rem;color:var(--muted);margin-bottom:1.4rem;}
 .cbtns{display:flex;gap:.7rem;justify-content:center;}
-
-/* GRADE BADGE */
 .gbadge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:1rem;font-weight:700;}
 .gA{background:rgba(67,217,140,.15);color:#43d98c;border:1px solid rgba(67,217,140,.3);}
 .gB{background:rgba(78,205,196,.15);color:var(--oc);border:1px solid rgba(78,205,196,.3);}
@@ -244,21 +214,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .gD{background:rgba(247,127,90,.12);color:var(--hc);border:1px solid rgba(247,127,90,.25);}
 .gF{background:rgba(240,90,90,.12);color:var(--err);border:1px solid rgba(240,90,90,.25);}
 .gna{background:rgba(255,255,255,.04);color:var(--muted2);border:1px solid var(--border);}
-/* SCORE MANAGER PARTICIPANTS */
 .sm-parts{margin-top:.5rem;padding:.5rem .6rem;background:rgba(255,255,255,.03);border-radius:7px;border:1px solid rgba(255,255,255,.05);}
 .sm-parts-title{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:.35rem;}
 .sm-part-chip{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;padding:.18rem .5rem;border-radius:14px;margin:.15rem;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);}
-/* STUDENT POINTS BADGE */
 .spts{display:inline-block;padding:.18rem .55rem;border-radius:14px;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.05em;margin-top:.4rem;background:rgba(255,200,80,.1);color:var(--gold);border:1px solid rgba(255,200,80,.2);}
-
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-@media(max-width:700px){.sb{width:196px;}.main{margin-left:196px;}.view{padding:1.2rem;}}
-@media(max-width:500px){.sb{display:none;}.main{margin-left:0;}}
 
-  /* ══ HAMBURGER ══ */
-.hamburger{display:none;position:fixed;top:.7rem;left:.9rem;z-index:50;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.48rem .58rem;cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center;}
+/* ══ HAMBURGER ══ */
+.hamburger{display:none;position:fixed;top:.75rem;left:.9rem;z-index:25;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.48rem .58rem;cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center;}
 .hamburger span{display:block;width:18px;height:2px;background:var(--muted);border-radius:2px;transition:all .25s;}
 .hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
 .hamburger.open span:nth-child(2){opacity:0;}
@@ -345,13 +310,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 </style>
 </head>
 <body>
-
 <!-- HAMBURGER (mobile only) -->
-<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+<button class="hamburger" id="hamburger" aria-label="Menu">
   <span></span><span></span><span></span>
 </button>
-<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
-  
+<div class="sb-overlay" id="sbOverlay"></div>
+
 <!-- LOGIN -->
 <div id="pgLogin" class="page active">
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -374,15 +338,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <!-- APP -->
 <div id="pgApp" class="page">
   <nav class="sb">
-    <div class="sbhd">
-      <div class="sblogo">ZENITH</div>
-      <div class="sbsub">Arts Fest 2K26</div>
-      <div id="sbPill" class="pill pa">👑 Admin</div>
-    </div>
+    <div class="sbhd"><div class="sblogo">ZENITH</div><div class="sbsub">Arts Fest 2K26</div><div id="sbPill" class="pill pa">👑 Admin</div></div>
     <div class="sbnav" id="sbNav"></div>
     <div class="sbft"><button class="logoutbtn" onclick="doLogout()"><i class="fas fa-sign-out-alt" style="margin-right:6px"></i>Sign Out</button></div>
   </nav>
-
   <div class="main">
     <div class="topbar">
       <div class="tbtitle" id="tbTitle">Dashboard</div>
@@ -404,10 +363,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Schedule</div><div class="herot">All Events</div><div class="heros">Full list of ZENITH 2K26 competitions</div></div>
       <div class="card">
         <div class="cardt"><div class="lft"><i class="fas fa-calendar-days"></i>Event Directory</div><div id="evBtns"></div></div>
-        <div class="fbar">
-          <input class="finp" placeholder="🔍  Search events…" id="evSearch" oninput="renderEvents()">
-          <select class="fsel" id="evCatF" onchange="renderEvents()"><option value="">All Categories</option></select>
-        </div>
+        <div class="fbar"><input class="finp" placeholder="🔍  Search events…" id="evSearch" oninput="renderEvents()"><select class="fsel" id="evCatF" onchange="renderEvents()"><option value="">All Categories</option></select></div>
         <table class="dt"><thead><tr><th>#</th><th>Event Name</th><th>Category</th><th>1st Pts</th><th>2nd Pts</th><th>3rd Pts</th><th>Grade</th><th id="evActH">Actions</th></tr></thead><tbody id="evTbody"></tbody></table>
       </div>
     </div>
@@ -415,9 +371,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <!-- LEADERBOARD -->
     <div class="view" id="vLB">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
-      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div>
-        <table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table>
-      </div>
+      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
       <div class="twocol">
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></table></div>
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-chart-bar"></i>Points</div></div><div id="ptsBars"></div></div>
@@ -441,29 +395,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <!-- PROGRAMMES -->
     <div class="view" id="vProg">
-      <div class="hero" style="margin-bottom:1.4rem">
-        <div class="heroey">Event Management</div>
-        <div class="herot">Programmes</div>
-        <div class="heros">Add candidates to each programme — assign position &amp; grade per entry</div>
-      </div>
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Event Management</div><div class="herot">Programmes</div><div class="heros">Add candidates to each programme — assign position &amp; grade per entry</div></div>
       <div class="fbar" style="margin-bottom:1.2rem">
-        <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width:220px;padding:.55rem .9rem;font-size:.9rem">
-          <option value="">— Select a Programme —</option>
-        </select>
-        <select class="fsel" id="progTeamF" onchange="renderProg()">
-          <option value="">All Teams</option>
-          <option value="othello">🎭 Othello</option>
-          <option value="macbeth">⚔️ Macbeth</option>
-          <option value="hamlet">💀 Hamlet</option>
-        </select>
+        <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width:220px;padding:.55rem .9rem;font-size:.9rem"><option value="">— Select a Programme —</option></select>
+        <select class="fsel" id="progTeamF" onchange="renderProg()"><option value="">All Teams</option><option value="othello">🎭 Othello</option><option value="macbeth">⚔️ Macbeth</option><option value="hamlet">💀 Hamlet</option></select>
         <button class="btn bg bsm" id="progAddBtn" onclick="openAddCandModal()" style="display:none"><i class="fas fa-user-plus"></i>Add Candidate</button>
       </div>
-      <div id="progContent">
-        <div style="padding:3rem;text-align:center;color:var(--muted)">
-          <i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>
-          Select a programme above to manage its candidates
-        </div>
-      </div>
+      <div id="progContent"><div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div></div>
     </div>
 
     <!-- SCORE MANAGER -->
@@ -478,15 +416,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <!-- GRADE DEFINITIONS -->
     <div class="view" id="vGradeDef">
-      <div class="hero" style="margin-bottom:1.4rem">
-        <div class="heroey">Admin · Scoring Rules</div>
-        <div class="herot">Grade Definitions</div>
-        <div class="heros">Define how many points each grade is worth — used across all events</div>
-      </div>
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Scoring Rules</div><div class="herot">Grade Definitions</div><div class="heros">Define how many points each grade is worth — used across all events</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:800px">
         <div class="card" style="margin-bottom:0">
           <div class="cardt"><div class="lft"><i class="fas fa-star-half-stroke"></i>Grade → Points Table</div></div>
-          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem">Set the point value for each grade. These points are shown next to the grade selector in Score Manager.</p>
+          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem">Set the point value for each grade. These appear next to the grade selector in Score Manager.</p>
           <div id="gradeDefTable"></div>
           <div style="display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap">
             <button class="btn bg" onclick="saveGradeDef()"><i class="fas fa-save"></i>Save Definitions</button>
@@ -496,7 +430,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         </div>
         <div class="card" style="margin-bottom:0">
           <div class="cardt"><div class="lft"><i class="fas fa-circle-info"></i>Preview</div></div>
-          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">How grades will appear in Score Manager and student profiles.</p>
+          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">How grades appear in Score Manager and student profiles.</p>
           <div id="gradePreview"></div>
         </div>
       </div>
@@ -526,8 +460,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Security</div><div class="herot">Reset Passwords</div><div class="heros">Change any team account password instantly</div></div>
       <div class="card" style="margin-bottom:1.4rem">
         <div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div>
-        <table class="rtbl">
-          <thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead>
+        <table class="rtbl"><thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead>
           <tbody>
             <tr><td><span style="color:var(--oc);font-weight:500">🎭 Othello</span></td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
             <tr><td><span style="color:var(--mc);font-weight:500">⚔️ Macbeth</span></td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
@@ -543,9 +476,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div class="notice nok" id="rAllOk"><i class="fas fa-circle-check"></i> All passwords restored!</div>
       </div>
     </div>
-
-  </div><!-- /main -->
-</div><!-- /app -->
+  </div>
+</div>
 
 <!-- MODAL -->
 <div class="mov" id="mOv" onclick="if(event.target===this)closeM()">
@@ -555,7 +487,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="mft" id="mFt"></div>
   </div>
 </div>
-
 <!-- CONFIRM -->
 <div class="cov" id="cOv">
   <div class="cbox">
@@ -566,121 +497,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 </div>
 
 <script type="module">
-// 1. Static Module Imports at the top of the block
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getFirestore,doc,setDoc,onSnapshot}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-/* ════════════════════════════════════════════════════════════
-   FIREBASE SETUP
-════════════════════════════════════════════════════════════ */
-const FIREBASE_ENABLED = true;
-const firebaseConfig = {
-  apiKey: "AIzaSyAgOLv2xG21CY7ghd3KOhQcfRrWZ34aPGU",
-  authDomain: "zenith-artsfest.firebaseapp.com",
-  projectId: "zenith-artsfest",
-  storageBucket: "zenith-artsfest.firebasestorage.app",
-  messagingSenderId: "506898514611",
-  appId: "1:506898514611:web:0ea13ddd075a020062e6c6",
-  measurementId: "G-MER952XSYP"
-};
-
-let db = null;
-
+/* ── FIREBASE ── */
+const FB_CFG={apiKey:"AIzaSyAgOLv2xG21CY7ghd3KOhQcfRrWZ34aPGU",authDomain:"zenith-artsfest.firebaseapp.com",projectId:"zenith-artsfest",storageBucket:"zenith-artsfest.firebasestorage.app",messagingSenderId:"506898514611",appId:"1:506898514611:web:0ea13ddd075a020062e6c6"};
+let db=null;
 async function initFirebase(){
-  if(!FIREBASE_ENABLED) return;
-  try {
-    // Initialize standard instances
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    
-    /* Listen for real-time changes */
-    const ref = doc(db, 'zenith', 'data');
-    onSnapshot(ref, snap => {
-      if(snap.exists()){
-        const d = snap.data();
-        if(d.scores) scores = d.scores;
-        if(d.events) EVENTS = d.events;
-        if(d.students) students = d.students;
-        if(d.eventGrades) eventGrades = d.eventGrades;
-        if(d.gradeDefPts) gradeDefPts = d.gradeDefPts;
-        if(CU) rebuildAll();
-      }
+  try{
+    const app=initializeApp(FB_CFG);
+    db=getFirestore(app);
+    onSnapshot(doc(db,'zenith','data'),snap=>{
+      if(!snap.exists())return;
+      const d=snap.data();
+      if(d.scores)scores=d.scores;
+      if(d.events&&d.events.length)EVENTS=d.events;
+      if(d.students&&d.students.length)students=d.students;
+      if(d.eventGrades)eventGrades=d.eventGrades;
+      if(d.gradeDefPts)gradeDefPts=d.gradeDefPts;
+      if(d.creds)creds=d.creds;
+      if(CU)rebuildAll();
     });
     console.log('✅ Firebase connected — real-time sync active!');
-  } catch(err) {
-    console.error('Firebase connection error:', err);
-  }
+  }catch(err){console.error('Firebase error:',err);}
 }
-
 async function saveToFirebase(){
-  if(!FIREBASE_ENABLED || !db || !CU) return;
-  
-  // If the current user is NOT admin, stop right here
-  if (CU.username !== 'admin') {
-      console.warn("Students cannot save to the cloud.");
-      return;
-  }
-
-  try {
-    await setDoc(doc(db, 'zenith', 'data'), {
-      updatedBy: CU.username, // This tells Firebase: "I am the admin"
-      scores,
-      events: EVENTS,
-      students,
-      eventGrades,
-      gradeDefPts
-    }, { merge: true });
-    console.log("Admin changes saved successfully.");
-  } catch(err) {
-    console.error("Security Error: Firebase blocked this save.");
-  }
+  if(!db)return;
+  try{await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts,creds},{merge:true});}
+  catch(err){console.error('Firebase save error:',err);}
 }
 
-
-
-// Expose functions globally to maintain compatibility with your HTML inline onclick handlers
-window.doLogin = doLogin;
-window.doLogout = doLogout;
-window.switchView = switchView;
-window.toggleEye = toggleEye;
-window.chkStr = chkStr;
-window.doChangePw = doChangePw;
-window.clearPw = clearPw;
-window.adminReset = adminReset;
-window.resetAllPw = resetAllPw;
-window.inlineEditEv = inlineEditEv;
-window.saveInlineEv = saveInlineEv;
-window.confirmDel = confirmDel;
-window.openAddEventModal = openAddEventModal;
-window.submitAddEvent = submitAddEvent;
-window.openAddStuModal = openAddStuModal;
-window.submitAddStu = submitAddStu;
-window.openEditStuModal = openEditStuModal;
-window.submitEditStu = submitEditStu;
-window.renderEvents = renderEvents;
-window.renderStudents = renderStudents;
-window.renderProg = renderProg;
-window.openAddCandModal = openAddCandModal;
-window.submitAddCand = submitAddCand;
-window.openEditCandModal = openEditCandModal;
-window.submitEditCand = submitEditCand;
-window.removeCand = removeCand;
-window.upScore = upScore;
-window.upGrade = upGrade;
-window.saveScores = saveScores;
-window.saveGradeDef = saveGradeDef;
-window.resetGradeDef = resetGradeDef;
-window.closeM = closeM;
-window.closeC = closeC;
-
-
-  
-
-
-  
-
-// ... Rest of your existing variables below (let EVENTS=[...], let students=[...], etc.)
-/* ══ DATA ══ */
+/* ── DATA ── */
 let EVENTS=[
   {id:'e01',name:'Mono Act',          cat:'Stage',    pts:[10,7,5],grade:''},
   {id:'e02',name:'Group Skit',        cat:'Stage',    pts:[10,7,5],grade:''},
@@ -732,20 +579,15 @@ const TEAMS=['othello','macbeth','hamlet'];
 const TM={othello:{label:'Team Othello',emoji:'🎭',color:'var(--oc)',pill:'po'},macbeth:{label:'Team Macbeth',emoji:'⚔️',color:'var(--mc)',pill:'pm'},hamlet:{label:'Team Hamlet',emoji:'💀',color:'var(--hc)',pill:'ph'},admin:{label:'Admin',emoji:'👑',color:'var(--ac)',pill:'pa'}};
 const AVMJ=['🎨','🎭','🎶','📸','✏️','🎤','💃','🥁','🎬','📖','🖌️','🎺'];
 const CATCOL={Stage:'var(--mc)',Dance:'var(--oc)',Music:'var(--gold)',Visual:'var(--hc)',Literary:'var(--ok)',Media:'#6aaef5',General:'var(--muted)'};
-
+const GRADE_OPTS=['A+','A','A-','B+','B','B-','C+','C','C-','D','F'];
+const DEFAULT_GRADE_PTS={'A+':10,'A':9,'A-':8,'B+':7,'B':6,'B-':5,'C+':4,'C':3,'C-':2,'D':1,'F':0};
 function h(s){let x=0;for(let i=0;i<s.length;i++){x=((x<<5)-x)+s.charCodeAt(i);x=x&x;}return Math.abs(x).toString(16);}
 const DC={admin:{username:'admin',hash:h('Admin@Zenith26'),team:'admin'},othello:{username:'othello_team',hash:h('Zenith@Othello'),team:'othello'},macbeth:{username:'macbeth_team',hash:h('Zenith@Macbeth'),team:'macbeth'},hamlet:{username:'hamlet_team',hash:h('Zenith@Hamlet'),team:'hamlet'}};
+function defScores(){const s={};EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});const pre={e01:[1,2,3],e02:[3,1,2],e03:[2,3,1],e04:[1,0,2],e05:[2,1,3],e06:[3,1,2],e07:[1,2,3],e08:[2,3,1],e09:[1,3,2],e10:[2,1,3],e11:[3,2,1],e12:[0,1,2],e13:[2,1,3],e14:[1,3,2],e15:[3,2,1],e16:[1,2,3],e17:[2,0,1],e18:[1,2,3],e19:[3,1,2],e20:[2,3,1]};Object.entries(pre).forEach(([id,[o,m,h2]])=>{if(s[id])s[id]={othello:o,macbeth:m,hamlet:h2};});return s;}
 
-function defScores(){
-  const s={};EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});
-  const pre={e01:[1,2,3],e02:[3,1,2],e03:[2,3,1],e04:[1,0,2],e05:[2,1,3],e06:[3,1,2],e07:[1,2,3],e08:[2,3,1],e09:[1,3,2],e10:[2,1,3],e11:[3,2,1],e12:[0,1,2],e13:[2,1,3],e14:[1,3,2],e15:[3,2,1],e16:[1,2,3],e17:[2,0,1],e18:[1,2,3],e19:[3,1,2],e20:[2,3,1]};
-  Object.entries(pre).forEach(([id,[o,m,h2]])=>{if(s[id])s[id]={othello:o,macbeth:m,hamlet:h2};});
-  return s;
-}
+/* ── STATE ── */
+let CU=null,scores={},creds=null,eventGrades={},gradeDefPts={...DEFAULT_GRADE_PTS};
 
-/* ══ STATE ══ */
-let CU=null,scores={},creds=null,eventGrades={};
-/* eventGrades[eid][team][pos] = grade string e.g. 'A+' */
 function saveAll(){
   localStorage.setItem('z_scores',JSON.stringify(scores));
   localStorage.setItem('z_creds',JSON.stringify(creds));
@@ -753,7 +595,7 @@ function saveAll(){
   localStorage.setItem('z_students',JSON.stringify(students));
   localStorage.setItem('z_egrades',JSON.stringify(eventGrades));
   localStorage.setItem('z_gradedef',JSON.stringify(gradeDefPts));
-  saveToFirebase(); /* no-op if FIREBASE_ENABLED=false */
+  saveToFirebase();
 }
 function loadAll(){
   try{scores=JSON.parse(localStorage.getItem('z_scores')||'null')||defScores();}catch(e){scores=defScores();}
@@ -766,17 +608,19 @@ function loadAll(){
   try{const gd=JSON.parse(localStorage.getItem('z_gradedef')||'null');if(gd)gradeDefPts=gd;}catch(e){}
 }
 
-/* ══ COMPUTED ══ */
+/* ── COMPUTED ── */
 function tStats(t){let w=0,s2=0,s3=0,tot=0;EVENTS.forEach(e=>{const p=(scores[e.id]||{})[t]||0;if(p===1){w++;tot+=e.pts[0];}else if(p===2){s2++;tot+=e.pts[1];}else if(p===3){s3++;tot+=e.pts[2];}});return{won:w,sec:s2,trd:s3,total:tot};}
 function ranked(){return TEAMS.map(t=>({team:t,...tStats(t)})).sort((a,b)=>b.total-a.total||b.won-a.won);}
 function maxPts(){return Math.max(...TEAMS.map(t=>tStats(t).total),1);}
-function isAdmin() {
-  return CU && CU.team === 'admin' && CU.username === 'admin';
-}
+function isAdmin(){return CU&&CU.team==='admin';}
 function uniqCats(){return[...new Set(EVENTS.map(e=>e.cat))];}
 function chipFor(p){return p===1?`<span class="chip ch1">1st</span>`:p===2?`<span class="chip ch2">2nd</span>`:p===3?`<span class="chip ch3">3rd</span>`:`<span class="chip chp">Pending</span>`;}
+function gradeClass(g){return g&&g.startsWith('A')?'gA':g&&g.startsWith('B')?'gB':g&&g.startsWith('C')?'gC':g==='D'?'gD':g==='F'?'gF':'gna';}
+function gradeBadge(g){return g?`<span class="gbadge ${gradeClass(g)}">${g}</span>`:`<span class="gbadge gna">—</span>`;}
+function getEG(eid,team){return(eventGrades[eid]&&eventGrades[eid][team])||'';}
+function setEG(eid,team,grade){if(!eventGrades[eid])eventGrades[eid]={};eventGrades[eid][team]=grade;}
 
-/* ══ AUTH ══ */
+/* ── AUTH ── */
 function doLogin(){
   const user=document.getElementById('lgU').value.trim(),pass=document.getElementById('lgP').value,hv=h(pass);
   let found=null;for(const k in creds){if(creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}}
@@ -788,7 +632,7 @@ document.getElementById('lgU').addEventListener('keydown',e=>{if(e.key==='Enter'
 function doLogout(){sessionStorage.removeItem('z_u');document.getElementById('pgApp').classList.remove('active');document.getElementById('pgLogin').classList.add('active');document.getElementById('lgU').value='';document.getElementById('lgP').value='';}
 function openApp(){document.getElementById('pgLogin').classList.remove('active');document.getElementById('pgApp').classList.add('active');buildApp();switchView('vDash','Dashboard');}
 
-/* ══ BUILD APP ══ */
+/* ── BUILD APP ── */
 function buildApp(){
   const{team}=CU,m=TM[team];
   document.getElementById('sbPill').textContent=m.emoji+' '+m.label;
@@ -799,15 +643,12 @@ function buildApp(){
   document.getElementById('hS').textContent=isAdmin()?'Manage scores, events, students & more.':'Track your team\'s performance across all events.';
   buildSidebar(team);rebuildAll();
 }
-
 function buildSidebar(team){
   const nav=document.getElementById('sbNav');
   const main=[{id:'vDash',ic:'fa-gauge',lb:'Dashboard'},{id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},{id:'vEvents',ic:'fa-calendar-days',lb:'Events'},{id:'vStudents',ic:'fa-users',lb:'Students'},{id:'vProg',ic:'fa-clipboard-list',lb:'Programmes'}];
   const adm=isAdmin()?[{id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},{id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},{id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}]:[];
   const acc=[{id:'vPw',ic:'fa-key',lb:'Change Password'}];
-  nav.innerHTML=`<div class="nsec">Navigation</div>`+main.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')
-    +(adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>`+adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join(''):'')
-    +`<div class="nsec" style="margin-top:.5rem">Account</div>`+acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('');
+  nav.innerHTML=`<div class="nsec">Navigation</div>`+main.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')+(adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>`+adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join(''):'')+`<div class="nsec" style="margin-top:.5rem">Account</div>`+acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('');
 }
 function switchView(id,title){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -817,47 +658,28 @@ function switchView(id,title){
   document.getElementById('tbTitle').textContent=title;
 }
 
-/* ══ DASHBOARD ══ */
+/* ── DASHBOARD ── */
 function buildStats(){
   const row=document.getElementById('statsRow');
-  if(isAdmin()){const r=ranked();const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0)).length;
-    row.innerHTML=`<div class="sc"><div class="sclbl">Total Events</div><div class="scval">${EVENTS.length}</div><div class="scnote">scheduled</div></div><div class="sc"><div class="sclbl">Results In</div><div class="scval">${done}</div><div class="scnote">of ${EVENTS.length}</div></div><div class="sc"><div class="sclbl">Students</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0].team].color}">${TM[r[0].team].emoji}</div><div class="scnote">${TM[r[0].team].label} · ${r[0].total}pts</div></div>`;
-  } else {
-    const s=tStats(CU.team),r=ranked(),rank=r.findIndex(x=>x.team===CU.team)+1,myStu=students.filter(x=>x.team===CU.team).length;
-    row.innerHTML=`<div class="sc"><div class="sclbl">Total Points</div><div class="scval">${s.total}</div><div class="scnote">accumulated</div></div><div class="sc"><div class="sclbl">1st Places</div><div class="scval" style="color:var(--gold)">${s.won}</div><div class="scnote">gold</div></div><div class="sc"><div class="sclbl">2nd Places</div><div class="scval" style="color:#c0c0c0">${s.sec}</div><div class="scnote">silver</div></div><div class="sc"><div class="sclbl">Current Rank</div><div class="scval">#${rank}</div><div class="scnote">of 3 teams</div></div><div class="sc"><div class="sclbl">Team Members</div><div class="scval">${myStu}</div><div class="scnote">students</div></div>`;
-  }
+  if(isAdmin()){const r=ranked();const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0)).length;row.innerHTML=`<div class="sc"><div class="sclbl">Total Events</div><div class="scval">${EVENTS.length}</div><div class="scnote">scheduled</div></div><div class="sc"><div class="sclbl">Results In</div><div class="scval">${done}</div><div class="scnote">of ${EVENTS.length}</div></div><div class="sc"><div class="sclbl">Students</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0].team].color}">${TM[r[0].team].emoji}</div><div class="scnote">${TM[r[0].team].label} · ${r[0].total}pts</div></div>`;}
+  else{const s=tStats(CU.team),r=ranked(),rank=r.findIndex(x=>x.team===CU.team)+1,myStu=students.filter(x=>x.team===CU.team).length;row.innerHTML=`<div class="sc"><div class="sclbl">Total Points</div><div class="scval">${s.total}</div><div class="scnote">accumulated</div></div><div class="sc"><div class="sclbl">1st Places</div><div class="scval" style="color:var(--gold)">${s.won}</div><div class="scnote">gold</div></div><div class="sc"><div class="sclbl">2nd Places</div><div class="scval" style="color:#c0c0c0">${s.sec}</div><div class="scnote">silver</div></div><div class="sc"><div class="sclbl">Current Rank</div><div class="scval">#${rank}</div><div class="scnote">of 3 teams</div></div><div class="sc"><div class="sclbl">Team Members</div><div class="scval">${myStu}</div><div class="scnote">students</div></div>`;}
 }
-function buildLBBars(){
-  const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];
-  el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');
-}
-function buildEvGlance(){
-  const el=document.getElementById('evGlance');
-  const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
-  const pend=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));
-  el.innerHTML=[...done.slice(0,5),...pend.slice(0,4)].map(e=>{const d=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);return`<div class="evitem"><div class="evdot" style="background:${d?CATCOL[e.cat]||'var(--muted2)':'var(--muted2)'}"></div><span class="evname">${e.name}</span><span class="evcat">${d?'✓ Done':'Pending'}</span></div>`;}).join('');
-}
+function buildLBBars(){const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');}
+function buildEvGlance(){const el=document.getElementById('evGlance');const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));const pend=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));el.innerHTML=[...done.slice(0,5),...pend.slice(0,4)].map(e=>{const d=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);return`<div class="evitem"><div class="evdot" style="background:${d?CATCOL[e.cat]||'var(--muted2)':'var(--muted2)'}"></div><span class="evname">${e.name}</span><span class="evcat">${d?'✓ Done':'Pending'}</span></div>`;}).join('');}
 
-/* ══ EVENTS TAB — full CRUD ══ */
+/* ── EVENTS ── */
 function buildBtns(){
-  const eb=document.getElementById('evBtns');
-  if(eb)eb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddEventModal()"><i class="fas fa-plus"></i>Add Event</button>`:'';
-  const sb=document.getElementById('stuBtns');
-  if(sb)sb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddStuModal()"><i class="fas fa-user-plus"></i>Add Student</button>`:'';
-  const cf=document.getElementById('evCatF');
-  if(cf){cf.innerHTML=`<option value="">All Categories</option>`+uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('');}
+  const eb=document.getElementById('evBtns');if(eb)eb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddEventModal()"><i class="fas fa-plus"></i>Add Event</button>`:'';
+  const sb=document.getElementById('stuBtns');if(sb)sb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddStuModal()"><i class="fas fa-user-plus"></i>Add Student</button>`:'';
+  const cf=document.getElementById('evCatF');if(cf){cf.innerHTML=`<option value="">All Categories</option>`+uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('');}
+  const pb=document.getElementById('progAddBtn');if(pb)pb.style.display='none';
 }
-
-function gradeClass(g){return g==='A'?'gA':g==='B'?'gB':g==='C'?'gC':g==='D'?'gD':g==='F'?'gF':'gna';}
-function gradeBadge(g){return g?`<span class="gbadge ${gradeClass(g)}">${g}</span>`:`<span class="gbadge gna">—</span>`;}
-
 function renderEvents(){
-  const q=(document.getElementById('evSearch')?.value||'').toLowerCase();
-  const cat=document.getElementById('evCatF')?.value||'';
+  const q=(document.getElementById('evSearch')?.value||'').toLowerCase(),cat=document.getElementById('evCatF')?.value||'';
   const list=EVENTS.filter(e=>(e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q))&&(!cat||e.cat===cat));
   const adm=isAdmin();
   document.getElementById('evActH').style.display=adm?'':'none';
-  document.getElementById('evTbody').innerHTML=list.map((e,i)=>`
+  document.getElementById('evTbody').innerHTML=list.map(e=>`
     <tr id="er_${e.id}">
       <td style="color:var(--muted2)">${EVENTS.indexOf(e)+1}</td>
       <td style="font-style:italic" id="en_${e.id}">${e.name}</td>
@@ -866,29 +688,27 @@ function renderEvents(){
       <td style="color:#c0c0c0" id="ep2_${e.id}">${e.pts[1]}</td>
       <td style="color:#cd7f32" id="ep3_${e.id}">${e.pts[2]}</td>
       <td id="eg_${e.id}">${gradeBadge(e.grade||'')}</td>
-      <td style="${adm?'':'display:none'}">
-        <div style="display:flex;gap:4px;flex-wrap:wrap">
-          <button class="btn bo bsm" onclick="inlineEditEv('${e.id}')"><i class="fas fa-pen"></i>Edit</button>
-          <button class="btn bd bsm" onclick="confirmDel('Delete Event','Delete <b>${e.name}</b>? This cannot be undone.',()=>delEvent('${e.id}'))"><i class="fas fa-trash"></i></button>
-        </div>
-      </td>
+      <td style="${adm?'':'display:none'}"><div style="display:flex;gap:4px;flex-wrap:wrap">
+        <button class="btn bo bsm" onclick="inlineEditEv('${e.id}')"><i class="fas fa-pen"></i>Edit</button>
+        <button class="btn bd bsm" onclick="confirmDel('Delete Event','Delete <b>${e.name}</b>? This cannot be undone.',()=>delEvent('${e.id}'))"><i class="fas fa-trash"></i></button>
+      </div></td>
     </tr>`).join('');
 }
-
 function inlineEditEv(eid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const e=EVENTS.find(x=>x.id===eid);if(!e)return;
   const cats=uniqCats().concat(['Stage','Dance','Music','Visual','Literary','Media','General']).filter((v,i,a)=>a.indexOf(v)===i);
-  const grades=['','A','B','C','D','F'];
   document.getElementById('en_'+eid).innerHTML=`<input class="ie" id="ien_${eid}" value="${e.name}" style="min-width:140px">`;
   document.getElementById('ec_'+eid).innerHTML=`<select class="iesel" id="iec_${eid}">${cats.map(c=>`<option value="${c}" ${c===e.cat?'selected':''}>${c}</option>`).join('')}<option value="__new__">+ New…</option></select>`;
   document.getElementById('ep1_'+eid).innerHTML=`<input class="ie iesm" id="iep1_${eid}" type="number" min="0" value="${e.pts[0]}">`;
   document.getElementById('ep2_'+eid).innerHTML=`<input class="ie iesm" id="iep2_${eid}" type="number" min="0" value="${e.pts[1]}">`;
   document.getElementById('ep3_'+eid).innerHTML=`<input class="ie iesm" id="iep3_${eid}" type="number" min="0" value="${e.pts[2]}">`;
-  document.getElementById('eg_'+eid).innerHTML=`<select class="iesel" id="ieg_${eid}">${grades.map(g=>`<option value="${g}" ${g===(e.grade||'')?'selected':''}>${g||'— No Grade'}</option>`).join('')}</select>`;
+  document.getElementById('eg_'+eid).innerHTML=`<select class="iesel" id="ieg_${eid}">${['','A','B','C','D','F'].map(g=>`<option value="${g}" ${g===(e.grade||'')?'selected':''}>${g||'— No Grade'}</option>`).join('')}</select>`;
   document.getElementById('er_'+eid).classList.add('editing');
   document.querySelector(`#er_${eid} td:last-child`).innerHTML=`<div style="display:flex;gap:4px"><button class="btn bp bsm" onclick="saveInlineEv('${eid}')"><i class="fas fa-check"></i>Save</button><button class="btn bx bsm" onclick="renderEvents()"><i class="fas fa-times"></i></button></div>`;
 }
 function saveInlineEv(eid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const e=EVENTS.find(x=>x.id===eid);if(!e)return;
   let cat=document.getElementById('iec_'+eid).value;
   if(cat==='__new__'){cat=prompt('New category name:');if(!cat)return;}
@@ -901,25 +721,22 @@ function saveInlineEv(eid){
   saveAll();rebuildAll();
 }
 function delEvent(eid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   EVENTS=EVENTS.filter(e=>e.id!==eid);delete scores[eid];
   students.forEach(s=>{s.events=s.events.filter(x=>x!==eid);});
   saveAll();rebuildAll();
 }
 function openAddEventModal(){
+  if(!isAdmin()){alert('Permission denied.');return;}
   openM('Add New Event',`
-    <div class="mrow2">
-      <div class="mfld"><label>Event Name</label><input id="mEn" placeholder="e.g. Classical Dance"></div>
-      <div class="mfld"><label>Category</label><select id="mEc"><option value="">Select…</option>${uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('')}<option value="__new__">+ New Category…</option></select></div>
-    </div>
-    <div class="mrow2">
-      <div class="mfld"><label>1st Place Points</label><input id="mEp1" type="number" min="0" value="10"></div>
-      <div class="mfld"><label>2nd Place Points</label><input id="mEp2" type="number" min="0" value="7"></div>
-    </div>
+    <div class="mrow2"><div class="mfld"><label>Event Name</label><input id="mEn" placeholder="e.g. Classical Dance"></div><div class="mfld"><label>Category</label><select id="mEc"><option value="">Select…</option>${uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('')}<option value="__new__">+ New Category…</option></select></div></div>
+    <div class="mrow2"><div class="mfld"><label>1st Place Points</label><input id="mEp1" type="number" min="0" value="10"></div><div class="mfld"><label>2nd Place Points</label><input id="mEp2" type="number" min="0" value="7"></div></div>
     <div class="mfld"><label>3rd Place Points</label><input id="mEp3" type="number" min="0" value="5"></div>
     <div class="mfld"><label>Grade (optional)</label><select id="mEg"><option value="">— No Grade</option><option value="A">A — Excellent</option><option value="B">B — Good</option><option value="C">C — Average</option><option value="D">D — Below Average</option><option value="F">F — Fail</option></select></div>`,
   `<button class="btn bg" onclick="submitAddEvent()"><i class="fas fa-plus"></i>Add Event</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
 function submitAddEvent(){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const n=document.getElementById('mEn').value.trim();let cat=document.getElementById('mEc').value;
   if(!n||!cat){alert('Name and category required.');return;}
   if(cat==='__new__'){cat=prompt('New category name:');if(!cat)return;}
@@ -929,47 +746,23 @@ function submitAddEvent(){
   saveAll();rebuildAll();closeM();
 }
 
-/* ══ LEADERBOARD ══ */
-function buildOverall(){
-  const r=ranked();
-  document.getElementById('overallTb').innerHTML=r.map((x,i)=>`<tr><td>${i===0?`<span class="rk rk1">1</span>`:i===1?`<span class="rk rk2">2</span>`:`<span class="rk rk3">3</span>`}</td><td><span style="color:${TM[x.team].color};font-weight:500">${TM[x.team].emoji} ${TM[x.team].label}</span></td><td class="pts">${x.won}</td><td class="pts">${x.sec}</td><td class="pts">${x.trd}</td><td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${x.total}</td></tr>`).join('');
-}
-function buildEvRes(){
-  document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');
-}
-function buildPtsBars(){
-  const r=ranked(),mx=maxPts();
-  document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');
-}
+/* ── LEADERBOARD ── */
+function buildOverall(){const r=ranked();document.getElementById('overallTb').innerHTML=r.map((x,i)=>`<tr><td>${i===0?`<span class="rk rk1">1</span>`:i===1?`<span class="rk rk2">2</span>`:`<span class="rk rk3">3</span>`}</td><td><span style="color:${TM[x.team].color};font-weight:500">${TM[x.team].emoji} ${TM[x.team].label}</span></td><td class="pts">${x.won}</td><td class="pts">${x.sec}</td><td class="pts">${x.trd}</td><td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${x.total}</td></tr>`).join('');}
+function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
+function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
 
-/* ══ STUDENTS — full CRUD ══ */
-function stuPoints(s){
-  let tot=0;
-  s.events.forEach(eid=>{
-    const pos=(scores[eid]||{})[s.team]||0;
-    const ev=EVENTS.find(e=>e.id===eid);
-    if(pos>0&&ev)tot+=ev.pts[pos-1];
-  });
-  return tot;
-}
-function buildStuStats(){
-  const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};
-  document.getElementById('stuStats').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;
-}
+/* ── STUDENTS ── */
+function stuPoints(s){let tot=0;s.events.forEach(eid=>{const pos=(scores[eid]||{})[s.team]||0;const ev=EVENTS.find(e=>e.id===eid);if(pos>0&&ev)tot+=ev.pts[pos-1];});return tot;}
+function buildStuStats(){const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};document.getElementById('stuStats').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;}
 function renderStudents(){
   const q=(document.getElementById('stuSearch')?.value||'').toLowerCase();
   const tf=document.getElementById('stuTeamF')?.value||'';
   const mode=document.getElementById('stuViewM')?.value||'grid';
   const team=CU?.team;
-  let list=students.filter(s=>{
-    const mq=s.name.toLowerCase().includes(q)||s.roll.toLowerCase().includes(q);
-    const mt=tf?s.team===tf:(isAdmin()?true:s.team===team);
-    return mq&&mt;
-  });
+  let list=students.filter(s=>{const mq=s.name.toLowerCase().includes(q)||s.roll.toLowerCase().includes(q);const mt=tf?s.team===tf:(isAdmin()?true:s.team===team);return mq&&mt;});
   const con=document.getElementById('stuCon');
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
   const bgT={othello:'rgba(78,205,196,.1)',macbeth:'rgba(199,125,255,.1)',hamlet:'rgba(247,127,90,.1)'};
-
   if(mode==='table'){
     con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead><tbody>${
       list.map(s=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id).join(', ');const sp=stuPoints(s);
@@ -983,70 +776,41 @@ function renderStudents(){
     }).join('')}</div>`;
   }
 }
-
 function teamOpts(sel=''){return TEAMS.map(t=>`<option value="${t}" ${t===sel?'selected':''}>${TM[t].emoji} ${TM[t].label}</option>`).join('');}
 function evCheckboxes(sel=[]){return`<div class="evchk">`+EVENTS.map(e=>`<label><input type="checkbox" value="${e.id}" ${sel.includes(e.id)?'checked':''}>${e.name}</label>`).join('')+`</div>`;}
 function getChecked(){return EVENTS.filter(e=>{const el=document.querySelector(`input[type=checkbox][value="${e.id}"]`);return el&&el.checked;}).map(e=>e.id);}
-
 function openAddStuModal(){
-  openM('Add Student',`
-    <div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" placeholder="e.g. Aisha Rahman"></div><div class="mfld"><label>Roll No</label><input id="mSr" placeholder="e.g. OTH-007"></div></div>
-    <div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select team…</option>${teamOpts()}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" placeholder="e.g. 11-A"></div></div>
-    <div class="mfld"><label>Events Participating</label>${evCheckboxes()}</div>
-    <div class="mfld"><label>Role / Note (optional)</label><input id="mSno" placeholder="e.g. Team Captain, Dance Lead…"></div>`,
+  if(!isAdmin()){alert('Permission denied.');return;}
+  openM('Add Student',`<div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" placeholder="e.g. Aisha Rahman"></div><div class="mfld"><label>Roll No</label><input id="mSr" placeholder="e.g. OTH-007"></div></div><div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select team…</option>${teamOpts()}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" placeholder="e.g. 11-A"></div></div><div class="mfld"><label>Events Participating</label>${evCheckboxes()}</div><div class="mfld"><label>Role / Note (optional)</label><input id="mSno" placeholder="e.g. Team Captain, Dance Lead…"></div>`,
   `<button class="btn bg" onclick="submitAddStu()"><i class="fas fa-user-plus"></i>Add Student</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
 function submitAddStu(){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const n=document.getElementById('mSn').value.trim(),r=document.getElementById('mSr').value.trim(),t=document.getElementById('mSt').value;
   if(!n||!r||!t){alert('Name, Roll No and Team are required.');return;}
   students.push({id:'s'+Date.now(),name:n,roll:r,team:t,grade:document.getElementById('mSg').value.trim(),events:getChecked(),note:document.getElementById('mSno').value.trim()});
   saveAll();buildStuStats();renderStudents();closeM();
 }
 function openEditStuModal(sid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const s=students.find(x=>x.id===sid);if(!s)return;
-  openM('Edit Student',`
-    <div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" value="${s.name}"></div><div class="mfld"><label>Roll No</label><input id="mSr" value="${s.roll}"></div></div>
-    <div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select…</option>${teamOpts(s.team)}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" value="${s.grade||''}"></div></div>
-    <div class="mfld"><label>Events Participating</label>${evCheckboxes(s.events)}</div>
-    <div class="mfld"><label>Role / Note</label><input id="mSno" value="${s.note||''}"></div>`,
+  openM('Edit Student',`<div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" value="${s.name}"></div><div class="mfld"><label>Roll No</label><input id="mSr" value="${s.roll}"></div></div><div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select…</option>${teamOpts(s.team)}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" value="${s.grade||''}"></div></div><div class="mfld"><label>Events Participating</label>${evCheckboxes(s.events)}</div><div class="mfld"><label>Role / Note</label><input id="mSno" value="${s.note||''}"></div>`,
   `<button class="btn bg" onclick="submitEditStu('${sid}')"><i class="fas fa-save"></i>Save Changes</button><button class="btn bd" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>{delStudent('${sid}');closeM();})"><i class="fas fa-trash"></i>Delete</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
 function submitEditStu(sid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const s=students.find(x=>x.id===sid);if(!s)return;
-  s.name=document.getElementById('mSn').value.trim()||s.name;
-  s.roll=document.getElementById('mSr').value.trim()||s.roll;
-  s.team=document.getElementById('mSt').value||s.team;
-  s.grade=document.getElementById('mSg').value.trim();
-  s.note=document.getElementById('mSno').value.trim();
-  s.events=getChecked();
+  s.name=document.getElementById('mSn').value.trim()||s.name;s.roll=document.getElementById('mSr').value.trim()||s.roll;s.team=document.getElementById('mSt').value||s.team;s.grade=document.getElementById('mSg').value.trim();s.note=document.getElementById('mSno').value.trim();s.events=getChecked();
   saveAll();buildStuStats();renderStudents();closeM();
 }
-function delStudent(sid){students=students.filter(x=>x.id!==sid);saveAll();buildStuStats();renderStudents();}
+function delStudent(sid){if(!isAdmin()){alert('Permission denied.');return;}students=students.filter(x=>x.id!==sid);saveAll();buildStuStats();renderStudents();}
 
-/* ══ SCORE MANAGER ══ */
-function stuForTeamEvent(team,eid){
-  return students.filter(s=>s.team===team&&s.events.includes(eid));
-}
-function getEG(eid,team){
-  return (eventGrades[eid]&&eventGrades[eid][team])||'';
-}
-function setEG(eid,team,grade){
-  if(!eventGrades[eid])eventGrades[eid]={};
-  eventGrades[eid][team]=grade;
-}
-const GRADE_OPTS=['A+','A','A-','B+','B','B-','C+','C','C-','D','F'];
-
-/* gradeDefPts: {grade: points} e.g. {'A+':10,'A':9,...} */
-let gradeDefPts={'A+':10,'A':9,'A-':8,'B+':7,'B':6,'B-':5,'C+':4,'C':3,'C-':2,'D':1,'F':0};
-
+/* ── SCORE MANAGER ── */
+function stuForTeamEvent(team,eid){return students.filter(s=>s.team===team&&s.events.includes(eid));}
 function gradeSelHtml(eid,team){
   const cur=getEG(eid,team);
-  return`<select class="scsel gsel" id="eg_${eid}_${team}" onchange="upGrade('${eid}','${team}',this.value)" style="width:72px;border-color:rgba(255,200,80,.3)">
-    <option value="">Grade</option>
-    ${GRADE_OPTS.map(g=>`<option value="${g}" ${g===cur?'selected':''}>${g}</option>`).join('')}
-  </select>`;
+  return`<select class="scsel gsel" id="eg_${eid}_${team}" onchange="upGrade('${eid}','${team}',this.value)" style="width:72px;border-color:rgba(255,200,80,.3)"><option value="">Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===cur?'selected':''}>${g}</option>`).join('')}</select>`;
 }
-
 function buildAdminCards(){
   document.getElementById('adminCards').innerHTML=TEAMS.map(team=>`
     <div class="atc"><div class="ath"><span class="atn" style="color:${TM[team].color}">${TM[team].emoji} ${TM[team].label}</span><span class="atp" style="color:${TM[team].color}" id="adP_${team}">${tStats(team).total} pts</span></div>
@@ -1054,15 +818,14 @@ function buildAdminCards(){
       const parts=stuForTeamEvent(team,e.id);
       const pos=(scores[e.id]||{})[team]||0;
       const partsHtml=parts.length?`<div class="sm-parts"><div class="sm-parts-title"><i class="fas fa-user" style="font-size:.6rem"></i> Participants</div>${parts.map(s=>`<span class="sm-part-chip">${s.name}${s.note?` <span style="color:var(--gold);font-size:.65rem">· ${s.note}</span>`:''}</span>`).join('')}</div>`:'';
-      /* grade always shown regardless of position */
       const curGrade=getEG(e.id,team);
-      const gradePts=curGrade&&gradeDefPts[curGrade]!==undefined?` <span style="font-size:.65rem;color:var(--ok)">= ${gradeDefPts[curGrade]} pts</span>`:'';
-      return`<div class="ater" style="flex-direction:column;align-items:flex-start;gap:.35rem" id="ater_${e.id}_${team}">
+      const gradePts=curGrade&&gradeDefPts[curGrade]!==undefined?`= ${gradeDefPts[curGrade]} pts`:'';
+      return`<div class="ater" style="flex-direction:column;align-items:flex-start;gap:.35rem">
         <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:.4rem">
           <span style="font-size:.81rem;font-style:italic;flex:1">${e.name}</span>
           <div style="display:flex;align-items:center;gap:5px">
             ${gradeSelHtml(e.id,team)}
-            <span id="gpts_${e.id}_${team}" style="font-size:.7rem;color:var(--ok);min-width:40px">${gradePts}</span>
+            <span id="gpts_${e.id}_${team}" style="font-size:.7rem;color:var(--ok);min-width:44px">${gradePts}</span>
             <select class="scsel" id="ads_${e.id}_${team}" onchange="upScore('${e.id}','${team}',this.value)">
               <option value="0" ${pos===0?'selected':''}>—</option>
               <option value="1" ${pos===1?'selected':''}>🥇 1st</option>
@@ -1076,261 +839,181 @@ function buildAdminCards(){
     }).join('')}</div></div>`).join('');
 }
 function upScore(eid,team,pos){
+  if(!isAdmin()){alert('Permission denied.');return;}
   if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};
   scores[eid][team]=parseInt(pos);
   document.getElementById('adP_'+team).textContent=tStats(team).total+' pts';
 }
 function upGrade(eid,team,grade){
+  if(!isAdmin()){alert('Permission denied.');return;}
   setEG(eid,team,grade);
   const el=document.getElementById('gpts_'+eid+'_'+team);
-  if(el)el.innerHTML=grade&&gradeDefPts[grade]!==undefined?`= ${gradeDefPts[grade]} pts`:'';
+  if(el)el.textContent=grade&&gradeDefPts[grade]!==undefined?`= ${gradeDefPts[grade]} pts`:'';
 }
-function saveScores(){saveAll();rebuildAll();const n=document.getElementById('saveNotice');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
+function saveScores(){if(!isAdmin()){alert('Permission denied.');return;}saveAll();rebuildAll();const n=document.getElementById('saveNotice');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
 
-/* ══ PROGRAMMES TAB ══ */
-/* candidates: [{id, stuId, eid, position(1/2/3/0), grade, note}] stored per event */
-/* We reuse students as candidates but link them to specific events with positions & grades */
-
-function buildProgSel(){
-  const sel=document.getElementById('progEvSel');
-  if(!sel)return;
-  const cur=sel.value;
-  sel.innerHTML=`<option value="">— Select a Programme —</option>`
-    +EVENTS.map(e=>`<option value="${e.id}" ${e.id===cur?'selected':''}>${e.name} <span style="opacity:.5">(${e.cat})</span></option>`).join('');
-}
-
+/* ── PROGRAMMES ── */
+function buildProgSel(){const sel=document.getElementById('progEvSel');if(!sel)return;const cur=sel.value;sel.innerHTML=`<option value="">— Select a Programme —</option>`+EVENTS.map(e=>`<option value="${e.id}" ${e.id===cur?'selected':''}>${e.name} (${e.cat})</option>`).join('');}
 function renderProg(){
   const eid=document.getElementById('progEvSel')?.value||'';
   const tf=document.getElementById('progTeamF')?.value||'';
   const addBtn=document.getElementById('progAddBtn');
-  if(addBtn)addBtn.style.display=eid?'inline-flex':'none';
+  if(addBtn)addBtn.style.display=(eid&&isAdmin())?'inline-flex':'none';
   const con=document.getElementById('progContent');
-  if(!eid){
-    con.innerHTML=`<div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div>`;
-    return;
-  }
+  if(!eid){con.innerHTML=`<div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div>`;return;}
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
-
-  /* collect registered candidates for this event from students */
   let cands=students.filter(s=>s.events.includes(eid)&&(!tf||s.team===tf));
-
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
-  const bgT={othello:'rgba(78,205,196,.08)',macbeth:'rgba(199,125,255,.08)',hamlet:'rgba(247,127,90,.08)'};
-
-  /* summary stats */
   const countO=students.filter(s=>s.events.includes(eid)&&s.team==='othello').length;
   const countM=students.filter(s=>s.events.includes(eid)&&s.team==='macbeth').length;
   const countH=students.filter(s=>s.events.includes(eid)&&s.team==='hamlet').length;
-
   con.innerHTML=`
-    <!-- summary bar -->
     <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.2rem">
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">Total</div><div class="scval">${countO+countM+countH}</div><div class="scnote">candidates</div></div>
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${countO}</div><div class="scnote">candidates</div></div>
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${countM}</div><div class="scnote">candidates</div></div>
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${countH}</div><div class="scnote">candidates</div></div>
     </div>
-    <!-- candidate table -->
     <div class="card" style="margin-bottom:0">
       <div class="cardt"><div class="lft"><i class="fas fa-clipboard-list"></i>${ev.name} — Candidates</div></div>
-      ${cands.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted)"><i class="fas fa-user-slash" style="margin-right:6px"></i>No candidates registered for this programme${tf?' in this team':''}</div>`:`
+      ${cands.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted)"><i class="fas fa-user-slash" style="margin-right:6px"></i>No candidates registered${tf?' in this team':''}</div>`:`
       <table class="dt">
         <thead><tr><th>#</th><th>Name</th><th>Roll No</th><th>Team</th><th>Position</th><th>Grade</th><th>Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead>
-        <tbody>
-          ${cands.map((s,i)=>{
-            const pos=(scores[eid]||{})[s.team]||0;
-            const grade=getEG(eid,s.team)||'';
-            const posChip=pos===1?`<span class="chip ch1">🥇 1st</span>`:pos===2?`<span class="chip ch2">🥈 2nd</span>`:pos===3?`<span class="chip ch3">🥉 3rd</span>`:`<span class="chip chp">—</span>`;
-            const gradeBdg=grade?`<span class="gbadge ${gradeClass(grade)}" style="font-size:.8rem;width:30px;height:30px">${grade}</span>`:`<span style="color:var(--muted2)">—</span>`;
-            return`<tr>
-              <td style="color:var(--muted2)">${i+1}</td>
-              <td style="font-weight:500">${s.name}</td>
-              <td style="color:var(--muted);font-size:.82rem">${s.roll}</td>
-              <td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td>
-              <td>${posChip}</td>
-              <td>${gradeBdg}</td>
-              <td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>
-              ${isAdmin()?`<td><div style="display:flex;gap:4px">
-                <button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button>
-                <button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button>
-              </div></td>`:''}
-            </tr>`;
-          }).join('')}
-        </tbody>
+        <tbody>${cands.map((s,i)=>{
+          const pos=(scores[eid]||{})[s.team]||0;
+          const grade=getEG(eid,s.team)||'';
+          const posChip=pos===1?`<span class="chip ch1">🥇 1st</span>`:pos===2?`<span class="chip ch2">🥈 2nd</span>`:pos===3?`<span class="chip ch3">🥉 3rd</span>`:`<span class="chip chp">—</span>`;
+          const gradeBdg=grade?`<span class="gbadge ${gradeClass(grade)}" style="font-size:.8rem;width:30px;height:30px">${grade}</span>`:`<span style="color:var(--muted2)">—</span>`;
+          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}</td><td>${gradeBdg}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
+        }).join('')}</tbody>
       </table>`}
     </div>`;
 }
-
 function openAddCandModal(){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const eid=document.getElementById('progEvSel')?.value||'';
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
-  /* students NOT already in this event */
   const eligible=students.filter(s=>!s.events.includes(eid));
-  if(!eligible.length){alert('All registered students are already in this programme. Add new students in the Students tab first.');return;}
-  const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
+  if(!eligible.length){alert('All students are already in this programme.');return;}
   openM(`Add Candidate — ${ev.name}`,`
-    <div class="mfld"><label>Select Student</label>
-      <select id="mCstu" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none">
-        <option value="">— Select a student —</option>
-        ${eligible.map(s=>`<option value="${s.id}">${s.name} (${s.roll}) · ${TM[s.team].emoji} ${TM[s.team].label}</option>`).join('')}
-      </select>
-    </div>
+    <div class="mfld"><label>Select Student</label><select id="mCstu" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="">— Select a student —</option>${eligible.map(s=>`<option value="${s.id}">${s.name} (${s.roll}) · ${TM[s.team].emoji} ${TM[s.team].label}</option>`).join('')}</select></div>
     <div class="mrow2">
-      <div class="mfld"><label>Position (optional)</label>
-        <select id="mCpos" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none">
-          <option value="0">— Not assigned</option><option value="1">🥇 1st Place</option><option value="2">🥈 2nd Place</option><option value="3">🥉 3rd Place</option>
-        </select>
-      </div>
-      <div class="mfld"><label>Grade (optional)</label>
-        <select id="mCgrade" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none">
-          <option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}">${g}</option>`).join('')}
-        </select>
-      </div>
+      <div class="mfld"><label>Position (optional)</label><select id="mCpos" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="0">— Not assigned</option><option value="1">🥇 1st Place</option><option value="2">🥈 2nd Place</option><option value="3">🥉 3rd Place</option></select></div>
+      <div class="mfld"><label>Grade (optional)</label><select id="mCgrade" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}">${g}</option>`).join('')}</select></div>
     </div>
     <div class="mfld"><label>Role / Note (optional)</label><input id="mCnote" placeholder="e.g. Soloist, Lead Actor…"></div>`,
   `<button class="btn bg" onclick="submitAddCand('${eid}')"><i class="fas fa-user-plus"></i>Add to Programme</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
-
 function submitAddCand(eid){
-  const sid=document.getElementById('mCstu').value;
-  if(!sid){alert('Please select a student.');return;}
+  if(!isAdmin()){alert('Permission denied.');return;}
+  const sid=document.getElementById('mCstu').value;if(!sid){alert('Please select a student.');return;}
   const s=students.find(x=>x.id===sid);if(!s)return;
-  /* add event to student's events list */
   if(!s.events.includes(eid))s.events.push(eid);
-  /* update note if provided */
-  const note=document.getElementById('mCnote').value.trim();
-  if(note)s.note=note;
-  /* set position for their team */
+  const note=document.getElementById('mCnote').value.trim();if(note)s.note=note;
   const pos=parseInt(document.getElementById('mCpos').value)||0;
-  if(pos>0){
-    if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};
-    scores[eid][s.team]=pos;
-  }
-  /* set grade */
-  const grade=document.getElementById('mCgrade').value;
-  if(grade&&pos>0)setEG(eid,s.team,grade);
+  if(pos>0){if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};scores[eid][s.team]=pos;}
+  const grade=document.getElementById('mCgrade').value;if(grade)setEG(eid,s.team,grade);
   saveAll();rebuildAll();renderProg();closeM();
 }
-
 function openEditCandModal(sid,eid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const s=students.find(x=>x.id===sid);if(!s)return;
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
-  const pos=(scores[eid]||{})[s.team]||0;
-  const curGrade=getEG(eid,s.team)||'';
+  const pos=(scores[eid]||{})[s.team]||0;const curGrade=getEG(eid,s.team)||'';
   openM(`Edit Candidate — ${s.name}`,`
     <div class="mfld"><label>Programme</label><input value="${ev.name}" disabled style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--muted);outline:none"></div>
     <div class="mrow2">
-      <div class="mfld"><label>Position</label>
-        <select id="mCpos" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none">
-          <option value="0" ${pos===0?'selected':''}>— Not assigned</option>
-          <option value="1" ${pos===1?'selected':''}>🥇 1st Place</option>
-          <option value="2" ${pos===2?'selected':''}>🥈 2nd Place</option>
-          <option value="3" ${pos===3?'selected':''}>🥉 3rd Place</option>
-        </select>
-      </div>
-      <div class="mfld"><label>Grade</label>
-        <select id="mCgrade" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none">
-          <option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===curGrade?'selected':''}>${g}</option>`).join('')}
-        </select>
-      </div>
+      <div class="mfld"><label>Position</label><select id="mCpos" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="0" ${pos===0?'selected':''}>— Not assigned</option><option value="1" ${pos===1?'selected':''}>🥇 1st Place</option><option value="2" ${pos===2?'selected':''}>🥈 2nd Place</option><option value="3" ${pos===3?'selected':''}>🥉 3rd Place</option></select></div>
+      <div class="mfld"><label>Grade</label><select id="mCgrade" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===curGrade?'selected':''}>${g}</option>`).join('')}</select></div>
     </div>
     <div class="mfld"><label>Role / Note</label><input id="mCnote" value="${s.note||''}" placeholder="e.g. Soloist, Lead Actor…"></div>`,
-  `<button class="btn bg" onclick="submitEditCand('${sid}','${eid}')"><i class="fas fa-save"></i>Save Changes</button>
-   <button class="btn bd" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>{removeCand('${sid}','${eid}');closeM();})"><i class="fas fa-user-minus"></i>Remove</button>
-   <button class="btn bx" onclick="closeM()">Cancel</button>`);
+  `<button class="btn bg" onclick="submitEditCand('${sid}','${eid}')"><i class="fas fa-save"></i>Save</button><button class="btn bd" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>{removeCand('${sid}','${eid}');closeM();})"><i class="fas fa-user-minus"></i>Remove</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
-
 function submitEditCand(sid,eid){
+  if(!isAdmin()){alert('Permission denied.');return;}
   const s=students.find(x=>x.id===sid);if(!s)return;
-  const pos=parseInt(document.getElementById('mCpos').value)||0;
-  const grade=document.getElementById('mCgrade').value;
-  const note=document.getElementById('mCnote').value.trim();
-  if(note)s.note=note;
-  if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};
-  scores[eid][s.team]=pos;
-  if(pos>0&&grade)setEG(eid,s.team,grade);
+  const pos=parseInt(document.getElementById('mCpos').value)||0;const grade=document.getElementById('mCgrade').value;const note=document.getElementById('mCnote').value.trim();
+  if(note)s.note=note;if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};scores[eid][s.team]=pos;if(grade)setEG(eid,s.team,grade);
   saveAll();rebuildAll();renderProg();closeM();
 }
+function removeCand(sid,eid){if(!isAdmin()){alert('Permission denied.');return;}const s=students.find(x=>x.id===sid);if(!s)return;s.events=s.events.filter(x=>x!==eid);saveAll();rebuildAll();renderProg();}
 
-function removeCand(sid,eid){
-  const s=students.find(x=>x.id===sid);if(!s)return;
-  s.events=s.events.filter(x=>x!==eid);
-  saveAll();rebuildAll();renderProg();
-}
-
-/* ══ GRADE DEFINITIONS ══ */
-const DEFAULT_GRADE_PTS={'A+':10,'A':9,'A-':8,'B+':7,'B':6,'B-':5,'C+':4,'C':3,'C-':2,'D':1,'F':0};
-
+/* ── GRADE DEFINITIONS ── */
 function buildGradeDefTable(){
   const el=document.getElementById('gradeDefTable');if(!el)return;
-  el.innerHTML=`<table class="dt">
-    <thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead>
-    <tbody>
-      ${GRADE_OPTS.map(g=>{
-        const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';
-        const clr=g.startsWith('A')?'var(--ok)':g.startsWith('B')?'var(--oc)':g.startsWith('C')?'var(--gold)':g==='D'?'var(--hc)':'var(--err)';
-        return`<tr>
-          <td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td>
-          <td style="font-size:.83rem;color:var(--muted)">${desc}</td>
-          <td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td>
-        </tr>`;
-      }).join('')}
-    </tbody>
-  </table>`;
+  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td></tr>`;}).join('')}</tbody></table>`;
   buildGradePreview();
 }
-
 function buildGradePreview(){
   const el=document.getElementById('gradePreview');if(!el)return;
-  el.innerHTML=GRADE_OPTS.map(g=>{
-    const pts=gradeDefPts[g]??0;
-    return`<div style="display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)">
-      <span class="gbadge ${gradeClass(g)}" style="font-size:.88rem;width:32px;height:32px;flex-shrink:0">${g}</span>
-      <div style="flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden">
-        <div style="height:100%;width:${Math.round((pts/10)*100)}%;background:${gradeClass(g)==='gA'?'var(--ok)':gradeClass(g)==='gB'?'var(--oc)':gradeClass(g)==='gC'?'var(--gold)':gradeClass(g)==='gD'?'var(--hc)':'var(--err)'};border-radius:2px;transition:width .4s"></div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);min-width:48px;text-align:right">${pts} pts</span>
-    </div>`;
-  }).join('');
+  el.innerHTML=GRADE_OPTS.map(g=>{const pts=gradeDefPts[g]??0;return`<div style="display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)"><span class="gbadge ${gradeClass(g)}" style="font-size:.88rem;width:32px;height:32px;flex-shrink:0">${g}</span><div style="flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.round((pts/10)*100)}%;background:${gradeClass(g)==='gA'?'var(--ok)':gradeClass(g)==='gB'?'var(--oc)':gradeClass(g)==='gC'?'var(--gold)':gradeClass(g)==='gD'?'var(--hc)':'var(--err)'};border-radius:2px;transition:width .4s"></div></div><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);min-width:48px;text-align:right">${pts} pts</span></div>`;}).join('');
 }
-
 function saveGradeDef(){
-  GRADE_OPTS.forEach(g=>{
-    const id='gdef_'+g.replace('+','p').replace('-','m');
-    const el=document.getElementById(id);
-    if(el)gradeDefPts[g]=parseInt(el.value)||0;
-  });
-  saveAll();buildGradePreview();
-  const n=document.getElementById('gradeDefOk');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);
+  if(!isAdmin()){alert('Permission denied.');return;}
+  GRADE_OPTS.forEach(g=>{const id='gdef_'+g.replace('+','p').replace('-','m');const el=document.getElementById(id);if(el)gradeDefPts[g]=parseInt(el.value)||0;});
+  saveAll();buildGradePreview();const n=document.getElementById('gradeDefOk');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);
 }
+function resetGradeDef(){if(!isAdmin()){alert('Permission denied.');return;}gradeDefPts={...DEFAULT_GRADE_PTS};saveAll();buildGradeDefTable();}
 
-function resetGradeDef(){
-  gradeDefPts={...DEFAULT_GRADE_PTS};
-  saveAll();buildGradeDefTable();
-}
-
-/* ══ MODAL / CONFIRM ══ */
+/* ── MODAL / CONFIRM ── */
 function openM(title,body,footer){document.getElementById('mTitle').textContent=title;document.getElementById('mBody').innerHTML=body;document.getElementById('mFt').innerHTML=footer;document.getElementById('mOv').classList.add('open');}
 function closeM(){document.getElementById('mOv').classList.remove('open');}
 function confirmDel(title,msg,onOk){document.getElementById('cTitle').textContent=title;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOk').onclick=()=>{onOk();closeC();};document.getElementById('cOv').classList.add('open');}
 function closeC(){document.getElementById('cOv').classList.remove('open');}
 
-/* ══ REBUILD ══ */
+/* ── REBUILD ── */
 function rebuildAll(){buildStats();buildLBBars();buildEvGlance();buildOverall();buildEvRes();buildPtsBars();buildBtns();renderEvents();buildStuStats();renderStudents();buildProgSel();buildGradeDefTable();if(isAdmin())buildAdminCards();}
 
-/* ══ PASSWORD ══ */
+/* ── PASSWORD ── */
 function toggleEye(id,btn){const el=document.getElementById(id),ic=btn.querySelector('i');el.type=el.type==='password'?'text':'password';ic.className=el.type==='text'?'fas fa-eye-slash':'fas fa-eye';}
 function chkStr(val){const f=document.getElementById('strFill'),l=document.getElementById('strLbl');if(!val){f.style.width='0%';l.textContent='';return;}let sc=0;if(val.length>=6)sc++;if(val.length>=10)sc++;if(/[A-Z]/.test(val))sc++;if(/[0-9]/.test(val))sc++;if(/[^A-Za-z0-9]/.test(val))sc++;const lv=[{w:'20%',bg:'#e74c3c',t:'Very weak'},{w:'40%',bg:'#e67e22',t:'Weak'},{w:'60%',bg:'#f1c40f',t:'Fair'},{w:'80%',bg:'#2ecc71',t:'Strong'},{w:'100%',bg:'#27ae60',t:'Very strong'}];const lx=lv[Math.min(sc-1,4)]||lv[0];f.style.width=lx.w;f.style.background=lx.bg;l.textContent=lx.t;l.style.color=lx.bg;}
 function clearPw(){['cpCur','cpNew','cpCfm'].forEach(id=>{const e=document.getElementById(id);if(e){e.value='';e.type='password';}});document.getElementById('strFill').style.width='0%';document.getElementById('strLbl').textContent='';document.getElementById('pwOk').style.display='none';document.getElementById('pwErr').style.display='none';}
 function showPwErr(msg){document.getElementById('pwErrTxt').textContent=msg;document.getElementById('pwErr').style.display='flex';document.getElementById('pwOk').style.display='none';setTimeout(()=>document.getElementById('pwErr').style.display='none',4000);}
 function doChangePw(){const cur=document.getElementById('cpCur').value,nw=document.getElementById('cpNew').value,cf=document.getElementById('cpCfm').value;if(!cur||!nw||!cf){showPwErr('Fill in all fields.');return;}if(nw.length<6){showPwErr('At least 6 characters required.');return;}if(nw!==cf){showPwErr('Passwords do not match.');return;}const t=CU.team;if(creds[t].hash!==h(cur)){showPwErr('Current password incorrect.');return;}if(h(nw)===creds[t].hash){showPwErr('New password must differ from current.');return;}creds[t].hash=h(nw);saveAll();clearPw();const ok=document.getElementById('pwOk');ok.style.display='flex';setTimeout(()=>ok.style.display='none',4000);}
-function adminReset(team){const inp=document.getElementById('rp_'+team),val=inp.value.trim();if(!val||val.length<4){inp.style.borderColor='rgba(240,90,90,.5)';setTimeout(()=>inp.style.borderColor='',2000);return;}creds[team].hash=h(val);saveAll();inp.value='';const st=document.getElementById('rs_'+team);st.style.display='inline';setTimeout(()=>st.style.display='none',3000);}
-function resetAllPw(){for(const k in DC)creds[k].hash=DC[k].hash;saveAll();const n=document.getElementById('rAllOk');n.style.display='flex';setTimeout(()=>n.style.display='none',4000);}
+function adminReset(team){if(!isAdmin()){alert('Permission denied.');return;}const inp=document.getElementById('rp_'+team),val=inp.value.trim();if(!val||val.length<4){inp.style.borderColor='rgba(240,90,90,.5)';setTimeout(()=>inp.style.borderColor='',2000);return;}creds[team].hash=h(val);saveAll();inp.value='';const st=document.getElementById('rs_'+team);st.style.display='inline';setTimeout(()=>st.style.display='none',3000);}
+function resetAllPw(){if(!isAdmin()){alert('Permission denied.');return;}for(const k in DC)creds[k].hash=DC[k].hash;saveAll();const n=document.getElementById('rAllOk');n.style.display='flex';setTimeout(()=>n.style.display='none',4000);}
 
-/* ══ INIT ══ */
+/* ── MOBILE SIDEBAR ── */
+function toggleSidebar(){
+  const sb=document.querySelector('.sb');
+  const hb=document.getElementById('hamburger');
+  const ov=document.getElementById('sbOverlay');
+  if(!sb)return;
+  const open=sb.classList.toggle('open');
+  hb.classList.toggle('open',open);
+  ov.classList.toggle('show',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar(){
+  const sb=document.querySelector('.sb');
+  const hb=document.getElementById('hamburger');
+  const ov=document.getElementById('sbOverlay');
+  if(!sb)return;
+  sb.classList.remove('open');
+  hb.classList.remove('open');
+  ov.classList.remove('show');
+  document.body.style.overflow='';
+}
+function switchView(id,title){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
+  document.getElementById('tbTitle').textContent=title;
+  closeSidebar(); /* auto-close on mobile when nav item tapped */
+}
+
+/* ── EXPOSE TO HTML onclick handlers ── */
+Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,upScore,upGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar});
+
+/* ── INIT ── */
 loadAll();
 initFirebase();
 try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
+
+/* wire hamburger AFTER module is ready */
+document.getElementById('hamburger').addEventListener('click',toggleSidebar);
+document.getElementById('sbOverlay').addEventListener('click',closeSidebar);
 </script>
 </body>
 </html>
