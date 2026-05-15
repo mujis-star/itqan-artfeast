@@ -522,8 +522,16 @@ async function initFirebase(){
 
 async function saveToFirebase(){
   if(!FIREBASE_ENABLED || !db) return;
+  
+  // Ask yourself: Is the person logged in actually the admin?
+  if (CU.team !== 'admin') {
+      console.error("Unauthorized attempt to save data.");
+      return;
+  }
+
   try {
     await setDoc(doc(db, 'zenith', 'data'), {
+      adminKey: "YOUR_SECRET_PASSWORD_HERE", // Matches the rule above
       scores,
       events: EVENTS,
       students,
@@ -531,10 +539,9 @@ async function saveToFirebase(){
       gradeDefPts
     }, { merge: true });
   } catch(err) {
-    console.error('Firebase save error:', err);
+    console.error("Firebase rejected the save. You don't have permission.");
   }
 }
-
 
 
 
