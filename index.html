@@ -521,25 +521,26 @@ async function initFirebase(){
 }
 
 async function saveToFirebase(){
-  if(!FIREBASE_ENABLED || !db) return;
+  if(!FIREBASE_ENABLED || !db || !CU) return;
   
-  // Ask yourself: Is the person logged in actually the admin?
-  if (CU.team !== 'admin') {
-      console.error("Unauthorized attempt to save data.");
+  // If the current user is NOT admin, stop right here
+  if (CU.username !== 'admin') {
+      console.warn("Students cannot save to the cloud.");
       return;
   }
 
   try {
     await setDoc(doc(db, 'zenith', 'data'), {
-      adminKey: "YOUR_SECRET_PASSWORD_HERE", // Matches the rule above
+      updatedBy: CU.username, // This tells Firebase: "I am the admin"
       scores,
       events: EVENTS,
       students,
       eventGrades,
       gradeDefPts
     }, { merge: true });
+    console.log("Admin changes saved successfully.");
   } catch(err) {
-    console.error("Firebase rejected the save. You don't have permission.");
+    console.error("Security Error: Firebase blocked this save.");
   }
 }
 
