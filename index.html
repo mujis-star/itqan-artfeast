@@ -346,6 +346,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 </head>
 <body>
 
+<!-- HAMBURGER (mobile only) -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+  
 <!-- LOGIN -->
 <div id="pgLogin" class="page active">
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
