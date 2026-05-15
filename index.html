@@ -256,6 +256,92 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 @media(max-width:700px){.sb{width:196px;}.main{margin-left:196px;}.view{padding:1.2rem;}}
 @media(max-width:500px){.sb{display:none;}.main{margin-left:0;}}
+
+  /* ══ HAMBURGER ══ */
+.hamburger{display:none;position:fixed;top:.7rem;left:.9rem;z-index:50;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.48rem .58rem;cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center;}
+.hamburger span{display:block;width:18px;height:2px;background:var(--muted);border-radius:2px;transition:all .25s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:19;backdrop-filter:blur(3px);}
+.sb-overlay.show{display:block;}
+
+/* ══ TABLET 860px ══ */
+@media(max-width:860px){
+  .twocol{grid-template-columns:1fr;}
+  .agrid{grid-template-columns:1fr;}
+  .mrow2{grid-template-columns:1fr;}
+  .srow{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
+  .sgrid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}
+}
+
+/* ══ TABLET 700px ══ */
+@media(max-width:700px){
+  .hamburger{display:flex;}
+  .sb{
+    width:260px;
+    transform:translateX(-100%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    z-index:30;
+  }
+  .sb.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .view{padding:1.2rem;}
+  .topbar{padding:.75rem 1.2rem .75rem 3.5rem;}
+  .tbtitle{font-size:.95rem;}
+  .tbmeta{display:none;}
+  .hero{padding:1.2rem 1.2rem 1rem;}
+  .herot{font-size:1.5rem;}
+  .card{padding:1rem;}
+  .fbar{gap:.5rem;}
+  .finp{min-width:0;flex:1;}
+  /* hide less-important table columns on mobile */
+  .dt th:nth-child(5),.dt td:nth-child(5),
+  .dt th:nth-child(6),.dt td:nth-child(6){display:none;}
+  .srow{grid-template-columns:1fr 1fr;}
+  .agrid{grid-template-columns:1fr;}
+}
+
+/* ══ MOBILE 500px ══ */
+@media(max-width:500px){
+  .hamburger{top:.6rem;left:.7rem;}
+  .sb{width:85vw;}
+  .view{padding:.9rem .8rem;}
+  .hero{padding:1rem;}
+  .herot{font-size:1.3rem;}
+  .heros{font-size:.85rem;}
+  .srow{grid-template-columns:1fr 1fr;}
+  .sc{padding:.8rem .6rem;}
+  .scval{font-size:1.8rem;}
+  .sgrid{grid-template-columns:1fr 1fr;}
+  .card{padding:.9rem .8rem;}
+  .btn{padding:.32rem .7rem;font-size:.76rem;}
+  .bsm{padding:.24rem .5rem;font-size:.7rem;}
+  /* stack filter bar */
+  .fbar{flex-direction:column;align-items:stretch;}
+  .finp,.fsel{width:100%;}
+  /* hide more table columns */
+  .dt th:nth-child(4),.dt td:nth-child(4),
+  .dt th:nth-child(7),.dt td:nth-child(7){display:none;}
+  /* admin score cards */
+  .ath{flex-direction:column;align-items:flex-start;gap:.3rem;}
+  .atp{font-size:1.2rem;}
+  /* grade defs grid */
+  #vGradeDef > div{grid-template-columns:1fr!important;}
+  /* login card */
+  .lcard{padding:2rem 1.4rem 1.6rem;}
+  .logoname{font-size:2.4rem;}
+  /* modal */
+  .mbox{padding:1.4rem;}
+  .mtitle{font-size:1rem;}
+}
+
+/* ══ VERY SMALL 380px ══ */
+@media(max-width:380px){
+  .srow{grid-template-columns:1fr;}
+  .sgrid{grid-template-columns:1fr;}
+  .hints{display:none;}
+}
 </style>
 </head>
 <body>
