@@ -332,6 +332,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="fld"><label>Password</label><div class="inpw"><i class="ico fas fa-lock"></i><input type="password" id="lgP" placeholder="Enter password" autocomplete="current-password"><button class="eyebtn" onclick="toggleEye('lgP',this)"><i class="fas fa-eye"></i></button></div></div>
     <button class="loginbtn" onclick="doLogin()"><i class="fas fa-sign-in-alt" style="margin-right:6px"></i>Enter the Fest</button>
     <div class="hints"><span class="hchip">👑 Admin</span><span class="hchip">🎭 Othello</span><span class="hchip">⚔️ Macbeth</span><span class="hchip">💀 Hamlet</span></div>
+    <div style="text-align:center;margin-top:1.2rem">
+      <span onclick="clearStorage()" style="font-size:.7rem;color:var(--muted2);cursor:pointer;text-decoration:underline;opacity:.6">Having trouble? Reset local data</span>
+    </div>
   </div>
 </div>
 
@@ -602,8 +605,15 @@ function saveAll(){
 }
 function loadAll(){
   try{scores=JSON.parse(localStorage.getItem('z_scores')||'null')||defScores();}catch(e){scores=defScores();}
-  try{creds=JSON.parse(localStorage.getItem('z_creds')||'null')||null;}catch(e){creds=null;}
-  if(!creds){creds={};for(const k in DC)creds[k]={...DC[k]};}
+  /* load creds then fill any missing keys from DC */
+  try{
+    const stored=JSON.parse(localStorage.getItem('z_creds')||'null');
+    if(stored&&typeof stored==='object'){
+      creds={...DC,...stored}; /* DC is the fallback for any missing team */
+    } else {
+      creds={...DC};
+    }
+  }catch(e){creds={...DC};}
   try{const ev=JSON.parse(localStorage.getItem('z_events')||'null');if(ev&&ev.length)EVENTS=ev;}catch(e){}
   try{const st=JSON.parse(localStorage.getItem('z_students')||'null');if(st&&st.length)students=st;}catch(e){}
   EVENTS.forEach(e=>{if(!scores[e.id])scores[e.id]={othello:0,macbeth:0,hamlet:0};});
@@ -624,20 +634,32 @@ function getEG(eid,team){return(eventGrades[eid]&&eventGrades[eid][team])||'';}
 function setEG(eid,team,grade){if(!eventGrades[eid])eventGrades[eid]={};eventGrades[eid][team]=grade;}
 
 /* ── AUTH ── */
+function clearStorage(){
+  if(!confirm('This will clear all locally stored data and reset to defaults. Continue?'))return;
+  ['z_scores','z_creds','z_events','z_students','z_egrades','z_gradedef'].forEach(k=>localStorage.removeItem(k));
+  sessionStorage.removeItem('z_u');
+  location.reload();
+}
+
 function doLogin(){
   const user=document.getElementById('lgU').value.trim();
   const pass=document.getElementById('lgP').value;
-  const hv=h(pass);
-  /* use stored creds, but always fall back to defaults if missing */
-  const activeCreds=(creds&&Object.keys(creds).length>0)?creds:DC;
-  let found=null;
-  for(const k in activeCreds){
-    if(activeCreds[k].username===user&&activeCreds[k].hash===hv){found=activeCreds[k];break;}
+  if(!user||!pass){
+    const eb=document.getElementById('errbox');
+    document.querySelector('#errbox span').textContent='Please enter username and password.';
+    eb.style.display='flex';setTimeout(()=>eb.style.display='none',3200);
+    return;
   }
-  /* also always check DC defaults as fallback */
-  if(!found){
-    for(const k in DC){
-      if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
+  const hv=h(pass);
+  /* always check DC defaults first (guaranteed correct) */
+  let found=null;
+  for(const k in DC){
+    if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
+  }
+  /* then check stored creds (for changed passwords) */
+  if(!found&&creds){
+    for(const k in creds){
+      if(creds[k]&&creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}
     }
   }
   if(found){
@@ -646,6 +668,7 @@ function doLogin(){
     openApp();
   } else {
     const eb=document.getElementById('errbox');
+    document.querySelector('#errbox span').textContent='Invalid username or password.';
     eb.style.display='flex';
     setTimeout(()=>eb.style.display='none',3200);
   }
@@ -1027,7 +1050,7 @@ function switchView(id,title){
 }
 
 /* ── EXPOSE TO HTML onclick handlers ── */
-Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,upScore,upGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar});
+Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,upScore,upGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
 
 /* ── INIT ── */
 loadAll();
