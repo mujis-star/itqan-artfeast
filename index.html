@@ -876,14 +876,54 @@ function openEditStuModal(sid){
   openM('Edit Student',`<div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" value="${s.name}"></div><div class="mfld"><label>Roll No</label><input id="mSr" value="${s.roll}"></div></div><div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select…</option>${teamOpts(s.team)}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" value="${s.grade||''}"></div></div><div class="mfld"><label>Events Participating</label>${evCheckboxes(s.events)}</div><div class="mfld"><label>Role / Note</label><input id="mSno" value="${s.note||''}"></div>`,
   `<button class="btn bg" onclick="submitEditStu('${sid}')"><i class="fas fa-save"></i>Save Changes</button><button class="btn bd" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>{delStudent('${sid}');closeM();})"><i class="fas fa-trash"></i>Delete</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
-function submitEditStu(sid){
-  if(!isAdmin()){alert('Permission denied.');return;}
-  const s=students.find(x=>x.id===sid);if(!s)return;
-  s.name=document.getElementById('mSn').value.trim()||s.name;s.roll=document.getElementById('mSr').value.trim()||s.roll;s.team=document.getElementById('mSt').value||s.team;s.grade=document.getElementById('mSg').value.trim();s.note=document.getElementById('mSno').value.trim();s.events=getChecked();
-  saveAll();buildStuStats();renderStudents();closeM();
+function delStudent(sid){
+  if(!isAdmin()){
+    alert('Permission denied.');
+    return;
+  }
+  // 1. Remove the student locally
+  const studentToDelete = students.find(x => x.id === sid);
+  students = students.filter(x => x.id !== sid);
+  
+  // 2. Immediately save local state
+  localStorage.setItem('z_students', JSON.stringify(students));
+  
+  // 3. Force an immediate update to the cloud database
+  saveToFirebase().then(() => {
+    buildStuStats();
+    renderStudents();
+  }).catch(err => {
+    console.error("Failed to delete student from cloud:", err);
+    // If cloud save fails (e.g. permission issues), revert local change so UI stays accurate
+    location.reload();
+  });
 }
-function delStudent(sid){if(!isAdmin()){alert('Permission denied.');return;}students=students.filter(x=>x!==sid);saveAll();buildStuStats();renderStudents();}
 
+function submitEditStu(sid){
+  if(!isAdmin()){
+    alert('Permission denied.');
+    return;
+  }
+  const s = students.find(x => x.id === sid);
+  if(!s) return;
+  
+  s.name = document.getElementById('mSn').value.trim() || s.name;
+  s.roll = document.getElementById('mSr').value.trim() || s.roll;
+  s.team = document.getElementById('mSt').value || s.team;
+  s.grade = document.getElementById('mSg').value.trim();
+  s.note = document.getElementById('mSno').value.trim();
+  s.events = getChecked();
+  
+  // Save locally first
+  localStorage.setItem('z_students', JSON.stringify(students));
+  
+  // Immediately sync up to Firebase
+  saveToFirebase().then(() => {
+    buildStuStats();
+    renderStudents();
+    closeM();
+  });
+}
 /* ── SCORE MANAGER ── */
 function stuForTeamEvent(team,eid){return students.filter(s=>s.team===team&&s.events.includes(eid));}
 function gradeSelHtml(eid,team){
