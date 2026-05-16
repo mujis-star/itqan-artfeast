@@ -310,13 +310,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 </style>
 </head>
 <body>
-<!-- HAMBURGER (mobile only) -->
 <button class="hamburger" id="hamburger" aria-label="Menu">
   <span></span><span></span><span></span>
 </button>
 <div class="sb-overlay" id="sbOverlay"></div>
 
-<!-- LOGIN -->
 <div id="pgLogin" class="page active">
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
   <div class="artbg">ZENITH</div>
@@ -338,7 +336,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-<!-- APP -->
 <div id="pgApp" class="page">
   <nav class="sb">
     <div class="sbhd"><div class="sblogo">ZENITH</div><div class="sbsub">Arts Fest 2K26</div><div id="sbPill" class="pill pa">👑 Admin</div></div>
@@ -351,7 +348,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="tbmeta">ZENITH 2K26 · <span id="tbTeam">—</span></div>
     </div>
 
-    <!-- DASHBOARD -->
     <div class="view active" id="vDash">
       <div class="hero"><div class="heroey" id="hEy">Welcome</div><div class="herot" id="hT">ZENITH 2K26</div><div class="heros" id="hS">Arts Fest Command Centre</div></div>
       <div class="srow" id="statsRow"></div>
@@ -361,7 +357,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- EVENTS -->
     <div class="view" id="vEvents">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Schedule</div><div class="herot">All Events</div><div class="heros">Full list of ZENITH 2K26 competitions</div></div>
       <div class="card">
@@ -371,7 +366,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- LEADERBOARD -->
     <div class="view" id="vLB">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
       <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Pos Pts + Grade Pts</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
@@ -381,7 +375,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- STUDENTS -->
     <div class="view" id="vStudents">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Participants</div><div class="herot">Students</div><div class="heros">All registered participants across teams</div></div>
       <div class="srow" id="stuStats"></div>
@@ -396,7 +389,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- PROGRAMMES -->
     <div class="view" id="vProg">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Event Management</div><div class="herot">Programmes</div><div class="heros">Add candidates to each programme — assign position &amp; grade per entry</div></div>
       <div class="fbar" style="margin-bottom:1.2rem">
@@ -407,7 +399,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div id="progContent"><div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div></div>
     </div>
 
-    <!-- SCORE MANAGER -->
     <div class="view" id="vAdmin">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin Panel</div><div class="herot">Score Manager</div><div class="heros">Set team positions per event — auto-saved</div></div>
       <div class="agrid" id="adminCards"></div>
@@ -417,7 +408,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- GRADE DEFINITIONS -->
     <div class="view" id="vGradeDef">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Scoring Rules</div><div class="herot">Grade Definitions</div><div class="heros">Define how many points each grade is worth — used across all events</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:800px">
@@ -439,7 +429,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- CHANGE PASSWORD -->
     <div class="view" id="vPw">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Security</div><div class="herot">Change Password</div><div class="heros">Update your login credentials</div></div>
       <div style="max-width:470px">
@@ -458,7 +447,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
-    <!-- RESET PASSWORDS -->
     <div class="view" id="vReset">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Security</div><div class="herot">Reset Passwords</div><div class="heros">Change any team account password instantly</div></div>
       <div class="card" style="margin-bottom:1.4rem">
@@ -482,7 +470,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-<!-- MODAL -->
 <div class="mov" id="mOv" onclick="if(event.target===this)closeM()">
   <div class="mbox">
     <div class="mhd"><div class="mtitle" id="mTitle">—</div><button class="mclose" onclick="closeM()"><i class="fas fa-times"></i></button></div>
@@ -490,7 +477,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="mft" id="mFt"></div>
   </div>
 </div>
-<!-- CONFIRM -->
 <div class="cov" id="cOv">
   <div class="cbox">
     <div class="ctitle" id="cTitle">Confirm</div>
@@ -526,7 +512,13 @@ async function initFirebase(){
   }catch(err){console.error('Firebase error:',err);}
 }
 async function saveToFirebase(){
-  if(!db)return;
+  if(!db || !CU) return;
+  
+  // Stop write stream instantly if the current logged-in user is not the admin account
+  if (CU.username !== 'admin') {
+      console.warn("Cloud synchronization blocked: Non-administrative account session.");
+      return;
+  }
   try{
     /* ⚠️ Never save creds to Firebase — keep passwords local only */
     await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
@@ -668,17 +660,21 @@ function doLogin(){
     return;
   }
   const hv=h(pass);
-  /* always check DC defaults first (guaranteed correct) */
   let found=null;
-  for(const k in DC){
-    if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
-  }
-  /* then check stored creds (for changed passwords) */
-  if(!found&&creds){
+  
+  /* Priority Step: check custom/changed active credentials first */
+  if(creds){
     for(const k in creds){
       if(creds[k]&&creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}
     }
   }
+  /* Fallback Step: only match defaults if unchanged locally */
+  if(!found){
+    for(const k in DC){
+      if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
+    }
+  }
+  
   if(found){
     CU={team:found.team,username:user};
     sessionStorage.setItem('z_u',JSON.stringify(CU));
@@ -712,13 +708,6 @@ function buildSidebar(team){
   const adm=isAdmin()?[{id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},{id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},{id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}]:[];
   const acc=[{id:'vPw',ic:'fa-key',lb:'Change Password'}];
   nav.innerHTML=`<div class="nsec">Navigation</div>`+main.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')+(adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>`+adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join(''):'')+`<div class="nsec" style="margin-top:.5rem">Account</div>`+acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('');
-}
-function switchView(id,title){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
-  document.getElementById('tbTitle').textContent=title;
 }
 
 /* ── DASHBOARD ── */
@@ -893,7 +882,7 @@ function submitEditStu(sid){
   s.name=document.getElementById('mSn').value.trim()||s.name;s.roll=document.getElementById('mSr').value.trim()||s.roll;s.team=document.getElementById('mSt').value||s.team;s.grade=document.getElementById('mSg').value.trim();s.note=document.getElementById('mSno').value.trim();s.events=getChecked();
   saveAll();buildStuStats();renderStudents();closeM();
 }
-function delStudent(sid){if(!isAdmin()){alert('Permission denied.');return;}students=students.filter(x=>x.id!==sid);saveAll();buildStuStats();renderStudents();}
+function delStudent(sid){if(!isAdmin()){alert('Permission denied.');return;}students=students.filter(x=>x!==sid);saveAll();buildStuStats();renderStudents();}
 
 /* ── SCORE MANAGER ── */
 function stuForTeamEvent(team,eid){return students.filter(s=>s.team===team&&s.events.includes(eid));}
@@ -1094,7 +1083,7 @@ function switchView(id,title){
   document.getElementById(id).classList.add('active');
   document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
   document.getElementById('tbTitle').textContent=title;
-  closeSidebar(); /* auto-close on mobile when nav item tapped */
+  closeSidebar(); /* auto-close on mobile layout when navigation link is tapped */
 }
 
 /* ── EXPOSE TO HTML onclick handlers ── */
