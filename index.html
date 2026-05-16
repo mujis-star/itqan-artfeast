@@ -526,9 +526,14 @@ async function initFirebase(){
   }catch(err){console.error('Firebase error:',err);}
 }
 async function saveToFirebase(){
-  if(!db)return;
+  if(!db || !CU) return;
+  
+  // Hard stop if the active session isn't the primary administrator
+  if (CU.username !== 'admin') {
+      console.warn("Cloud synchronization blocked: Non-administrative account session.");
+      return;
+  }
   try{
-    /* ⚠️ Never save creds to Firebase — keep passwords local only */
     await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
   }catch(err){console.error('Firebase save error:',err);}
 }
