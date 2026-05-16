@@ -374,7 +374,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <!-- LEADERBOARD -->
     <div class="view" id="vLB">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
-      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
+      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Pos Pts + Grade Pts</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
       <div class="twocol">
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></table></div>
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-chart-bar"></i>Points</div></div><div id="ptsBars"></div></div>
@@ -622,7 +622,24 @@ function loadAll(){
 }
 
 /* ── COMPUTED ── */
-function tStats(t){let w=0,s2=0,s3=0,tot=0;EVENTS.forEach(e=>{const p=(scores[e.id]||{})[t]||0;if(p===1){w++;tot+=e.pts[0];}else if(p===2){s2++;tot+=e.pts[1];}else if(p===3){s3++;tot+=e.pts[2];}});return{won:w,sec:s2,trd:s3,total:tot};}
+function gradePts(eid,team){
+  /* returns the grade point value for a team's grade on an event */
+  const g=getEG(eid,team);
+  return(g&&gradeDefPts[g]!==undefined)?gradeDefPts[g]:0;
+}
+function tStats(t){
+  let w=0,s2=0,s3=0,tot=0;
+  EVENTS.forEach(e=>{
+    const p=(scores[e.id]||{})[t]||0;
+    /* position points */
+    if(p===1){w++;tot+=e.pts[0];}
+    else if(p===2){s2++;tot+=e.pts[1];}
+    else if(p===3){s3++;tot+=e.pts[2];}
+    /* grade points always added on top regardless of position */
+    tot+=gradePts(e.id,t);
+  });
+  return{won:w,sec:s2,trd:s3,total:tot};
+}
 function ranked(){return TEAMS.map(t=>({team:t,...tStats(t)})).sort((a,b)=>b.total-a.total||b.won-a.won);}
 function maxPts(){return Math.max(...TEAMS.map(t=>tStats(t).total),1);}
 function isAdmin(){return CU&&CU.team==='admin';}
@@ -657,15 +674,21 @@ function doLogin(){
     if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
   }
   /* then check stored creds (for changed passwords) */
-  if(!found&&creds){
+const hv=h(pass);
+  let found=null;
+  
+  // Check active credentials first (including changed passwords)
+  if(creds){
     for(const k in creds){
       if(creds[k]&&creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}
     }
   }
-  if(found){
-    CU={team:found.team,username:user};
-    sessionStorage.setItem('z_u',JSON.stringify(CU));
-    openApp();
+  
+  // Fall back to defaults only if no local changes exist
+  if(!found){
+    for(const k in DC){
+      if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
+    }
   } else {
     const eb=document.getElementById('errbox');
     document.querySelector('#errbox span').textContent='Invalid username or password.';
@@ -787,12 +810,39 @@ function submitAddEvent(){
 }
 
 /* ── LEADERBOARD ── */
-function buildOverall(){const r=ranked();document.getElementById('overallTb').innerHTML=r.map((x,i)=>`<tr><td>${i===0?`<span class="rk rk1">1</span>`:i===1?`<span class="rk rk2">2</span>`:`<span class="rk rk3">3</span>`}</td><td><span style="color:${TM[x.team].color};font-weight:500">${TM[x.team].emoji} ${TM[x.team].label}</span></td><td class="pts">${x.won}</td><td class="pts">${x.sec}</td><td class="pts">${x.trd}</td><td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${x.total}</td></tr>`).join('');}
+function buildOverall(){
+  const r=ranked();
+  document.getElementById('overallTb').innerHTML=r.map((x,i)=>{
+    /* calculate grade pts separately for display */
+    let grdTot=0;EVENTS.forEach(e=>{grdTot+=gradePts(e.id,x.team);});
+    const posTot=x.total-grdTot;
+    return`<tr>
+      <td>${i===0?`<span class="rk rk1">1</span>`:i===1?`<span class="rk rk2">2</span>`:`<span class="rk rk3">3</span>`}</td>
+      <td><span style="color:${TM[x.team].color};font-weight:500">${TM[x.team].emoji} ${TM[x.team].label}</span></td>
+      <td class="pts">${x.won}</td>
+      <td class="pts">${x.sec}</td>
+      <td class="pts">${x.trd}</td>
+      <td><span style="color:var(--muted);font-size:.8rem">${posTot}</span><span style="color:var(--ok);font-size:.75rem;margin-left:4px">${grdTot>0?'+'+grdTot+' grade':''}</span></td>
+      <td style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold)">${x.total}</td>
+    </tr>`;
+  }).join('');
+}
 function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
 function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
 
 /* ── STUDENTS ── */
-function stuPoints(s){let tot=0;s.events.forEach(eid=>{const pos=(scores[eid]||{})[s.team]||0;const ev=EVENTS.find(e=>e.id===eid);if(pos>0&&ev)tot+=ev.pts[pos-1];});return tot;}
+function stuPoints(s){
+  let tot=0;
+  s.events.forEach(eid=>{
+    const pos=(scores[eid]||{})[s.team]||0;
+    const ev=EVENTS.find(e=>e.id===eid);
+    /* position points */
+    if(pos>0&&ev)tot+=ev.pts[pos-1];
+    /* grade points */
+    tot+=gradePts(eid,s.team);
+  });
+  return tot;
+}
 function buildStuStats(){const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};document.getElementById('stuStats').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;}
 function renderStudents(){
   const q=(document.getElementById('stuSearch')?.value||'').toLowerCase();
@@ -887,8 +937,12 @@ function upScore(eid,team,pos){
 function upGrade(eid,team,grade){
   if(!isAdmin()){alert('Permission denied.');return;}
   setEG(eid,team,grade);
+  /* update the inline "= X pts" label */
   const el=document.getElementById('gpts_'+eid+'_'+team);
   if(el)el.textContent=grade&&gradeDefPts[grade]!==undefined?`= ${gradeDefPts[grade]} pts`:'';
+  /* refresh team total in the card header */
+  const tp=document.getElementById('adP_'+team);
+  if(tp)tp.textContent=tStats(team).total+' pts';
 }
 function saveScores(){if(!isAdmin()){alert('Permission denied.');return;}saveAll();rebuildAll();const n=document.getElementById('saveNotice');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
 
@@ -1044,66 +1098,16 @@ function switchView(id,title){
 }
 
 /* ── EXPOSE TO HTML onclick handlers ── */
-/* This block MUST be at the very bottom of your script */
-Object.assign(window, {
-  doLogin, 
-  doLogout, 
-  switchView, 
-  toggleEye, 
-  chkStr, 
-  doChangePw, 
-  clearPw, 
-  adminReset, 
-  resetAllPw, 
-  inlineEditEv, 
-  saveInlineEv, 
-  confirmDel, 
-  delEvent, 
-  openAddEventModal, 
-  submitAddEvent, 
-  openAddStuModal, 
-  submitAddStu, 
-  openEditStuModal, 
-  submitEditStu, 
-  delStudent, 
-  renderEvents, 
-  renderStudents, 
-  renderProg, 
-  openAddCandModal, 
-  submitAddCand, 
-  openEditCandModal, 
-  submitEditCand, 
-  removeCand, 
-  upScore, 
-  upGrade, 
-  saveScores, 
-  saveGradeDef, 
-  resetGradeDef, 
-  closeM, 
-  closeC, 
-  toggleSidebar, 
-  closeSidebar, 
-  clearStorage
-});
+Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,upScore,upGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
 
 /* ── INIT ── */
 loadAll();
 initFirebase();
+try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
 
-// Check if user was already logged in
-try {
-  const sv = JSON.parse(sessionStorage.getItem('z_u') || 'null');
-  if (sv) {
-    CU = sv;
-    openApp();
-  }
-} catch (e) {}
-
-/* wire hamburger listeners */
-document.getElementById('hamburger').addEventListener('click', toggleSidebar);
-document.getElementById('sbOverlay').addEventListener('click', closeSidebar);
-
-  
+/* wire hamburger AFTER module is ready */
+document.getElementById('hamburger').addEventListener('click',toggleSidebar);
+document.getElementById('sbOverlay').addEventListener('click',closeSidebar);
 </script>
 </body>
 </html>
