@@ -526,14 +526,9 @@ async function initFirebase(){
   }catch(err){console.error('Firebase error:',err);}
 }
 async function saveToFirebase(){
-  if(!db || !CU) return;
-  
-  // Hard stop if the active session isn't the primary administrator
-  if (CU.username !== 'admin') {
-      console.warn("Cloud synchronization blocked: Non-administrative account session.");
-      return;
-  }
+  if(!db)return;
   try{
+    /* ⚠️ Never save creds to Firebase — keep passwords local only */
     await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
   }catch(err){console.error('Firebase save error:',err);}
 }
@@ -679,21 +674,15 @@ function doLogin(){
     if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
   }
   /* then check stored creds (for changed passwords) */
-const hv=h(pass);
-  let found=null;
-  
-  // Check active credentials first (including changed passwords)
-  if(creds){
+  if(!found&&creds){
     for(const k in creds){
       if(creds[k]&&creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}
     }
   }
-  
-  // Fall back to defaults only if no local changes exist
-  if(!found){
-    for(const k in DC){
-      if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
-    }
+  if(found){
+    CU={team:found.team,username:user};
+    sessionStorage.setItem('z_u',JSON.stringify(CU));
+    openApp();
   } else {
     const eb=document.getElementById('errbox');
     document.querySelector('#errbox span').textContent='Invalid username or password.';
@@ -724,7 +713,13 @@ function buildSidebar(team){
   const acc=[{id:'vPw',ic:'fa-key',lb:'Change Password'}];
   nav.innerHTML=`<div class="nsec">Navigation</div>`+main.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')+(adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>`+adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join(''):'')+`<div class="nsec" style="margin-top:.5rem">Account</div>`+acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('');
 }
-
+function switchView(id,title){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
+  document.getElementById('tbTitle').textContent=title;
+}
 
 /* ── DASHBOARD ── */
 function buildStats(){
