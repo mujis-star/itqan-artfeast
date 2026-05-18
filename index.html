@@ -717,6 +717,8 @@ function buildApp(){
   buildSidebar(team);rebuildAll();
 }
 function buildSidebar(team){
+  // Inside buildSidebar(), add this to the 'main' array or a new section:
+ id: 'external', ic: 'fa-building', lb: 'About ITQAN Union', external: true, url: 'https://itqan-friends.vercel.app/' 
   const nav=document.getElementById('sbNav');
   const main=[{id:'vDash',ic:'fa-gauge',lb:'Dashboard'},{id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},{id:'vEvents',ic:'fa-calendar-days',lb:'Events'},{id:'vStudents',ic:'fa-users',lb:'Students'},{id:'vProg',ic:'fa-clipboard-list',lb:'Programmes'}];
   const adm=isAdmin()?[{id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},{id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},{id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}]:[];
