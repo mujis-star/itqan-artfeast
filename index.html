@@ -263,7 +263,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   .card{padding:1rem;}
   .fbar{gap:.5rem;}
   .finp{min-width:0;flex:1;}
-  /* hide less-important table columns on mobile */
   .dt th:nth-child(5),.dt td:nth-child(5),
   .dt th:nth-child(6),.dt td:nth-child(6){display:none;}
   .srow{grid-template-columns:1fr 1fr;}
@@ -285,21 +284,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   .card{padding:.9rem .8rem;}
   .btn{padding:.32rem .7rem;font-size:.76rem;}
   .bsm{padding:.24rem .5rem;font-size:.7rem;}
-  /* stack filter bar */
   .fbar{flex-direction:column;align-items:stretch;}
   .finp,.fsel{width:100%;}
-  /* hide more table columns */
   .dt th:nth-child(4),.dt td:nth-child(4),
   .dt th:nth-child(7),.dt td:nth-child(7){display:none;}
-  /* admin score cards */
   .ath{flex-direction:column;align-items:flex-start;gap:.3rem;}
   .atp{font-size:1.2rem;}
-  /* grade defs grid */
   #vGradeDef > div{grid-template-columns:1fr!important;}
-  /* login card */
   .lcard{padding:2rem 1.4rem 1.6rem;}
   .logoname{font-size:2.4rem;}
-  /* modal */
   .mbox{padding:1.4rem;}
   .mtitle{font-size:1rem;}
 }
@@ -327,15 +320,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="logoname">ZENITH</div>
       <div class="logotag">Arts Fest 2K26 · Where Talent Meets Glory</div>
     </div>
-<div style="text-align: center; margin-top: 1.5rem; z-index: 1; position: relative;">
-    <p style="font-size: 0.75rem; color: var(--muted);">
+    <div style="text-align: center; margin-top: 1.5rem; z-index: 1; position: relative;">
+      <p style="font-size: 0.75rem; color: var(--muted);">
         Organized by 
         <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
-            <i class="fas fa-users"></i> ITQAN Union
+          <i class="fas fa-users"></i> ITQAN Union
         </a>
         — Intelligent Trainees for Qualified Academic Network
-    </p>
-</div>
+      </p>
+    </div>
     <div class="divln"><span></span><p>Sign in to your team</p><span></span></div>
     <div id="errbox" class="errbox"><i class="fas fa-triangle-exclamation"></i><span>Invalid credentials</span></div>
     <div class="fld"><label>Username</label><div class="inpw"><i class="ico fas fa-user"></i><input type="text" id="lgU" placeholder="Enter username" autocomplete="username"></div></div>
@@ -389,7 +382,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <div class="view" id="vStudents">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Participants</div><div class="herot">Students</div><div class="heros">All registered participants across teams</div></div>
-      <div class="srow" id="statsRow"></div>
+      <div class="srow" id="stuStatsRow"></div>
       <div class="card">
         <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Student Directory</div><div id="stuBtns"></div></div>
         <div class="fbar">
@@ -465,10 +458,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div>
         <table class="rtbl"><thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead>
           <tbody>
-            <tr><td><span style="color:var(--oc);font-weight:500">🎭 Othello</span></td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
-            <tr><td><span style="color:var(--mc);font-weight:500">⚔️ Macbeth</span></td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
-            <tr><td><span style="color:var(--hc);font-weight:500">💀 Hamlet</span></td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr>
-            <tr><td><span style="color:var(--ac);font-weight:500">👑 Admin</span></td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr>
+            <tr><td style="color:var(--oc);font-weight:500">🎭 Othello</td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
+            <tr><td style="color:var(--mc);font-weight:500">⚔️ Macbeth</td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
+            <tr><td style="color:var(--hc);font-weight:500">💀 Hamlet</td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr>
+            <tr><td style="color:var(--ac);font-weight:500">👑 Admin</td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -480,17 +473,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
   </div>
-  <footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%;">
-    <div class="copyright" style="text-align: center;">
-      <p style="font-size: 0.8rem; color: var(--muted);">
-        © 2026 ZENITH Arts Fest. Organized by 
-        <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
-          <i class="fas fa-users"></i> ITQAN Union
-        </a>. All Rights Reserved.
-      </p>
-    </div>
-  </footer>
 </div>
+
+<footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%;">
+  <div class="copyright" style="text-align: center;">
+    <p style="font-size: 0.8rem; color: var(--muted);">
+      © 2026 ZENITH Arts Fest. Organized by 
+      <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
+        <i class="fas fa-users"></i> ITQAN Union
+      </a>. All Rights Reserved.
+    </p>
+  </div>
+</footer>
 
 <div class="mov" id="mOv" onclick="if(event.target===this)closeM()">
   <div class="mbox">
@@ -714,6 +708,7 @@ function buildApp(){
   buildSidebar(team);rebuildAll();
 }
 
+/* ── CORRECT buildSidebar FUNCTION (ONLY ONE) ── */
 function buildSidebar(team){
   const nav=document.getElementById('sbNav');
   const externalLinks = [
@@ -752,6 +747,54 @@ function buildSidebar(team){
     <div class="nsec" style="margin-top:.5rem">Account</div>
     ${acc.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
   `;
+}
+
+/* ── ADD MISSING buildStats FUNCTION ── */
+function buildStats(){
+  const statsRow = document.getElementById('statsRow');
+  if(!statsRow) return;
+  
+  if(isAdmin()){
+    const r = ranked();
+    const done = EVENTS.filter(e => TEAMS.some(t => scores[e.id] && scores[e.id][t] > 0)).length;
+    statsRow.innerHTML = `
+      <div class="sc"><div class="sclbl">Total Events</div><div class="scval">${EVENTS.length}</div><div class="scnote">scheduled</div></div>
+      <div class="sc"><div class="sclbl">Results In</div><div class="scval">${done}</div><div class="scnote">of ${EVENTS.length}</div></div>
+      <div class="sc"><div class="sclbl">Students</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div>
+      <div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0]?.team]?.color || 'var(--gold)'}">${TM[r[0]?.team]?.emoji || '🏆'}</div><div class="scnote">${TM[r[0]?.team]?.label || '—'} · ${r[0]?.total || 0}pts</div></div>
+    `;
+  } else if(CU){
+    const s = tStats(CU.team);
+    const r = ranked();
+    const rank = r.findIndex(x => x.team === CU.team) + 1;
+    const myStu = students.filter(x => x.team === CU.team).length;
+    statsRow.innerHTML = `
+      <div class="sc"><div class="sclbl">Total Points</div><div class="scval">${s.total}</div><div class="scnote">accumulated</div></div>
+      <div class="sc"><div class="sclbl">1st Places</div><div class="scval" style="color:var(--gold)">${s.won}</div><div class="scnote">gold</div></div>
+      <div class="sc"><div class="sclbl">2nd Places</div><div class="scval" style="color:#c0c0c0">${s.sec}</div><div class="scnote">silver</div></div>
+      <div class="sc"><div class="sclbl">3rd Places</div><div class="scval" style="color:#cd7f32">${s.trd}</div><div class="scnote">bronze</div></div>
+      <div class="sc"><div class="sclbl">Current Rank</div><div class="scval">#${rank}</div><div class="scnote">of 3 teams</div></div>
+      <div class="sc"><div class="sclbl">Team Members</div><div class="scval">${myStu}</div><div class="scnote">students</div></div>
+    `;
+  }
+}
+
+/* ── UPDATE buildStuStats TO USE CORRECT ID ── */
+function buildStuStats(){
+  const c = {
+    othello: students.filter(s => s.team === 'othello').length,
+    macbeth: students.filter(s => s.team === 'macbeth').length,
+    hamlet: students.filter(s => s.team === 'hamlet').length
+  };
+  const stuStatsRow = document.getElementById('stuStatsRow');
+  if(stuStatsRow){
+    stuStatsRow.innerHTML = `
+      <div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div>
+      <div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div>
+      <div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div>
+      <div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>
+    `;
+  }
 }
 
 function buildLBBars(){const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');}
@@ -867,7 +910,6 @@ function stuPoints(s){
   });
   return tot;
 }
-function buildStuStats(){const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};document.getElementById('statsRow').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;}
 function renderStudents(){
   const q=(document.getElementById('stuSearch')?.value||'').toLowerCase();
   const tf=document.getElementById('stuTeamF')?.value||'';
@@ -878,7 +920,7 @@ function renderStudents(){
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
   const bgT={othello:'rgba(78,205,196,.1)',macbeth:'rgba(199,125,255,.1)',hamlet:'rgba(247,127,90,.1)'};
   if(mode==='table'){
-    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead><tbody>${
+    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}<tr></thead><tbody>${
       list.map(s=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id).join(', ');const sp=stuPoints(s);
         return`<tr><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td style="font-size:.82rem">${s.grade||'—'}</td><td><span class="spts">${sp} pts</span></td><td style="font-size:.76rem;color:var(--muted)">${evNm||'—'}</td><td style="font-size:.76rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditStuModal('${s.id}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>delStudent('${s.id}'))"><i class="fas fa-trash"></i></button></div></td>`:''}</tr>`;
       }).join('')
@@ -918,7 +960,6 @@ function delStudent(sid){
   }
   students = students.filter(x => x.id !== sid);
   localStorage.setItem('z_students', JSON.stringify(students));
-  
   saveToFirebase().then(() => {
     buildStuStats();
     renderStudents();
@@ -927,7 +968,6 @@ function delStudent(sid){
     location.reload();
   });
 }
-
 function submitEditStu(sid){
   if(!isAdmin()){
     alert('Permission denied.');
@@ -944,7 +984,6 @@ function submitEditStu(sid){
   s.events = getChecked();
   
   localStorage.setItem('z_students', JSON.stringify(students));
-  
   saveToFirebase().then(() => {
     buildStuStats();
     renderStudents();
@@ -1110,8 +1149,22 @@ function closeM(){document.getElementById('mOv').classList.remove('open');}
 function confirmDel(title,msg,onOk){document.getElementById('cTitle').textContent=title;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOk').onclick=()=>{onOk();closeC();};document.getElementById('cOv').classList.add('open');}
 function closeC(){document.getElementById('cOv').classList.remove('open');}
 
-/* ── REBUILD ── */
-function rebuildAll(){buildStats();buildLBBars();buildEvGlance();buildOverall();buildEvRes();buildPtsBars();buildBtns();renderEvents();buildStuStats();renderStudents();buildProgSel();buildGradeDefTable();if(isAdmin())buildAdminCards();}
+/* ── REBUILD ALL ── */
+function rebuildAll(){
+  buildStats();
+  buildLBBars();
+  buildEvGlance();
+  buildOverall();
+  buildEvRes();
+  buildPtsBars();
+  buildBtns();
+  renderEvents();
+  buildStuStats();
+  renderStudents();
+  buildProgSel();
+  buildGradeDefTable();
+  if(isAdmin()) buildAdminCards();
+}
 
 /* ── PASSWORD ── */
 function toggleEye(id,btn){const el=document.getElementById(id),ic=btn.querySelector('i');el.type=el.type==='password'?'text':'password';ic.className=el.type==='text'?'fas fa-eye-slash':'fas fa-eye';}
@@ -1123,7 +1176,6 @@ function adminReset(team){if(!isAdmin()){alert('Permission denied.');return;}con
 function resetAllPw(){if(!isAdmin()){alert('Permission denied.');return;}for(const k in DC)creds[k].hash=DC[k].hash;saveAll();const n=document.getElementById('rAllOk');n.style.display='flex';setTimeout(()=>n.style.display='none',4000);}
 
 /* ── MOBILE SIDEBAR ── */
-/* The ONLY active switchView definition */
 function toggleSidebar(){
   const sb=document.querySelector('.sb');
   const hb=document.getElementById('hamburger');
@@ -1161,7 +1213,6 @@ loadAll();
 initFirebase();
 try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
 
-/* wire hamburger AFTER module is ready */
 document.getElementById('hamburger').addEventListener('click',toggleSidebar);
 document.getElementById('sbOverlay').addEventListener('click',closeSidebar);
 </script>
