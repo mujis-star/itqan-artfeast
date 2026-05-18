@@ -982,14 +982,135 @@ function submitEditStu(sid){
 }
 
 /* ── PROGRAMMES (UPDATED TO HANDLE ALL EVENTS) ── */
-function buildProgSel(){const sel=document.getElementById('progEvSel');if(!sel)return;const cur=sel.value;sel.innerHTML=`<option value="">— Select a Programme —</option>`+EVENTS.map(e=>`<option value="${e.id}" ${e.id===cur?'selected':''}>${e.name} (${e.cat})</option>`).join('');}
+function buildProgSel(){
+  const sel=document.getElementById('progEvSel');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML=`<option value="">— Select a Programme —</option>
+                 <option value="ALL" ${cur==='ALL'?'selected':''}>📋 ALL PROGRAMS (View All)</option>
+                 <option disabled>──────────</option>`+
+                 EVENTS.map(e=>`<option value="${e.id}" ${e.id===cur?'selected':''}>${e.name} (${e.cat})</option>`).join('');
+}
 function renderProg(){
   const eid=document.getElementById('progEvSel')?.value||'';
   const tf=document.getElementById('progTeamF')?.value||'';
-  const addBtn=document.getElementById('progAddBtn');
-  if(addBtn)addBtn.style.display=(eid&&isAdmin())?'inline-flex':'none';
-  const con=document.getElementById('progContent');
-  if(!eid){con.innerHTML=`<div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage scores, grades & participants</div>`;return;}
+  const addBtn = document.getElementById('progAddBtn');
+if(addBtn) addBtn.style.display = (eid && eid !== 'ALL' && isAdmin()) ? 'inline-flex' : 'none';
+  // Check if "ALL PROGRAMS" is selected
+  if(eid === 'ALL'){
+    renderAllPrograms(tf);
+    return;
+  }
+
+  function renderAllPrograms(teamFilter){
+  const con = document.getElementById('progContent');
+  const tf = teamFilter || '';
+  
+  // Get all events that have results or participants
+  const eventsWithData = EVENTS.filter(e => {
+    const hasParticipants = students.some(s => s.events.includes(e.id) && (!tf || s.team === tf));
+    const hasScores = TEAMS.some(t => (scores[e.id] || {})[t] > 0);
+    return hasParticipants || hasScores;
+  });
+  
+  if(eventsWithData.length === 0){
+    con.innerHTML = `<div style="padding:3rem;text-align:center;color:var(--muted)">
+      <i class="fas fa-info-circle" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>
+      No data available. Select individual programs to add participants and scores.
+    </div>`;
+    return;
+  }
+  
+  // Group events by category
+  const grouped = {};
+  eventsWithData.forEach(e => {
+    if(!grouped[e.cat]) grouped[e.cat] = [];
+    grouped[e.cat].push(e);
+  });
+  
+  let html = `<div class="hero" style="margin-bottom:1rem">
+    <div class="heroey">📊 Overview</div>
+    <div class="herot">All Programs</div>
+    <div class="heros">Complete view of all events with scores and grades</div>
+  </div>`;
+  
+  // Summary stats
+  const totalTeams = TEAMS.length;
+  const totalEvents = EVENTS.length;
+  const completedEvents = EVENTS.filter(e => TEAMS.some(t => (scores[e.id] || {})[t] > 0)).length;
+  
+  html += `
+    <div class="srow" style="margin-bottom:1.2rem">
+      <div class="sc"><div class="sclbl">Total Events</div><div class="scval">${totalEvents}</div><div class="scnote">scheduled</div></div>
+      <div class="sc"><div class="sclbl">Completed</div><div class="scval" style="color:var(--ok)">${completedEvents}</div><div class="scnote">results declared</div></div>
+      <div class="sc"><div class="sclbl">Pending</div><div class="scval" style="color:var(--gold)">${totalEvents - completedEvents}</div><div class="scnote">awaiting results</div></div>
+    </div>
+  `;
+  
+  // Display events by category
+  for(const [category, events] of Object.entries(grouped)){
+    html += `<div class="card" style="margin-bottom:1.2rem">
+      <div class="cardt"><div class="lft"><i class="fas fa-folder"></i>${category}</div></div>
+      <table class="dt">
+        <thead>
+          <tr>
+            <th>Event</th>
+            ${TEAMS.map(t => `<th>${TM[t].emoji} ${TM[t].label}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>`;
+    
+    for(const event of events){
+      html += `<tr>
+        <td style="font-weight:500; font-style:italic">${event.name}</td>`;
+      
+      for(const team of TEAMS){
+        const pos = (scores[event.id] || {})[team] || 0;
+        const grade = getEG(event.id, team);
+        const gradePoints = grade && gradeDefPts[grade] ? gradeDefPts[grade] : 0;
+        const positionPoints = pos > 0 ? event.pts[pos-1] : 0;
+        const totalPoints = positionPoints + gradePoints;
+        
+        let displayText = '';
+        if(pos === 1) displayText = `🥇 1st (${positionPoints} pts)`;
+        else if(pos === 2) displayText = `🥈 2nd (${positionPoints} pts)`;
+        else if(pos === 3) displayText = `🥉 3rd (${positionPoints} pts)`;
+        else displayText = '—';
+        
+        if(grade) displayText += `<br><span style="font-size:.7rem;color:var(--ok)">Grade: ${grade} (+${gradePoints})</span>`;
+        
+        if(totalPoints > 0) displayText += `<br><span class="pts" style="font-size:.75rem">Total: ${totalPoints} pts</span>`;
+        
+        html += `<td style="font-size:.8rem; text-align:center">${displayText || '—'}</td>`;
+      }
+      html += `</tr>`;
+    }
+    
+    html += `</tbody></table></div>`;
+  }
+  
+  // Add participant summary
+  html += `<div class="card">
+    <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Participant Summary</div></div>
+    <table class="dt">
+      <thead><tr><th>Team</th><th>Total Participants</th><th>Events Participated</th></tr></thead>
+      <tbody>`;
+  
+  for(const team of TEAMS){
+    const teamStudents = students.filter(s => s.team === team && (!tf || s.team === tf));
+    const totalParticipations = teamStudents.reduce((sum, s) => sum + s.events.length, 0);
+    html += `<tr>
+      <td><span style="color:${TM[team].color}">${TM[team].emoji} ${TM[team].label}</span></td>
+      <td class="pts">${teamStudents.length}</td>
+      <td class="pts">${totalParticipations}</td>
+    </tr>`;
+  }
+  
+  html += `</tbody></table></div>`;
+  
+  con.innerHTML = html;
+}
+  // ... rest of the existing code (keep everything else the same)
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   let cands=students.filter(s=>s.events.includes(eid)&&(!tf||s.team===tf));
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
