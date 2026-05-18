@@ -412,7 +412,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
 
     <div class="view" id="vProg">
-      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Event Management</div><div class="herot">Programmes</div><div class="heros">Add candidates to each programme — assign position &amp; grade per entry</div></div>
+      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Event Management</div><div class="herot">Programmes</div><div class="heros">Manage all events — assign positions &amp; grades for each team</div></div>
       <div class="fbar" style="margin-bottom:1.2rem">
         <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width:220px;padding:.55rem .9rem;font-size:.9rem"><option value="">— Select a Programme —</option></select>
         <select class="fsel" id="progTeamF" onchange="renderProg()"><option value="">All Teams</option><option value="othello">🎭 Othello</option><option value="macbeth">⚔️ Macbeth</option><option value="hamlet">💀 Hamlet</option></select>
@@ -421,21 +421,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div id="progContent"><div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div></div>
     </div>
 
-    <div class="view" id="vAdmin">
-      <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin Panel</div><div class="herot">Score Manager</div><div class="heros">Set team positions per event — auto-saved</div></div>
-      <div class="agrid" id="adminCards"></div>
-      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-        <button class="btn bg" onclick="saveScores()"><i class="fas fa-save"></i>Save All Scores</button>
-        <div class="notice nok" id="saveNotice"><i class="fas fa-circle-check"></i> Scores saved!</div>
-      </div>
-    </div>
-
     <div class="view" id="vGradeDef">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Scoring Rules</div><div class="herot">Grade Definitions</div><div class="heros">Define how many points each grade is worth — used across all events</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:800px">
         <div class="card" style="margin-bottom:0">
           <div class="cardt"><div class="lft"><i class="fas fa-star-half-stroke"></i>Grade → Points Table</div></div>
-          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem">Set the point value for each grade. These appear next to the grade selector in Score Manager.</p>
+          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem">Set the point value for each grade. These appear next to the grade selector in Programmes.</p>
           <div id="gradeDefTable"></div>
           <div style="display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap">
             <button class="btn bg" onclick="saveGradeDef()"><i class="fas fa-save"></i>Save Definitions</button>
@@ -445,7 +436,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         </div>
         <div class="card" style="margin-bottom:0">
           <div class="cardt"><div class="lft"><i class="fas fa-circle-info"></i>Preview</div></div>
-          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">How grades appear in Score Manager and student profiles.</p>
+          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">How grades appear in Programmes and student profiles.</p>
           <div id="gradePreview"></div>
         </div>
       </div>
@@ -560,61 +551,43 @@ async function saveToFirebase(){
 
 /* ── DATA ── */
 let EVENTS=[
-  {id:'e01',name:'Mono Act',          cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e02',name:'Group Skit',        cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e03',name:'Mime',              cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e04',name:'Street Play',       cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e05',name:'Stand-Up Comedy',   cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e06',name:'Solo Dance',        cat:'Dance',    pts:[10,7,5],grade:''},
-  {id:'e07',name:'Group Dance',       cat:'Dance',    pts:[10,7,5],grade:''},
-  {id:'e08',name:'Folk Dance',        cat:'Dance',    pts:[10,7,5],grade:''},
-  {id:'e09',name:'Solo Singing',      cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e10',name:'Group Singing',     cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e11',name:'Instrumental',      cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e12',name:'Beatboxing',        cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e13',name:'Painting',          cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e14',name:'Sketching',         cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e15',name:'Photography',       cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e16',name:'Rangoli',           cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e17',name:'Mehendi',           cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e18',name:'Debate',            cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e19',name:'Poetry Slam',       cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e20',name:'Elocution',         cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e21',name:'Story Writing',     cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e22',name:'Short Film',        cat:'Media',    pts:[10,7,5],grade:''},
-  {id:'e23',name:'Photography Story', cat:'Media',    pts:[10,7,5],grade:''},
-  {id:'e24',name:'Quiz',              cat:'General',  pts:[10,7,5],grade:''},
-  {id:'e25',name:'Treasure Hunt',     cat:'General',  pts:[10,7,5],grade:''},
+  {id:'e01',name:'Vocabulary',          cat:'Academic', pts:[10,7,5],grade:''},
+  {id:'e02',name:'Short Story MLM',     cat:'Literary', pts:[10,7,5],grade:''},
+  {id:'e03',name:'Short Story ENG',     cat:'Literary', pts:[10,7,5],grade:''},
+  {id:'e04',name:'Short Story ARB',     cat:'Literary', pts:[10,7,5],grade:''},
+  {id:'e05',name:'Short Story UR',      cat:'Literary', pts:[10,7,5],grade:''},
+  {id:'e06',name:'Solo Singing',        cat:'Music',    pts:[10,7,5],grade:''},
+  {id:'e07',name:'Group Singing',       cat:'Music',    pts:[10,7,5],grade:''},
+  {id:'e08',name:'Instrumental',        cat:'Music',    pts:[10,7,5],grade:''},
+  {id:'e09',name:'Beatboxing',          cat:'Music',    pts:[10,7,5],grade:''},
+  {id:'e10',name:'Painting',            cat:'Visual',   pts:[10,7,5],grade:''},
+  {id:'e11',name:'Sketching',           cat:'Visual',   pts:[10,7,5],grade:''},
+  {id:'e12',name:'Photography',         cat:'Visual',   pts:[10,7,5],grade:''},
+  {id:'e13',name:'Mono Act',            cat:'Stage',    pts:[10,7,5],grade:''},
+  {id:'e14',name:'Group Skit',          cat:'Stage',    pts:[10,7,5],grade:''},
+  {id:'e15',name:'Mime',                cat:'Stage',    pts:[10,7,5],grade:''},
 ];
 let students=[
-  {id:'s01',name:'Aisha Rahman',   roll:'OTH-001',team:'othello',grade:'11-A',events:['e01','e09','e18'],note:'Team Captain'},
-  {id:'s02',name:'Rayan Farooq',   roll:'OTH-002',team:'othello',grade:'11-A',events:['e06','e07'],note:'Dance Lead'},
-  {id:'s03',name:'Fatima Noor',    roll:'OTH-003',team:'othello',grade:'12-B',events:['e13','e14','e15'],note:'Art Head'},
-  {id:'s04',name:'Zaid Hussain',   roll:'OTH-004',team:'othello',grade:'10-C',events:['e02','e03'],note:''},
-  {id:'s05',name:'Mariam Siddiq',  roll:'OTH-005',team:'othello',grade:'11-B',events:['e22','e23'],note:'Film Director'},
-  {id:'s06',name:'Omar Abdullah',  roll:'OTH-006',team:'othello',grade:'12-A',events:['e24','e25'],note:''},
-  {id:'s07',name:'Sara Malik',     roll:'MAC-001',team:'macbeth',grade:'11-A',events:['e09','e10','e11'],note:'Music Head'},
-  {id:'s08',name:'Hamza Qureshi',  roll:'MAC-002',team:'macbeth',grade:'12-C',events:['e01','e04'],note:'Drama Lead'},
-  {id:'s09',name:'Layla Ahmed',    roll:'MAC-003',team:'macbeth',grade:'10-A',events:['e16','e17'],note:'Visual Arts'},
-  {id:'s10',name:'Bilal Tariq',    roll:'MAC-004',team:'macbeth',grade:'11-C',events:['e06','e08'],note:''},
-  {id:'s11',name:'Nadia Yusuf',    roll:'MAC-005',team:'macbeth',grade:'12-A',events:['e18','e19','e20'],note:'Team Captain'},
-  {id:'s12',name:'Khalid Ansari',  roll:'MAC-006',team:'macbeth',grade:'10-B',events:['e12','e05'],note:''},
-  {id:'s13',name:'Hana Ibrahim',   roll:'HAM-001',team:'hamlet', grade:'11-B',events:['e06','e07','e08'],note:'Dance Captain'},
-  {id:'s14',name:'Yousef Rashid',  roll:'HAM-002',team:'hamlet', grade:'12-B',events:['e01','e02','e03'],note:'Drama Head'},
-  {id:'s15',name:'Amira Shaikh',   roll:'HAM-003',team:'hamlet', grade:'10-A',events:['e13','e16'],note:''},
-  {id:'s16',name:'Faris Nawaz',    roll:'HAM-004',team:'hamlet', grade:'11-A',events:['e09','e12'],note:'Music Lead'},
-  {id:'s17',name:'Dina Osman',     roll:'HAM-005',team:'hamlet', grade:'12-C',events:['e21','e19'],note:'Team Captain'},
-  {id:'s18',name:'Tarek Mansour',  roll:'HAM-006',team:'hamlet', grade:'10-C',events:['e24','e25'],note:''},
+  {id:'s01',name:'Aisha Rahman',   roll:'OTH-001',team:'othello',grade:'11-A',events:['e01','e06','e13'],note:'Team Captain'},
+  {id:'s02',name:'Rayan Farooq',   roll:'OTH-002',team:'othello',grade:'11-A',events:['e10','e11'],note:'Art Lead'},
+  {id:'s03',name:'Fatima Noor',    roll:'OTH-003',team:'othello',grade:'12-B',events:['e02','e03','e04'],note:'Literary Head'},
+  {id:'s04',name:'Zaid Hussain',   roll:'OTH-004',team:'othello',grade:'10-C',events:['e14','e15'],note:''},
+  {id:'s05',name:'Sara Malik',     roll:'MAC-001',team:'macbeth',grade:'11-A',events:['e06','e07','e08'],note:'Music Head'},
+  {id:'s06',name:'Hamza Qureshi',  roll:'MAC-002',team:'macbeth',grade:'12-C',events:['e13','e14'],note:'Drama Lead'},
+  {id:'s07',name:'Layla Ahmed',    roll:'MAC-003',team:'macbeth',grade:'10-A',events:['e10','e12'],note:'Visual Arts'},
+  {id:'s08',name:'Hana Ibrahim',   roll:'HAM-001',team:'hamlet', grade:'11-B',events:['e09','e06'],note:'Music Lead'},
+  {id:'s09',name:'Yousef Rashid',  roll:'HAM-002',team:'hamlet', grade:'12-B',events:['e13','e14','e15'],note:'Drama Head'},
+  {id:'s10',name:'Amira Shaikh',   roll:'HAM-003',team:'hamlet', grade:'10-A',events:['e05','e02'],note:''},
 ];
 const TEAMS=['othello','macbeth','hamlet'];
 const TM={othello:{label:'Team Othello',emoji:'🎭',color:'var(--oc)',pill:'po'},macbeth:{label:'Team Macbeth',emoji:'⚔️',color:'var(--mc)',pill:'pm'},hamlet:{label:'Team Hamlet',emoji:'💀',color:'var(--hc)',pill:'ph'},admin:{label:'Admin',emoji:'👑',color:'var(--ac)',pill:'pa'}};
 const AVMJ=['🎨','🎭','🎶','📸','✏️','🎤','💃','🥁','🎬','📖','🖌️','🎺'];
-const CATCOL={Stage:'var(--mc)',Dance:'var(--oc)',Music:'var(--gold)',Visual:'var(--hc)',Literary:'var(--ok)',Media:'#6aaef5',General:'var(--muted)'};
+const CATCOL={Academic:'var(--ok)',Literary:'var(--gold)',Music:'var(--oc)',Visual:'var(--hc)',Stage:'var(--mc)',General:'var(--muted)'};
 const GRADE_OPTS=['A+','A','A-','B+','B','B-','C+','C','C-','D','F'];
 const DEFAULT_GRADE_PTS={'A+':10,'A':9,'A-':8,'B+':7,'B':6,'B-':5,'C+':4,'C':3,'C-':2,'D':1,'F':0};
 function h(s){let x=0;for(let i=0;i<s.length;i++){x=((x<<5)-x)+s.charCodeAt(i);x=x&x;}return Math.abs(x).toString(16);}
 const DC={admin:{username:'admin',hash:h('Admin@Zenith26'),team:'admin'},othello:{username:'othello_team',hash:h('Zenith@Othello'),team:'othello'},macbeth:{username:'macbeth_team',hash:h('Zenith@Macbeth'),team:'macbeth'},hamlet:{username:'hamlet_team',hash:h('Zenith@Hamlet'),team:'hamlet'}};
-function defScores(){const s={};EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});const pre={e01:[1,2,3],e02:[3,1,2],e03:[2,3,1],e04:[1,0,2],e05:[2,1,3],e06:[3,1,2],e07:[1,2,3],e08:[2,3,1],e09:[1,3,2],e10:[2,1,3],e11:[3,2,1],e12:[0,1,2],e13:[2,1,3],e14:[1,3,2],e15:[3,2,1],e16:[1,2,3],e17:[2,0,1],e18:[1,2,3],e19:[3,1,2],e20:[2,3,1]};Object.entries(pre).forEach(([id,[o,m,h2]])=>{if(s[id])s[id]={othello:o,macbeth:m,hamlet:h2};});return s;}
+function defScores(){const s={};EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});return s;}
 
 /* ── STATE ── */
 let CU=null,scores={},creds=null,eventGrades={},gradeDefPts={...DEFAULT_GRADE_PTS};
@@ -665,7 +638,6 @@ function ranked(){return TEAMS.map(t=>({team:t,...tStats(t)})).sort((a,b)=>b.tot
 function maxPts(){return Math.max(...TEAMS.map(t=>tStats(t).total),1);}
 function isAdmin(){return CU&&CU.team==='admin';}
 function uniqCats(){return[...new Set(EVENTS.map(e=>e.cat))];}
-function chipFor(p){return p===1?`<span class="chip ch1">1st</span>`:p===2?`<span class="chip ch2">2nd</span>`:p===3?`<span class="chip ch3">3rd</span>`:`<span class="chip chp">Pending</span>`;}
 function gradeClass(g){return g&&g.startsWith('A')?'gA':g&&g.startsWith('B')?'gB':g&&g.startsWith('C')?'gC':g==='D'?'gD':g==='F'?'gF':'gna';}
 function gradeBadge(g){return g?`<span class="gbadge ${gradeClass(g)}">${g}</span>`:`<span class="gbadge gna">—</span>`;}
 function getEG(eid,team){return(eventGrades[eid]&&eventGrades[eid][team])||'';}
@@ -726,7 +698,7 @@ function buildApp(){
   document.getElementById('tbTeam').textContent=m.label;
   document.getElementById('hEy').textContent=isAdmin()?'Admin Portal':'Welcome, '+m.label;
   document.getElementById('hT').textContent=isAdmin()?'Control Centre':m.label+' Dashboard';
-  document.getElementById('hS').textContent=isAdmin()?'Manage scores, events, students & more.':'Track your team\'s performance across all events.';
+  document.getElementById('hS').textContent=isAdmin()?'Manage events, students & grades.':'Track your team\'s performance across all events.';
   buildSidebar(team);rebuildAll();
 }
 
@@ -743,7 +715,6 @@ function buildSidebar(team){
     {id:'vProg',ic:'fa-clipboard-list',lb:'Programmes'}
   ];
   const adm=isAdmin()?[
-    {id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},
     {id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},
     {id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}
   ]:[];
@@ -849,7 +820,7 @@ function renderEvents(){
 function inlineEditEv(eid){
   if(!isAdmin()){alert('Permission denied.');return;}
   const e=EVENTS.find(x=>x.id===eid);if(!e)return;
-  const cats=uniqCats().concat(['Stage','Dance','Music','Visual','Literary','Media','General']).filter((v,i,a)=>a.indexOf(v)===i);
+  const cats=uniqCats();
   document.getElementById('en_'+eid).innerHTML=`<input class="ie" id="ien_${eid}" value="${e.name}" style="min-width:140px">`;
   document.getElementById('ec_'+eid).innerHTML=`<select class="iesel" id="iec_${eid}">${cats.map(c=>`<option value="${c}" ${c===e.cat?'selected':''}>${c}</option>`).join('')}<option value="__new__">+ New…</option></select>`;
   document.getElementById('ep1_'+eid).innerHTML=`<input class="ie iesm" id="iep1_${eid}" type="number" min="0" value="${e.pts[0]}">`;
@@ -1010,56 +981,7 @@ function submitEditStu(sid){
   });
 }
 
-/* ── SCORE MANAGER ── */
-function stuForTeamEvent(team,eid){return students.filter(s=>s.team===team&&s.events.includes(eid));}
-function gradeSelHtml(eid,team){
-  const cur=getEG(eid,team);
-  return`<select class="scsel gsel" id="eg_${eid}_${team}" onchange="upGrade('${eid}','${team}',this.value)" style="width:72px;border-color:rgba(255,200,80,.3)"><option value="">Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===cur?'selected':''}>${g}</option>`).join('')}</select>`;
-}
-function buildAdminCards(){
-  document.getElementById('adminCards').innerHTML=TEAMS.map(team=>`
-    <div class="atc"><div class="ath"><span class="atn" style="color:${TM[team].color}">${TM[team].emoji} ${TM[team].label}</span><span class="atp" style="color:${TM[team].color}" id="adP_${team}">${tStats(team).total} pts</span></div>
-    <div class="atb">${EVENTS.map(e=>{
-      const parts=stuForTeamEvent(team,e.id);
-      const pos=(scores[e.id]||{})[team]||0;
-      const partsHtml=parts.length?`<div class="sm-parts"><div class="sm-parts-title"><i class="fas fa-user" style="font-size:.6rem"></i> Participants</div>${parts.map(s=>`<span class="sm-part-chip">${s.name}${s.note?` <span style="color:var(--gold);font-size:.65rem">· ${s.note}</span>`:''}</span>`).join('')}</div>`:'';
-      const curGrade=getEG(e.id,team);
-      const gradePts=curGrade&&gradeDefPts[curGrade]!==undefined?`= ${gradeDefPts[curGrade]} pts`:'';
-      return`<div class="ater" style="flex-direction:column;align-items:flex-start;gap:.35rem">
-        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:.4rem">
-          <span style="font-size:.81rem;font-style:italic;flex:1">${e.name}</span>
-          <div style="display:flex;align-items:center;gap:5px">
-            ${gradeSelHtml(e.id,team)}
-            <span id="gpts_${e.id}_${team}" style="font-size:.7rem;color:var(--ok);min-width:44px">${gradePts}</span>
-            <select class="scsel" id="ads_${e.id}_${team}" onchange="upScore('${e.id}','${team}',this.value)">
-              <option value="0" ${pos===0?'selected':''}>—</option>
-              <option value="1" ${pos===1?'selected':''}>🥇 1st</option>
-              <option value="2" ${pos===2?'selected':''}>🥈 2nd</option>
-              <option value="3" ${pos===3?'selected':''}>🥉 3rd</option>
-            </select>
-          </div>
-        </div>
-        ${partsHtml}
-      </div>`;
-    }).join('')}</div></div>`).join('');
-}
-function upScore(eid,team,pos){
-  if(!isAdmin()){alert('Permission denied.');return;}
-  if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};
-  scores[eid][team]=parseInt(pos);
-  document.getElementById('adP_'+team).textContent=tStats(team).total+' pts';
-}
-function upGrade(eid,team,grade){
-  if(!isAdmin()){alert('Permission denied.');return;}
-  setEG(eid,team,grade);
-  const el=document.getElementById('gpts_'+eid+'_'+team);
-  if(el)el.textContent=grade&&gradeDefPts[grade]!==undefined?`= ${gradeDefPts[grade]} pts`:'';
-  const tp=document.getElementById('adP_'+team);
-  if(tp)tp.textContent=tStats(team).total+' pts';
-}
-function saveScores(){if(!isAdmin()){alert('Permission denied.');return;}saveAll();rebuildAll();const n=document.getElementById('saveNotice');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
-
-/* ── PROGRAMMES ── */
+/* ── PROGRAMMES (UPDATED TO HANDLE ALL EVENTS) ── */
 function buildProgSel(){const sel=document.getElementById('progEvSel');if(!sel)return;const cur=sel.value;sel.innerHTML=`<option value="">— Select a Programme —</option>`+EVENTS.map(e=>`<option value="${e.id}" ${e.id===cur?'selected':''}>${e.name} (${e.cat})</option>`).join('');}
 function renderProg(){
   const eid=document.getElementById('progEvSel')?.value||'';
@@ -1067,46 +989,108 @@ function renderProg(){
   const addBtn=document.getElementById('progAddBtn');
   if(addBtn)addBtn.style.display=(eid&&isAdmin())?'inline-flex':'none';
   const con=document.getElementById('progContent');
-  if(!eid){con.innerHTML=`<div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div>`;return;}
+  if(!eid){con.innerHTML=`<div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage scores, grades & participants</div>`;return;}
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   let cands=students.filter(s=>s.events.includes(eid)&&(!tf||s.team===tf));
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
   const countO=students.filter(s=>s.events.includes(eid)&&s.team==='othello').length;
   const countM=students.filter(s=>s.events.includes(eid)&&s.team==='macbeth').length;
   const countH=students.filter(s=>s.events.includes(eid)&&s.team==='hamlet').length;
+  
+  // Get current scores for this event
+  const currentScores = scores[eid] || {othello:0, macbeth:0, hamlet:0};
+  
   con.innerHTML=`
     <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.2rem">
-      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">Total</div><div class="scval">${countO+countM+countH}</div><div class="scnote">candidates</div></div>
-      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${countO}</div><div class="scnote">candidates</div></div>
-      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${countM}</div><div class="scnote">candidates</div></div>
-      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${countH}</div><div class="scnote">candidates</div></div>
+      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">Total</div><div class="scval">${countO+countM+countH}</div><div class="scnote">participants</div></div>
+      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${countO}</div><div class="scnote">participants</div></div>
+      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${countM}</div><div class="scnote">participants</div></div>
+      <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${countH}</div><div class="scnote">participants</div></div>
     </div>
+    
+    ${isAdmin() ? `
+    <div class="card" style="margin-bottom:1rem;background:linear-gradient(135deg, rgba(0,240,255,0.05), transparent);">
+      <div class="cardt"><div class="lft"><i class="fas fa-trophy"></i>🏆 Set Winners & Grades for ${ev.name}</div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+        ${TEAMS.map(team => {
+          const pos = currentScores[team] || 0;
+          const curGrade = getEG(eid, team);
+          const gradePts = curGrade && gradeDefPts[curGrade] !== undefined ? gradeDefPts[curGrade] : 0;
+          return `
+            <div style="background:var(--bg3);border-radius:12px;padding:1rem;border-left:3px solid ${TM[team].color}">
+              <div style="font-weight:700;color:${TM[team].color};margin-bottom:.8rem;">${TM[team].emoji} ${TM[team].label}</div>
+              <div style="margin-bottom:.6rem;">
+                <label style="font-size:.7rem;color:var(--muted);display:block;margin-bottom:.2rem;">Position</label>
+                <select class="scsel" id="prog_pos_${eid}_${team}" onchange="updateProgScore('${eid}','${team}',this.value)" style="width:100%;">
+                  <option value="0" ${pos===0?'selected':''}>— Not placed —</option>
+                  <option value="1" ${pos===1?'selected':''}>🥇 1st Place (${ev.pts[0]} pts)</option>
+                  <option value="2" ${pos===2?'selected':''}>🥈 2nd Place (${ev.pts[1]} pts)</option>
+                  <option value="3" ${pos===3?'selected':''}>🥉 3rd Place (${ev.pts[2]} pts)</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:.7rem;color:var(--muted);display:block;margin-bottom:.2rem;">Grade</label>
+                <select class="scsel" id="prog_grade_${eid}_${team}" onchange="updateProgGrade('${eid}','${team}',this.value)" style="width:100%;">
+                  <option value="">— No Grade —</option>
+                  ${GRADE_OPTS.map(g => `<option value="${g}" ${g===curGrade?'selected':''}>${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}
+                </select>
+              </div>
+              ${gradePts > 0 ? `<div style="margin-top:.5rem;font-size:.7rem;color:var(--ok);">Grade points: +${gradePts}</div>` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <div style="margin-top:1rem;text-align:center;">
+        <button class="btn bg bsm" onclick="saveScores()"><i class="fas fa-save"></i> Save All Changes</button>
+      </div>
+    </div>
+    ` : ''}
+    
     <div class="card" style="margin-bottom:0">
-      <div class="cardt"><div class="lft"><i class="fas fa-clipboard-list"></i>${ev.name} — Candidates</div></div>
-      ${cands.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted)"><i class="fas fa-user-slash" style="margin-right:6px"></i>No candidates registered${tf?' in this team':''}</div>`:`
+      <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Participants — ${ev.name}</div></div>
+      ${cands.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted)"><i class="fas fa-user-slash" style="margin-right:6px"></i>No participants registered${tf?' in this team':''}</div>`:`
       <table class="dt">
         <thead><tr><th>#</th><th>Name</th><th>Roll No</th><th>Team</th><th>Position</th><th>Grade</th><th>Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead>
         <tbody>${cands.map((s,i)=>{
-          const pos=(scores[eid]||{})[s.team]||0;
+          const pos=currentScores[s.team]||0;
           const grade=getEG(eid,s.team)||'';
-          const posChip=pos===1?`<span class="chip ch1">🥇 1st</span>`:pos===2?`<span class="chip ch2">🥈 2nd</span>`:pos===3?`<span class="chip ch3">🥉 3rd</span>`:`<span class="chip chp">—</span>`;
+          const posChip=pos===1?`<span class="chip ch1">🥇 1st (${ev.pts[0]} pts)</span>`:pos===2?`<span class="chip ch2">🥈 2nd (${ev.pts[1]} pts)</span>`:pos===3?`<span class="chip ch3">🥉 3rd (${ev.pts[2]} pts)</span>`:`<span class="chip chp">—</span>`;
           const gradeBdg=grade?`<span class="gbadge ${gradeClass(grade)}" style="font-size:.8rem;width:30px;height:30px">${grade}</span>`:`<span style="color:var(--muted2)">—</span>`;
-          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}</td><td>${gradeBdg}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}<tr>`;
+          const totalFromThis = (pos>0 ? ev.pts[pos-1] : 0) + (grade && gradeDefPts[grade] ? gradeDefPts[grade] : 0);
+          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}${totalFromThis>0 ? `<span style="font-size:.65rem;color:var(--ok);margin-left:4px;">(${totalFromThis}pts)</span>` : ''}</td> <td>${gradeBdg}${grade && gradeDefPts[grade] ? `<span style="font-size:.6rem;color:var(--ok);"> +${gradeDefPts[grade]}</span>` : ''}</td> <td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
         }).join('')}</tbody>
       </table>`}
     </div>`;
 }
+
+// Global functions for updating scores from Programmes
+window.updateProgScore = function(eid, team, pos){
+  if(!isAdmin()){alert('Permission denied.');return;}
+  if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};
+  scores[eid][team]=parseInt(pos);
+  saveAll();
+  renderProg();
+  rebuildAll();
+};
+window.updateProgGrade = function(eid, team, grade){
+  if(!isAdmin()){alert('Permission denied.');return;}
+  setEG(eid,team,grade);
+  saveAll();
+  renderProg();
+  rebuildAll();
+};
+
 function openAddCandModal(){
   if(!isAdmin()){alert('Permission denied.');return;}
   const eid=document.getElementById('progEvSel')?.value||'';
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   const eligible=students.filter(s=>!s.events.includes(eid));
   if(!eligible.length){alert('All students are already in this programme.');return;}
-  openM(`Add Candidate — ${ev.name}`,`
-    <div class="mfld"><label>Select Student</label><select id="mCstu" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="">— Select a student —</option>${eligible.map(s=>`<option value="${s.id}">${s.name} (${s.roll}) · ${TM[s.team].emoji} ${TM[s.team].label}</option>`).join('')}</select></div>
+  openM(`Add Participant — ${ev.name}`,`
+    <div class="mfld"><label>Select Student</label><select id="mCstu" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;"><option value="">— Select a student —</option>${eligible.map(s=>`<option value="${s.id}">${s.name} (${s.roll}) · ${TM[s.team].emoji} ${TM[s.team].label}</option>`).join('')}</select></div>
     <div class="mrow2">
-      <div class="mfld"><label>Position (optional)</label><select id="mCpos" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="0">— Not assigned</option><option value="1">🥇 1st Place</option><option value="2">🥈 2nd Place</option><option value="3">🥉 3rd Place</option></select></div>
-      <div class="mfld"><label>Grade (optional)</label><select id="mCgrade" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}">${g}</option>`).join('')}</select></div>
+      <div class="mfld"><label>Position (optional)</label><select id="mCpos"><option value="0">— Not assigned</option><option value="1">🥇 1st Place (${ev.pts[0]} pts)</option><option value="2">🥈 2nd Place (${ev.pts[1]} pts)</option><option value="3">🥉 3rd Place (${ev.pts[2]} pts)</option></select></div>
+      <div class="mfld"><label>Grade (optional)</label><select id="mCgrade"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}">${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}</select></div>
     </div>
     <div class="mfld"><label>Role / Note (optional)</label><input id="mCnote" placeholder="e.g. Soloist, Lead Actor…"></div>`,
   `<button class="btn bg" onclick="submitAddCand('${eid}')"><i class="fas fa-user-plus"></i>Add to Programme</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
@@ -1127,13 +1111,13 @@ function openEditCandModal(sid,eid){
   const s=students.find(x=>x.id===sid);if(!s)return;
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   const pos=(scores[eid]||{})[s.team]||0;const curGrade=getEG(eid,s.team)||'';
-  openM(`Edit Candidate — ${s.name}`,`
-    <div class="mfld"><label>Programme</label><input value="${ev.name}" disabled style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--muted);outline:none"></div>
+  openM(`Edit Participant — ${s.name}`,`
+    <div class="mfld"><label>Programme</label><input value="${ev.name}" disabled style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;"></div>
     <div class="mrow2">
-      <div class="mfld"><label>Position</label><select id="mCpos" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="0" ${pos===0?'selected':''}>— Not assigned</option><option value="1" ${pos===1?'selected':''}>🥇 1st Place</option><option value="2" ${pos===2?'selected':''}>🥈 2nd Place</option><option value="3" ${pos===3?'selected':''}>🥉 3rd Place</option></select></div>
-      <div class="mfld"><label>Grade</label><select id="mCgrade" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===curGrade?'selected':''}>${g}</option>`).join('')}</select></div>
+      <div class="mfld"><label>Position</label><select id="mCpos"><option value="0" ${pos===0?'selected':''}>— Not assigned</option><option value="1" ${pos===1?'selected':''}>🥇 1st Place (${ev.pts[0]} pts)</option><option value="2" ${pos===2?'selected':''}>🥈 2nd Place (${ev.pts[1]} pts)</option><option value="3" ${pos===3?'selected':''}>🥉 3rd Place (${ev.pts[2]} pts)</option></select></div>
+      <div class="mfld"><label>Grade</label><select id="mCgrade"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===curGrade?'selected':''}>${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}</select></div>
     </div>
-    <div class="mfld"><label>Role / Note</label><input id="mCnote" value="${s.note||''}" placeholder="e.g. Soloist, Lead Actor…"></div>`,
+    <div class="mfld"><label>Role / Note</label><input id="mCnote" value="${s.note||''}"></div>`,
   `<button class="btn bg" onclick="submitEditCand('${sid}','${eid}')"><i class="fas fa-save"></i>Save</button><button class="btn bd" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>{removeCand('${sid}','${eid}');closeM();})"><i class="fas fa-user-minus"></i>Remove</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
 function submitEditCand(sid,eid){
@@ -1144,16 +1128,17 @@ function submitEditCand(sid,eid){
   saveAll();rebuildAll();renderProg();closeM();
 }
 function removeCand(sid,eid){if(!isAdmin()){alert('Permission denied.');return;}const s=students.find(x=>x.id===sid);if(!s)return;s.events=s.events.filter(x=>x!==eid);saveAll();rebuildAll();renderProg();}
+function saveScores(){if(!isAdmin()){alert('Permission denied.');return;}saveAll();rebuildAll();const n=document.getElementById('saveNotice');if(n){n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}}
 
 /* ── GRADE DEFINITIONS ── */
 function buildGradeDefTable(){
   const el=document.getElementById('gradeDefTable');if(!el)return;
-  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td></tr>`;}).join('')}</tbody><tr>`;
+  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td></tr>`;}).join('')}</tbody></table>`;
   buildGradePreview();
 }
 function buildGradePreview(){
   const el=document.getElementById('gradePreview');if(!el)return;
-  el.innerHTML=GRADE_OPTS.map(g=>{const pts=gradeDefPts[g]??0;return`<div style="display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)"><span class="gbadge ${gradeClass(g)}" style="font-size:.88rem;width:32px;height:32px;flex-shrink:0">${g}</span><div style="flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.round((pts/10)*100)}%;background:${gradeClass(g)==='gA'?'var(--ok)':gradeClass(g)==='gB'?'var(--oc)':gradeClass(g)==='gC'?'var(--gold)':gradeClass(g)==='gD'?'var(--hc)':'var(--err)'};border-radius:2px;transition:width .4s"></div></div><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);min-width:48px;text-align:right">${pts} pts</span></div>`;}).join('');
+  el.innerHTML=GRADE_OPTS.map(g=>{const pts=gradeDefPts[g]??0;return`<div style="display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)"><span class="gbadge ${gradeClass(g)}" style="font-size:.88rem;width:32px;height:32px;flex-shrink:0">${g}</span><div style="flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.round((pts/10)*100)}%;background:${gradeClass(g)==='gA'?'var(--ok)':gradeClass(g)==='gB'?'var(--oc)':gradeClass(g)==='gC'?'var(--gold)':gradeClass(g)==='gD'?'var(--hc)':'var(--err)'};border-radius:2px;"></div></div><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);min-width:48px;text-align:right">${pts} pts</span></div>`;}).join('');
 }
 function saveGradeDef(){
   if(!isAdmin()){alert('Permission denied.');return;}
@@ -1180,8 +1165,8 @@ function rebuildAll(){
   buildStuStats();
   renderStudents();
   buildProgSel();
+  if(document.getElementById('progEvSel')?.value) renderProg();
   buildGradeDefTable();
-  if(isAdmin()) buildAdminCards();
 }
 
 /* ── PASSWORD ── */
@@ -1221,9 +1206,10 @@ function switchView(id,title){
   document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
   document.getElementById('tbTitle').textContent=title;
   closeSidebar();
+  if(id === 'vProg') buildProgSel();
 }
 
-Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,upScore,upGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
+Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,updateProgScore,updateProgGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
 
 loadAll();
 initFirebase();
