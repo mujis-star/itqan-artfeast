@@ -35,7 +35,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .lcard{position:relative;z-index:1;width:min(430px,93vw);background:var(--bg2);border:1px solid var(--borderg);border-radius:20px;padding:2.8rem 2.4rem 2.2rem;box-shadow:0 40px 80px rgba(0,0,0,.65);animation:fadeUp .55s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 .logolock{text-align:center;margin-bottom:1.8rem;}
-.logoring{display:inline-flex;align-items:center;justify-content:center;width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,#3a3010,#1a1a10);border:2px solid rgba(255,200,80,.3);font-size:1.8rem;margin-bottom:.8rem;}
+.logoring{display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));margin-bottom:.8rem;box-shadow:0 0 20px rgba(255,200,80,.3);}
+.logoring i{font-size:2.5rem;color:#0a0a0f;}
 .logoname{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.12em;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff8d0);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
 .logotag{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-top:.25rem;}
 .divln{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;}
@@ -60,7 +61,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 #pgApp{min-height:100vh;flex-direction:row;}
 .sb{width:242px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;overflow-y:auto;z-index:20;}
 .sbhd{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border);}
-.sblogo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.14em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.sblogo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.14em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
 .sbsub{font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.05em;}
 .pill{display:inline-block;margin-top:.6rem;padding:.22rem .7rem;border-radius:20px;font-size:.67rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
 .po{background:rgba(78,205,196,.12);color:var(--oc);border:1px solid rgba(78,205,196,.25);}
@@ -316,7 +317,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div class="artbg">ZENITH</div>
   <div class="lcard">
     <div class="logolock">
-      <div class="logoring">🎭</div>
+      <div class="logoring">
+        <i class="fas fa-crown"></i>
+      </div>
       <div class="logoname">ZENITH</div>
       <div class="logotag">Arts Fest 2K26 · Where Talent Meets Glory</div>
     </div>
@@ -343,14 +346,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <div id="pgApp" class="page">
   <nav class="sb">
-    <div class="sbhd"><div class="sblogo">ZENITH</div><div class="sbsub">Arts Fest 2K26</div><div id="sbPill" class="pill pa">👑 Admin</div></div>
+    <div class="sbhd">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-crown" style="color: #0a0a0f; font-size: 1.3rem;"></i>
+        </div>
+        <div class="sblogo">ZENITH</div>
+      </div>
+      <div class="sbsub">Arts Fest 2K26</div>
+      <div id="sbPill" class="pill pa">👑 Admin</div>
+    </div>
     <div class="sbnav" id="sbNav"></div>
     <div class="sbft"><button class="logoutbtn" onclick="doLogout()"><i class="fas fa-sign-out-alt" style="margin-right:6px"></i>Sign Out</button></div>
   </nav>
   <div class="main">
     <div class="topbar">
       <div class="tbtitle" id="tbTitle">Dashboard</div>
-      <div class="tbmeta">ZENITH 2K26 · <span id="tbTeam">—</span></div>
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="tbmeta">ZENITH 2K26 · <span id="tbTeam">—</span></div>
+        <div style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-crown" style="color: #0a0a0f; font-size: 1rem;"></i>
+        </div>
+      </div>
     </div>
 
     <div class="view active" id="vDash">
@@ -477,12 +494,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%;">
   <div class="copyright" style="text-align: center;">
-    <p style="font-size: 0.8rem; color: var(--muted);">
-      © 2026 ZENITH Arts Fest. Organized by 
-      <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
-        <i class="fas fa-users"></i> ITQAN Union
-      </a>. All Rights Reserved.
-    </p>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+      <div style="width: 30px; height: 30px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-crown" style="color: #0a0a0f; font-size: 0.9rem;"></i>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">
+        © 2026 ZENITH Arts Fest. Organized by 
+        <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
+          <i class="fas fa-users"></i> ITQAN Union
+        </a>. All Rights Reserved.
+      </p>
+    </div>
   </div>
 </footer>
 
@@ -708,7 +730,6 @@ function buildApp(){
   buildSidebar(team);rebuildAll();
 }
 
-/* ── CORRECT buildSidebar FUNCTION (ONLY ONE) ── */
 function buildSidebar(team){
   const nav=document.getElementById('sbNav');
   const externalLinks = [
@@ -749,7 +770,6 @@ function buildSidebar(team){
   `;
 }
 
-/* ── ADD MISSING buildStats FUNCTION ── */
 function buildStats(){
   const statsRow = document.getElementById('statsRow');
   if(!statsRow) return;
@@ -779,7 +799,6 @@ function buildStats(){
   }
 }
 
-/* ── UPDATE buildStuStats TO USE CORRECT ID ── */
 function buildStuStats(){
   const c = {
     othello: students.filter(s => s.team === 'othello').length,
@@ -920,7 +939,7 @@ function renderStudents(){
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
   const bgT={othello:'rgba(78,205,196,.1)',macbeth:'rgba(199,125,255,.1)',hamlet:'rgba(247,127,90,.1)'};
   if(mode==='table'){
-    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}<tr></thead><tbody>${
+    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead><tbody>${
       list.map(s=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id).join(', ');const sp=stuPoints(s);
         return`<tr><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td style="font-size:.82rem">${s.grade||'—'}</td><td><span class="spts">${sp} pts</span></td><td style="font-size:.76rem;color:var(--muted)">${evNm||'—'}</td><td style="font-size:.76rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditStuModal('${s.id}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>delStudent('${s.id}'))"><i class="fas fa-trash"></i></button></div></td>`:''}</tr>`;
       }).join('')
@@ -1072,7 +1091,7 @@ function renderProg(){
           const grade=getEG(eid,s.team)||'';
           const posChip=pos===1?`<span class="chip ch1">🥇 1st</span>`:pos===2?`<span class="chip ch2">🥈 2nd</span>`:pos===3?`<span class="chip ch3">🥉 3rd</span>`:`<span class="chip chp">—</span>`;
           const gradeBdg=grade?`<span class="gbadge ${gradeClass(grade)}" style="font-size:.8rem;width:30px;height:30px">${grade}</span>`:`<span style="color:var(--muted2)">—</span>`;
-          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}</td><td>${gradeBdg}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
+          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}</td><td>${gradeBdg}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}<tr>`;
         }).join('')}</tbody>
       </table>`}
     </div>`;
@@ -1129,7 +1148,7 @@ function removeCand(sid,eid){if(!isAdmin()){alert('Permission denied.');return;}
 /* ── GRADE DEFINITIONS ── */
 function buildGradeDefTable(){
   const el=document.getElementById('gradeDefTable');if(!el)return;
-  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td></tr>`;}).join('')}</tbody></table>`;
+  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td></tr>`;}).join('')}</tbody><tr>`;
   buildGradePreview();
 }
 function buildGradePreview(){
@@ -1149,7 +1168,6 @@ function closeM(){document.getElementById('mOv').classList.remove('open');}
 function confirmDel(title,msg,onOk){document.getElementById('cTitle').textContent=title;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOk').onclick=()=>{onOk();closeC();};document.getElementById('cOv').classList.add('open');}
 function closeC(){document.getElementById('cOv').classList.remove('open');}
 
-/* ── REBUILD ALL ── */
 function rebuildAll(){
   buildStats();
   buildLBBars();
@@ -1205,10 +1223,8 @@ function switchView(id,title){
   closeSidebar();
 }
 
-/* ── EXPOSE TO HTML onclick handlers ── */
 Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,upScore,upGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
 
-/* ── INIT ── */
 loadAll();
 initFirebase();
 try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
