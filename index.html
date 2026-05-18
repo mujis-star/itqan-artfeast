@@ -727,10 +727,50 @@ function buildSidebar(team){
 }
 
 /* ── DASHBOARD ── */
-function buildStats(){
-  const row=document.getElementById('statsRow');
-  if(isAdmin()){const r=ranked();const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0)).length;row.innerHTML=`<div class="sc"><div class="sclbl">Total Events</div><div class="scval">${EVENTS.length}</div><div class="scnote">scheduled</div></div><div class="sc"><div class="sclbl">Results In</div><div class="scval">${done}</div><div class="scnote">of ${EVENTS.length}</div></div><div class="sc"><div class="sclbl">Students</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0].team].color}">${TM[r[0].team].emoji}</div><div class="scnote">${TM[r[0].team].label} · ${r[0].total}pts</div></div>`;}
-  else{const s=tStats(CU.team),r=ranked(),rank=r.findIndex(x=>x.team===CU.team)+1,myStu=students.filter(x=>x.team===CU.team).length;row.innerHTML=`<div class="sc"><div class="sclbl">Total Points</div><div class="scval">${s.total}</div><div class="scnote">accumulated</div></div><div class="sc"><div class="sclbl">1st Places</div><div class="scval" style="color:var(--gold)">${s.won}</div><div class="scnote">gold</div></div><div class="sc"><div class="sclbl">2nd Places</div><div class="scval" style="color:#c0c0c0">${s.sec}</div><div class="scnote">silver</div></div><div class="sc"><div class="sclbl">Current Rank</div><div class="scval">#${rank}</div><div class="scnote">of 3 teams</div></div><div class="sc"><div class="sclbl">Team Members</div><div class="scval">${myStu}</div><div class="scnote">students</div></div>`;}
+function buildSidebar(team){
+  const nav=document.getElementById('sbNav');
+  
+  // Add external link to ITQAN Union site
+  const externalLinks = [
+    { id: 'external', ic: 'fa-building', lb: 'About ITQAN Union', url: 'https://itqan-friends.vercel.app/', external: true }
+  ];
+  
+  const main=[
+    {id:'vDash',ic:'fa-gauge',lb:'Dashboard'},
+    {id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},
+    {id:'vEvents',ic:'fa-calendar-days',lb:'Events'},
+    {id:'vStudents',ic:'fa-users',lb:'Students'},
+    {id:'vProg',ic:'fa-clipboard-list',lb:'Programmes'}
+  ];
+  
+  const adm=isAdmin()?[
+    {id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},
+    {id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},
+    {id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}
+  ]:[];
+  
+  const acc=[
+    {id:'vPw',ic:'fa-key',lb:'Change Password'}
+  ];
+  
+  // Helper function to generate click handler based on external/internal
+  const getClickHandler = (item) => {
+    if (item.external) {
+      return `window.open('${item.url}', '_blank')`;
+    } else {
+      return `switchView('${item.id}','${item.lb}')`;
+    }
+  };
+  
+  nav.innerHTML = `
+    <div class="nsec">Navigation</div>
+    ${main.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
+    ${adm.length ? `<div class="nsec" style="margin-top:.5rem">Admin</div>${adm.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}` : ''}
+    <div class="nsec" style="margin-top:.5rem">Information</div>
+    ${externalLinks.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
+    <div class="nsec" style="margin-top:.5rem">Account</div>
+    ${acc.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
+  `;
 }
 function buildLBBars(){const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');}
 function buildEvGlance(){const el=document.getElementById('evGlance');const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));const pend=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));el.innerHTML=[...done.slice(0,5),...pend.slice(0,4)].map(e=>{const d=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);return`<div class="evitem"><div class="evdot" style="background:${d?CATCOL[e.cat]||'var(--muted2)':'var(--muted2)'}"></div><span class="evname">${e.name}</span><span class="evcat">${d?'✓ Done':'Pending'}</span></div>`;}).join('');}
