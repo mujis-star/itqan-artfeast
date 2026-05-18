@@ -327,7 +327,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="logoname">ZENITH</div>
       <div class="logotag">Arts Fest 2K26 · Where Talent Meets Glory</div>
     </div>
-    <!-- Add this right before the closing </div> of #pgLogin -->
 <div style="text-align: center; margin-top: 1.5rem; z-index: 1; position: relative;">
     <p style="font-size: 0.75rem; color: var(--muted);">
         Organized by 
@@ -346,7 +345,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div style="text-align:center;margin-top:1.2rem">
       <span onclick="clearStorage()" style="font-size:.7rem;color:var(--muted2);cursor:pointer;text-decoration:underline;opacity:.6">Having trouble? Reset local data</span>
     </div>
-    
   </div>
 </div>
 
@@ -391,7 +389,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <div class="view" id="vStudents">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Participants</div><div class="herot">Students</div><div class="heros">All registered participants across teams</div></div>
-      <div class="srow" id="stuStats"></div>
+      <div class="srow" id="statsRow"></div>
       <div class="card">
         <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Student Directory</div><div id="stuBtns"></div></div>
         <div class="fbar">
@@ -482,6 +480,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
   </div>
+  <footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%;">
+    <div class="copyright" style="text-align: center;">
+      <p style="font-size: 0.8rem; color: var(--muted);">
+        © 2026 ZENITH Arts Fest. Organized by 
+        <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
+          <i class="fas fa-users"></i> ITQAN Union
+        </a>. All Rights Reserved.
+      </p>
+    </div>
+  </footer>
 </div>
 
 <div class="mov" id="mOv" onclick="if(event.target===this)closeM()">
@@ -498,20 +506,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="cbtns"><button class="btn bd" id="cOk">Confirm</button><button class="btn bx" onclick="closeC()">Cancel</button></div>
   </div>
 </div>
- <!-- ADD FOOTER HERE -->
-  <footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2);">
-    <div class="copyright" style="text-align: center;">
-      <p style="font-size: 0.8rem; color: var(--muted);">
-        © 2025 ZENITH Arts Fest. Organized by 
-        <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
-          <i class="fas fa-users"></i> ITQAN Union
-        </a>. All Rights Reserved.
-      </p>
-    </div>
-  </footer>
-
-  <div class="mov" id="mOv" ...>...</div>
-  <div class="cov" id="cOv">...</div>
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -527,13 +521,11 @@ async function initFirebase(){
     onSnapshot(doc(db,'zenith','data'),snap=>{
       if(!snap.exists())return;
       const d=snap.data();
-      /* ⚠️ NEVER overwrite creds from Firebase — passwords are local-only */
       if(d.scores)scores=d.scores;
       if(d.events&&d.events.length)EVENTS=d.events;
       if(d.students&&d.students.length)students=d.students;
       if(d.eventGrades)eventGrades=d.eventGrades;
       if(d.gradeDefPts)gradeDefPts=d.gradeDefPts;
-      /* only rebuild UI if user is already logged in */
       if(CU)rebuildAll();
     });
     console.log('✅ Firebase connected — real-time sync active!');
@@ -541,14 +533,11 @@ async function initFirebase(){
 }
 async function saveToFirebase(){
   if(!db || !CU) return;
-  
-  // Stop write stream instantly if the current logged-in user is not the admin account
   if (CU.username !== 'admin') {
       console.warn("Cloud synchronization blocked: Non-administrative account session.");
       return;
   }
   try{
-    /* ⚠️ Never save creds to Firebase — keep passwords local only */
     await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
   }catch(err){console.error('Firebase save error:',err);}
 }
@@ -616,20 +605,19 @@ let CU=null,scores={},creds=null,eventGrades={},gradeDefPts={...DEFAULT_GRADE_PT
 
 function saveAll(){
   localStorage.setItem('z_scores',JSON.stringify(scores));
-  localStorage.setItem('z_creds',JSON.stringify(creds));   /* passwords: localStorage ONLY */
+  localStorage.setItem('z_creds',JSON.stringify(creds));
   localStorage.setItem('z_events',JSON.stringify(EVENTS));
   localStorage.setItem('z_students',JSON.stringify(students));
   localStorage.setItem('z_egrades',JSON.stringify(eventGrades));
   localStorage.setItem('z_gradedef',JSON.stringify(gradeDefPts));
-  saveToFirebase(); /* creds excluded inside saveToFirebase */
+  saveToFirebase();
 }
 function loadAll(){
   try{scores=JSON.parse(localStorage.getItem('z_scores')||'null')||defScores();}catch(e){scores=defScores();}
-  /* load creds then fill any missing keys from DC */
   try{
     const stored=JSON.parse(localStorage.getItem('z_creds')||'null');
     if(stored&&typeof stored==='object'){
-      creds={...DC,...stored}; /* DC is the fallback for any missing team */
+      creds={...DC,...stored};
     } else {
       creds={...DC};
     }
@@ -643,7 +631,6 @@ function loadAll(){
 
 /* ── COMPUTED ── */
 function gradePts(eid,team){
-  /* returns the grade point value for a team's grade on an event */
   const g=getEG(eid,team);
   return(g&&gradeDefPts[g]!==undefined)?gradeDefPts[g]:0;
 }
@@ -651,11 +638,9 @@ function tStats(t){
   let w=0,s2=0,s3=0,tot=0;
   EVENTS.forEach(e=>{
     const p=(scores[e.id]||{})[t]||0;
-    /* position points */
     if(p===1){w++;tot+=e.pts[0];}
     else if(p===2){s2++;tot+=e.pts[1];}
     else if(p===3){s3++;tot+=e.pts[2];}
-    /* grade points always added on top regardless of position */
     tot+=gradePts(e.id,t);
   });
   return{won:w,sec:s2,trd:s3,total:tot};
@@ -690,13 +675,11 @@ function doLogin(){
   const hv=h(pass);
   let found=null;
   
-  /* Priority Step: check custom/changed active credentials first */
   if(creds){
     for(const k in creds){
       if(creds[k]&&creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}
     }
   }
-  /* Fallback Step: only match defaults if unchanged locally */
   if(!found){
     for(const k in DC){
       if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
@@ -730,25 +713,12 @@ function buildApp(){
   document.getElementById('hS').textContent=isAdmin()?'Manage scores, events, students & more.':'Track your team\'s performance across all events.';
   buildSidebar(team);rebuildAll();
 }
-function buildSidebar(team){
-  // Inside buildSidebar(), add this to the 'main' array or a new section:
- id: 'external', ic: 'fa-building', lb: 'About ITQAN Union', external: true, url: 'https://itqan-friends.vercel.app/' 
-  const nav=document.getElementById('sbNav');
-  const main=[{id:'vDash',ic:'fa-gauge',lb:'Dashboard'},{id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},{id:'vEvents',ic:'fa-calendar-days',lb:'Events'},{id:'vStudents',ic:'fa-users',lb:'Students'},{id:'vProg',ic:'fa-clipboard-list',lb:'Programmes'}];
-  const adm=isAdmin()?[{id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},{id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},{id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}]:[];
-  const acc=[{id:'vPw',ic:'fa-key',lb:'Change Password'}];
-  nav.innerHTML=`<div class="nsec">Navigation</div>`+main.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')+(adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>`+adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join(''):'')+`<div class="nsec" style="margin-top:.5rem">Account</div>`+acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="switchView('${it.id}','${it.lb}')"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('');
-}
 
-/* ── DASHBOARD ── */
 function buildSidebar(team){
   const nav=document.getElementById('sbNav');
-  
-  // Add external link to ITQAN Union site
   const externalLinks = [
     { id: 'external', ic: 'fa-building', lb: 'About ITQAN Union', url: 'https://itqan-friends.vercel.app/', external: true }
   ];
-  
   const main=[
     {id:'vDash',ic:'fa-gauge',lb:'Dashboard'},
     {id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},
@@ -756,18 +726,15 @@ function buildSidebar(team){
     {id:'vStudents',ic:'fa-users',lb:'Students'},
     {id:'vProg',ic:'fa-clipboard-list',lb:'Programmes'}
   ];
-  
   const adm=isAdmin()?[
     {id:'vAdmin',ic:'fa-sliders',lb:'Score Manager'},
     {id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},
     {id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}
   ]:[];
-  
   const acc=[
     {id:'vPw',ic:'fa-key',lb:'Change Password'}
   ];
   
-  // Helper function to generate click handler based on external/internal
   const getClickHandler = (item) => {
     if (item.external) {
       return `window.open('${item.url}', '_blank')`;
@@ -786,6 +753,7 @@ function buildSidebar(team){
     ${acc.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
   `;
 }
+
 function buildLBBars(){const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');}
 function buildEvGlance(){const el=document.getElementById('evGlance');const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));const pend=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));el.innerHTML=[...done.slice(0,5),...pend.slice(0,4)].map(e=>{const d=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);return`<div class="evitem"><div class="evdot" style="background:${d?CATCOL[e.cat]||'var(--muted2)':'var(--muted2)'}"></div><span class="evname">${e.name}</span><span class="evcat">${d?'✓ Done':'Pending'}</span></div>`;}).join('');}
 
@@ -872,7 +840,6 @@ function submitAddEvent(){
 function buildOverall(){
   const r=ranked();
   document.getElementById('overallTb').innerHTML=r.map((x,i)=>{
-    /* calculate grade pts separately for display */
     let grdTot=0;EVENTS.forEach(e=>{grdTot+=gradePts(e.id,x.team);});
     const posTot=x.total-grdTot;
     return`<tr>
@@ -895,14 +862,12 @@ function stuPoints(s){
   s.events.forEach(eid=>{
     const pos=(scores[eid]||{})[s.team]||0;
     const ev=EVENTS.find(e=>e.id===eid);
-    /* position points */
     if(pos>0&&ev)tot+=ev.pts[pos-1];
-    /* grade points */
     tot+=gradePts(eid,s.team);
   });
   return tot;
 }
-function buildStuStats(){const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};document.getElementById('stuStats').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;}
+function buildStuStats(){const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};document.getElementById('statsRow').innerHTML=`<div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div><div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div><div class="sc"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${c.hamlet}</div><div class="scnote">members</div></div>`;}
 function renderStudents(){
   const q=(document.getElementById('stuSearch')?.value||'').toLowerCase();
   const tf=document.getElementById('stuTeamF')?.value||'';
@@ -951,20 +916,14 @@ function delStudent(sid){
     alert('Permission denied.');
     return;
   }
-  // 1. Remove the student locally
-  const studentToDelete = students.find(x => x.id === sid);
   students = students.filter(x => x.id !== sid);
-  
-  // 2. Immediately save local state
   localStorage.setItem('z_students', JSON.stringify(students));
   
-  // 3. Force an immediate update to the cloud database
   saveToFirebase().then(() => {
     buildStuStats();
     renderStudents();
   }).catch(err => {
     console.error("Failed to delete student from cloud:", err);
-    // If cloud save fails (e.g. permission issues), revert local change so UI stays accurate
     location.reload();
   });
 }
@@ -984,16 +943,15 @@ function submitEditStu(sid){
   s.note = document.getElementById('mSno').value.trim();
   s.events = getChecked();
   
-  // Save locally first
   localStorage.setItem('z_students', JSON.stringify(students));
   
-  // Immediately sync up to Firebase
   saveToFirebase().then(() => {
     buildStuStats();
     renderStudents();
     closeM();
   });
 }
+
 /* ── SCORE MANAGER ── */
 function stuForTeamEvent(team,eid){return students.filter(s=>s.team===team&&s.events.includes(eid));}
 function gradeSelHtml(eid,team){
@@ -1036,10 +994,8 @@ function upScore(eid,team,pos){
 function upGrade(eid,team,grade){
   if(!isAdmin()){alert('Permission denied.');return;}
   setEG(eid,team,grade);
-  /* update the inline "= X pts" label */
   const el=document.getElementById('gpts_'+eid+'_'+team);
   if(el)el.textContent=grade&&gradeDefPts[grade]!==undefined?`= ${gradeDefPts[grade]} pts`:'';
-  /* refresh team total in the card header */
   const tp=document.getElementById('adP_'+team);
   if(tp)tp.textContent=tStats(team).total+' pts';
 }
@@ -1167,6 +1123,7 @@ function adminReset(team){if(!isAdmin()){alert('Permission denied.');return;}con
 function resetAllPw(){if(!isAdmin()){alert('Permission denied.');return;}for(const k in DC)creds[k].hash=DC[k].hash;saveAll();const n=document.getElementById('rAllOk');n.style.display='flex';setTimeout(()=>n.style.display='none',4000);}
 
 /* ── MOBILE SIDEBAR ── */
+/* The ONLY active switchView definition */
 function toggleSidebar(){
   const sb=document.querySelector('.sb');
   const hb=document.getElementById('hamburger');
@@ -1193,7 +1150,7 @@ function switchView(id,title){
   document.getElementById(id).classList.add('active');
   document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
   document.getElementById('tbTitle').textContent=title;
-  closeSidebar(); /* auto-close on mobile layout when navigation link is tapped */
+  closeSidebar();
 }
 
 /* ── EXPOSE TO HTML onclick handlers ── */
