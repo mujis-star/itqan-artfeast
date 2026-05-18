@@ -209,7 +209,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .cov.open{opacity:1;pointer-events:all;}
 .cbox{background:var(--bg2);border:1px solid rgba(240,90,90,.3);border-radius:16px;width:min(380px,93vw);padding:1.8rem;text-align:center;animation:fadeUp .24s ease;}
 .ctitle{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.6rem;}
-.cmsg覆{font-size:.9rem;color:var(--muted);margin-bottom:1.4rem;}
+.cmsg{font-size:.9rem;color:var(--muted);margin-bottom:1.4rem;}
 .cbtns{display:flex;gap:.7rem;justify-content:center;}
 .gbadge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:1rem;font-weight:700;}
 .gA{background:rgba(67,217,140,.15);color:#43d98c;border:1px solid rgba(67,217,140,.3);}
@@ -885,7 +885,7 @@ function buildOverall(){
     </tr>`;
   }).join('');
 }
-function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
+function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`</tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
 function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
 
 /* ── STUDENTS ── */
@@ -980,7 +980,7 @@ function submitEditStu(sid){
   });
 }
 
-/* ── PROGRAMMES (UPDATED TO HANDLE ALL EVENTS) ── */
+/* ── PROGRAMMES ── */
 function buildProgSel(){
   const sel=document.getElementById('progEvSel');
   if(!sel)return;
@@ -1083,10 +1083,9 @@ function renderProg(){
 function renderAllPrograms(teamFilter){
   const con = document.getElementById('progContent');
   const tf = teamFilter || '';
-  const eventsWithData = EVENTS;
   const grouped = {};
   
-  eventsWithData.forEach(e => {
+  EVENTS.forEach(e => {
     if(!grouped[e.cat]) grouped[e.cat] = [];
     grouped[e.cat].push(e);
   });
@@ -1335,10 +1334,8 @@ function switchView(id,title){
   if(id === 'vProg') buildProgSel();
 }
 
-/* ── EXPOSE TO HTML ── */
 Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,updateProgScore,updateProgGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
 
-/* ── INIT ── */
 loadAll();
 initFirebase();
 try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
