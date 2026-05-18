@@ -1000,26 +1000,49 @@ if(addBtn) addBtn.style.display = (eid && eid !== 'ALL' && isAdmin()) ? 'inline-
   if(eid === 'ALL'){
     renderAllPrograms(tf);
     return;
+  // Inside renderProg(), after the score card section
+<div class="card" style="margin-bottom:0">
+  <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Participants — ${ev.name}</div>
+  ${isAdmin() ? `<button class="btn bg bsm" onclick="openAddCandModal()"><i class="fas fa-user-plus"></i>Add Participant</button>` : ''}
+  </div>
+  ${cands.length === 0 ? 
+    `<div style="padding:2rem;text-align:center;color:var(--muted)">
+       <i class="fas fa-user-slash" style="margin-right:6px"></i>No participants registered
+       ${isAdmin() ? '<br><button class="btn bg bsm" style="margin-top:0.5rem;" onclick="openAddCandModal()">Add First Participant</button>' : ''}
+     </div>` : 
+    `<table class="dt">
+      <thead><tr><th>#</th><th>Name</th><th>Roll No</th><th>Team</th><th>Note</th>${isAdmin() ? '<th>Actions</th>' : ''}</tr></thead>
+      <tbody>
+        ${cands.map((s, i) => `
+          <tr>
+            <td>${i+1}</td>
+            <td style="font-weight:500">${s.name}</td>
+            <td style="color:var(--muted);font-size:.82rem">${s.roll}</td>
+            <td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td>
+            <td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note || '—'}</td>
+            ${isAdmin() ? `
+              <td>
+                <div style="display:flex;gap:4px">
+                  <button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i></button>
+                  <button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove ${s.name} from ${ev.name}?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            ` : ''}
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`
+  }
+</div>
+  
   }
 
-  function renderAllPrograms(teamFilter){
+function renderAllPrograms(teamFilter){
   const con = document.getElementById('progContent');
   const tf = teamFilter || '';
   
-  // Get all events that have results or participants
-  const eventsWithData = EVENTS.filter(e => {
-    const hasParticipants = students.some(s => s.events.includes(e.id) && (!tf || s.team === tf));
-    const hasScores = TEAMS.some(t => (scores[e.id] || {})[t] > 0);
-    return hasParticipants || hasScores;
-  });
-  
-  if(eventsWithData.length === 0){
-    con.innerHTML = `<div style="padding:3rem;text-align:center;color:var(--muted)">
-      <i class="fas fa-info-circle" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>
-      No data available. Select individual programs to add participants and scores.
-    </div>`;
-    return;
-  }
+  // Get all events
+  const eventsWithData = EVENTS;
   
   // Group events by category
   const grouped = {};
@@ -1029,41 +1052,39 @@ if(addBtn) addBtn.style.display = (eid && eid !== 'ALL' && isAdmin()) ? 'inline-
   });
   
   let html = `<div class="hero" style="margin-bottom:1rem">
-    <div class="heroey">📊 Overview</div>
+    <div class="heroey">📊 Complete Overview</div>
     <div class="herot">All Programs</div>
-    <div class="heros">Complete view of all events with scores and grades</div>
+    <div class="heros">View all events with scores, grades, and participants</div>
   </div>`;
   
   // Summary stats
-  const totalTeams = TEAMS.length;
   const totalEvents = EVENTS.length;
   const completedEvents = EVENTS.filter(e => TEAMS.some(t => (scores[e.id] || {})[t] > 0)).length;
+  const totalStudents = students.filter(s => !tf || s.team === tf).length;
   
   html += `
     <div class="srow" style="margin-bottom:1.2rem">
       <div class="sc"><div class="sclbl">Total Events</div><div class="scval">${totalEvents}</div><div class="scnote">scheduled</div></div>
       <div class="sc"><div class="sclbl">Completed</div><div class="scval" style="color:var(--ok)">${completedEvents}</div><div class="scnote">results declared</div></div>
-      <div class="sc"><div class="sclbl">Pending</div><div class="scval" style="color:var(--gold)">${totalEvents - completedEvents}</div><div class="scnote">awaiting results</div></div>
+      <div class="sc"><div class="sclbl">Participants</div><div class="scval" style="color:var(--gold)">${totalStudents}</div><div class="scnote">registered students</div></div>
     </div>
   `;
   
   // Display events by category
   for(const [category, events] of Object.entries(grouped)){
-    html += `<div class="card" style="margin-bottom:1.2rem">
-      <div class="cardt"><div class="lft"><i class="fas fa-folder"></i>${category}</div></div>
-      <table class="dt">
-        <thead>
-          <tr>
-            <th>Event</th>
-            ${TEAMS.map(t => `<th>${TM[t].emoji} ${TM[t].label}</th>`).join('')}
-          </tr>
-        </thead>
-        <tbody>`;
+    html += `<div class="card" style="margin-bottom:1.5rem">
+      <div class="cardt"><div class="lft"><i class="fas fa-folder-open"></i>${category}</div></div>`;
     
     for(const event of events){
-      html += `<tr>
-        <td style="font-weight:500; font-style:italic">${event.name}</td>`;
+      // Get participants for this event
+      let participants = students.filter(s => s.events.includes(event.id) && (!tf || s.team === tf));
       
+      html += `<div style="margin-bottom:1.5rem; border-left: 3px solid var(--gold); padding-left: 1rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.5rem;">
+          <h4 style="color:var(--gold); font-family:'Playfair Display',serif; font-size:1.1rem;">🎯 ${event.name}</h4>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">`;
+      
+      // Show team positions and grades
       for(const team of TEAMS){
         const pos = (scores[event.id] || {})[team] || 0;
         const grade = getEG(event.id, team);
@@ -1071,42 +1092,51 @@ if(addBtn) addBtn.style.display = (eid && eid !== 'ALL' && isAdmin()) ? 'inline-
         const positionPoints = pos > 0 ? event.pts[pos-1] : 0;
         const totalPoints = positionPoints + gradePoints;
         
-        let displayText = '';
-        if(pos === 1) displayText = `🥇 1st (${positionPoints} pts)`;
-        else if(pos === 2) displayText = `🥈 2nd (${positionPoints} pts)`;
-        else if(pos === 3) displayText = `🥉 3rd (${positionPoints} pts)`;
-        else displayText = '—';
+        let positionText = '';
+        if(pos === 1) positionText = `🥇 1st (${positionPoints} pts)`;
+        else if(pos === 2) positionText = `🥈 2nd (${positionPoints} pts)`;
+        else if(pos === 3) positionText = `🥉 3rd (${positionPoints} pts)`;
+        else positionText = '— No position —';
         
-        if(grade) displayText += `<br><span style="font-size:.7rem;color:var(--ok)">Grade: ${grade} (+${gradePoints})</span>`;
-        
-        if(totalPoints > 0) displayText += `<br><span class="pts" style="font-size:.75rem">Total: ${totalPoints} pts</span>`;
-        
-        html += `<td style="font-size:.8rem; text-align:center">${displayText || '—'}</td>`;
+        html += `<div style="background:var(--bg3); border-radius:8px; padding:0.4rem 0.8rem; border-left:2px solid ${TM[team].color}">
+          <span style="color:${TM[team].color}; font-weight:600;">${TM[team].emoji} ${TM[team].label}</span><br>
+          <span style="font-size:0.7rem;">${positionText}</span>
+          ${grade ? `<br><span style="font-size:0.65rem; color:var(--ok);">Grade: ${grade} (+${gradePoints} pts)</span>` : ''}
+          ${totalPoints > 0 ? `<br><span class="pts" style="font-size:0.7rem;">Total: ${totalPoints} pts</span>` : ''}
+        </div>`;
       }
-      html += `</tr>`;
+      
+      html += `</div></div>`;
+      
+      // Show participants/candidates for this event
+      if(participants.length > 0){
+        html += `<div style="margin-top:0.5rem;">
+          <div style="font-size:0.75rem; color:var(--muted); margin-bottom:0.5rem;">
+            <i class="fas fa-users"></i> Participants (${participants.length}):
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">`;
+        
+        for(const student of participants){
+          html += `<div style="background:rgba(255,255,255,0.05); border-radius:6px; padding:0.3rem 0.7rem; font-size:0.8rem;">
+            <span style="font-weight:500;">${student.name}</span>
+            <span style="color:var(--muted); font-size:0.7rem;"> (${student.roll})</span>
+            ${student.note ? `<br><span style="font-size:0.65rem; color:var(--gold);">📌 ${student.note}</span>` : ''}
+          </div>`;
+        }
+        
+        html += `</div></div>`;
+      } else {
+        html += `<div style="margin-top:0.5rem; padding:0.5rem; background:rgba(0,0,0,0.2); border-radius:6px; text-align:center;">
+          <span style="font-size:0.75rem; color:var(--muted);"><i class="fas fa-user-slash"></i> No participants registered yet</span>
+          ${isAdmin() ? `<button class="btn bsm btn-outline" style="margin-left:0.5rem; padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="document.getElementById('progEvSel').value='${event.id}'; renderProg(); openAddCandModal();">+ Add Participant</button>` : ''}
+        </div>`;
+      }
+      
+      html += `</div>`;
     }
     
-    html += `</tbody></table></div>`;
+    html += `</div>`;
   }
-  
-  // Add participant summary
-  html += `<div class="card">
-    <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Participant Summary</div></div>
-    <table class="dt">
-      <thead><tr><th>Team</th><th>Total Participants</th><th>Events Participated</th></tr></thead>
-      <tbody>`;
-  
-  for(const team of TEAMS){
-    const teamStudents = students.filter(s => s.team === team && (!tf || s.team === tf));
-    const totalParticipations = teamStudents.reduce((sum, s) => sum + s.events.length, 0);
-    html += `<tr>
-      <td><span style="color:${TM[team].color}">${TM[team].emoji} ${TM[team].label}</span></td>
-      <td class="pts">${teamStudents.length}</td>
-      <td class="pts">${totalParticipations}</td>
-    </tr>`;
-  }
-  
-  html += `</tbody></table></div>`;
   
   con.innerHTML = html;
 }
@@ -1218,14 +1248,24 @@ function openAddCandModal(){
 }
 function submitAddCand(eid){
   if(!isAdmin()){alert('Permission denied.');return;}
-  const sid=document.getElementById('mCstu').value;if(!sid){alert('Please select a student.');return;}
-  const s=students.find(x=>x.id===sid);if(!s)return;
-  if(!s.events.includes(eid))s.events.push(eid);
-  const note=document.getElementById('mCnote').value.trim();if(note)s.note=note;
+  const sid=document.getElementById('mCstu').value;
+  if(!sid){alert('Please select a student.');return;}
+  const s=students.find(x=>x.id===sid);
+  if(!s)return;
+  if(!s.events.includes(eid)) s.events.push(eid);  // ← This adds the event to student's events
+  const note=document.getElementById('mCnote').value.trim();
+  if(note) s.note=note;
   const pos=parseInt(document.getElementById('mCpos').value)||0;
-  if(pos>0){if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};scores[eid][s.team]=pos;}
-  const grade=document.getElementById('mCgrade').value;if(grade)setEG(eid,s.team,grade);
-  saveAll();rebuildAll();renderProg();closeM();
+  if(pos>0){
+    if(!scores[eid]) scores[eid]={othello:0,macbeth:0,hamlet:0};
+    scores[eid][s.team]=pos;
+  }
+  const grade=document.getElementById('mCgrade').value;
+  if(grade) setEG(eid,s.team,grade);
+  saveAll();
+  rebuildAll();
+  renderProg();  // ← Refresh the view
+  closeM();
 }
 function openEditCandModal(sid,eid){
   if(!isAdmin()){alert('Permission denied.');return;}
