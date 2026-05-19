@@ -24,7 +24,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .page{display:none!important;}.page.active{display:block!important;}
 #pgLogin.active{display:flex!important;}#pgApp.active{display:flex!important;}
 
-/* ── LOGIN ── */
+/* ── LOGIN (unchanged, fully working) ── */
 #pgLogin{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
 .b1{width:440px;height:440px;background:rgba(255,200,80,.06);top:-130px;left:-150px;animation:bm 13s ease-in-out infinite alternate;}
@@ -86,7 +86,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .view{display:none;padding:2rem;animation:fadeUp .32s ease;}
 .view.active{display:block;}
 
-/* ── COMPONENTS ── */
+/* ── COMPONENTS (alignment fixes) ── */
 .hero{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.8rem 2rem 1.5rem;margin-bottom:1.6rem;position:relative;overflow:hidden;}
 .hero::after{content:'';position:absolute;top:0;right:0;width:240px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,200,80,.03));pointer-events:none;}
 .heroey{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem;}
@@ -235,7 +235,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:19;backdrop-filter:blur(3px);}
 .sb-overlay.show{display:block;}
 
-/* ══ TABLET 860px ══ */
+/* ══ RESPONSIVE ALIGNMENT FIXES ══ */
 @media(max-width:860px){
   .twocol{grid-template-columns:1fr;}
   .agrid{grid-template-columns:1fr;}
@@ -243,16 +243,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   .srow{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
   .sgrid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}
 }
-
-/* ══ TABLET 700px ══ */
 @media(max-width:700px){
   .hamburger{display:flex;}
-  .sb{
-    width:260px;
-    transform:translateX(-100%);
-    transition:transform .28s cubic-bezier(.4,0,.2,1);
-    z-index:30;
-  }
+  .sb{width:260px;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:30;}
   .sb.open{transform:translateX(0);}
   .main{margin-left:0;}
   .view{padding:1.2rem;}
@@ -269,8 +262,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   .srow{grid-template-columns:1fr 1fr;}
   .agrid{grid-template-columns:1fr;}
 }
-
-/* ══ MOBILE 500px ══ */
 @media(max-width:500px){
   .hamburger{top:.6rem;left:.7rem;}
   .sb{width:85vw;}
@@ -297,8 +288,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   .mbox{padding:1.4rem;}
   .mtitle{font-size:1rem;}
 }
-
-/* ══ VERY SMALL 380px ══ */
 @media(max-width:380px){
   .srow{grid-template-columns:1fr;}
   .sgrid{grid-template-columns:1fr;}
@@ -317,9 +306,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div class="artbg">ZENITH</div>
   <div class="lcard">
     <div class="logolock">
-      <div class="logoring">
-        <i class="fas fa-crown"></i>
-      </div>
+      <div class="logoring"><i class="fas fa-crown"></i></div>
       <div class="logoname">ZENITH</div>
       <div class="logotag">Arts Fest 2K26 · Where Talent Meets Glory</div>
     </div>
@@ -370,6 +357,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- DASHBOARD VIEW -->
     <div class="view active" id="vDash">
       <div class="hero"><div class="heroey" id="hEy">Welcome</div><div class="herot" id="hT">ZENITH 2K26</div><div class="heros" id="hS">Arts Fest Command Centre</div></div>
       <div class="srow" id="statsRow"></div>
@@ -379,6 +367,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- EVENTS VIEW -->
     <div class="view" id="vEvents">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Schedule</div><div class="herot">All Events</div><div class="heros">Full list of ZENITH 2K26 competitions</div></div>
       <div class="card">
@@ -388,15 +377,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- LEADERBOARD VIEW -->
     <div class="view" id="vLB">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
       <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Pos Pts + Grade Pts</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
       <div class="twocol">
-        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></td></div>
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></table></div>
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-chart-bar"></i>Points</div></div><div id="ptsBars"></div></div>
       </div>
     </div>
 
+    <!-- STUDENTS VIEW -->
     <div class="view" id="vStudents">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Participants</div><div class="herot">Students</div><div class="heros">All registered participants across teams</div></div>
       <div class="srow" id="stuStatsRow"></div>
@@ -411,10 +402,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- PROGRAMMES VIEW (ALIGNMENT FIXED) -->
     <div class="view" id="vProg">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Event Management</div><div class="herot">Programmes</div><div class="heros">Manage all events — assign positions &amp; grades for each team</div></div>
-      
-      <!-- FIXED ALIGNMENT: Programme selector, Team filter, and Add button on same row -->
+      <!-- FIXED ALIGNMENT: programme selector, team filter and add button on one row -->
       <div class="fbar" style="margin-bottom:1.2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; flex: 1;">
           <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width: 250px; padding: 0.55rem 0.9rem; font-size: 0.9rem;">
@@ -431,70 +422,33 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
           <i class="fas fa-user-plus"></i> Add Candidate
         </button>
       </div>
-      
       <div id="progContent"><div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div></div>
     </div>
 
+    <!-- GRADE DEFINITIONS VIEW -->
     <div class="view" id="vGradeDef">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Admin · Scoring Rules</div><div class="herot">Grade Definitions</div><div class="heros">Define how many points each grade is worth — used across all events</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:800px">
-        <div class="card" style="margin-bottom:0">
-          <div class="cardt"><div class="lft"><i class="fas fa-star-half-stroke"></i>Grade → Points Table</div></div>
-          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem">Set the point value for each grade. These appear next to the grade selector in Programmes.</p>
-          <div id="gradeDefTable"></div>
-          <div style="display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap">
-            <button class="btn bg" onclick="saveGradeDef()"><i class="fas fa-save"></i>Save Definitions</button>
-            <button class="btn bx" onclick="resetGradeDef()"><i class="fas fa-rotate-left"></i>Reset Defaults</button>
-          </div>
-          <div class="notice nok" id="gradeDefOk"><i class="fas fa-circle-check"></i> Grade definitions saved!</div>
-        </div>
-        <div class="card" style="margin-bottom:0">
-          <div class="cardt"><div class="lft"><i class="fas fa-circle-info"></i>Preview</div></div>
-          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">How grades appear in Programmes and student profiles.</p>
-          <div id="gradePreview"></div>
-        </div>
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-star-half-stroke"></i>Grade → Points Table</div></div><p style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem">Set the point value for each grade. These appear next to the grade selector in Programmes.</p><div id="gradeDefTable"></div><div style="display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap"><button class="btn bg" onclick="saveGradeDef()"><i class="fas fa-save"></i>Save Definitions</button><button class="btn bx" onclick="resetGradeDef()"><i class="fas fa-rotate-left"></i>Reset Defaults</button></div><div class="notice nok" id="gradeDefOk"><i class="fas fa-circle-check"></i> Grade definitions saved!</div></div>
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-circle-info"></i>Preview</div></div><p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">How grades appear in Programmes and student profiles.</p><div id="gradePreview"></div></div>
       </div>
     </div>
 
+    <!-- CHANGE PASSWORD VIEW -->
     <div class="view" id="vPw">
       <div class="hero"><div class="heroey">Security</div><div class="herot">Change Password</div><div class="heros">Update your login credentials</div></div>
-      <div style="max-width:470px">
-        <div class="card">
-          <div class="cardt"><div class="lft"><i class="fas fa-key"></i>Update Password</div></div>
-          <div class="cpfld"><label>Current Password</label><div class="inpw"><i class="ico fas fa-lock"></i><input type="password" id="cpCur" placeholder="Current password"><button class="eyebtn" onclick="toggleEye('cpCur',this)"><i class="fas fa-eye"></i></button></div></div>
-          <div class="cpfld"><label>New Password</label><div class="inpw"><i class="ico fas fa-lock-open"></i><input type="password" id="cpNew" placeholder="At least 6 characters" oninput="chkStr(this.value)"><button class="eyebtn" onclick="toggleEye('cpNew',this)"><i class="fas fa-eye"></i></button></div><div class="strbar"><div class="strfill" id="strFill" style="width:0%"></div></div><div class="strlbl" id="strLbl"></div></div>
-          <div class="cpfld"><label>Confirm Password</label><div class="inpw"><i class="ico fas fa-check-circle"></i><input type="password" id="cpCfm" placeholder="Repeat new password"><button class="eyebtn" onclick="toggleEye('cpCfm',this)"><i class="fas fa-eye"></i></button></div></div>
-          <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem">
-            <button class="btn bg" onclick="doChangePw()"><i class="fas fa-save"></i>Update</button>
-            <button class="btn bx" onclick="clearPw()">Clear</button>
-          </div>
-          <div class="notice nok" id="pwOk"><i class="fas fa-circle-check"></i> Password updated!</div>
-          <div class="notice nerr" id="pwErr"><i class="fas fa-triangle-exclamation"></i> <span id="pwErrTxt"></span></div>
-        </div>
-      </div>
+      <div style="max-width:470px"><div class="card"><div class="cardt"><div class="lft"><i class="fas fa-key"></i>Update Password</div></div><div class="cpfld"><label>Current Password</label><div class="inpw"><i class="ico fas fa-lock"></i><input type="password" id="cpCur" placeholder="Current password"><button class="eyebtn" onclick="toggleEye('cpCur',this)"><i class="fas fa-eye"></i></button></div></div><div class="cpfld"><label>New Password</label><div class="inpw"><i class="ico fas fa-lock-open"></i><input type="password" id="cpNew" placeholder="At least 6 characters" oninput="chkStr(this.value)"><button class="eyebtn" onclick="toggleEye('cpNew',this)"><i class="fas fa-eye"></i></button></div><div class="strbar"><div class="strfill" id="strFill" style="width:0%"></div></div><div class="strlbl" id="strLbl"></div></div><div class="cpfld"><label>Confirm Password</label><div class="inpw"><i class="ico fas fa-check-circle"></i><input type="password" id="cpCfm" placeholder="Repeat new password"><button class="eyebtn" onclick="toggleEye('cpCfm',this)"><i class="fas fa-eye"></i></button></div></div><div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem"><button class="btn bg" onclick="doChangePw()"><i class="fas fa-save"></i>Update</button><button class="btn bx" onclick="clearPw()">Clear</button></div><div class="notice nok" id="pwOk"><i class="fas fa-circle-check"></i> Password updated!</div><div class="notice nerr" id="pwErr"><i class="fas fa-triangle-exclamation"></i> <span id="pwErrTxt"></span></div></div></div>
     </div>
 
+    <!-- RESET PASSWORDS VIEW -->
     <div class="view" id="vReset">
       <div class="hero"><div class="heroey">Admin · Security</div><div class="herot">Reset Passwords</div><div class="heros">Change any team account password instantly</div></div>
-      <div class="card" style="margin-bottom:1.4rem">
-        <div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div>
-        <table class="rtbl"><thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead>
-          <tbody>
-            <tr><td style="color:var(--oc);font-weight:500">🎭 Othello</td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
-            <tr><td style="color:var(--mc);font-weight:500">⚔️ Macbeth</td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
-            <tr><td style="color:var(--hc);font-weight:500">💀 Hamlet</td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr>
-            <tr><td style="color:var(--ac);font-weight:500">👑 Admin</td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="card" style="max-width:420px">
-        <div class="cardt"><div class="lft"><i class="fas fa-rotate-left"></i>Factory Reset</div></div>
-        <p style="font-size:.87rem;color:var(--muted);margin-bottom:1rem">Restore all passwords to their original defaults.</p>
-        <button class="btn" style="background:linear-gradient(135deg,#c0392b,#922b21);color:#fff;font-weight:600;border:none;cursor:pointer" onclick="resetAllPw()"><i class="fas fa-trash-restore"></i>Reset All to Defaults</button>
-        <div class="notice nok" id="rAllOk"><i class="fas fa-circle-check"></i> All passwords restored!</div>
-      </div>
+      <div class="card" style="margin-bottom:1.4rem"><div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div><table class="rtbl"><thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead><tbody><tr><td style="color:var(--oc);font-weight:500">🎭 Othello</td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr><tr><td style="color:var(--mc);font-weight:500">⚔️ Macbeth</td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr><tr><td style="color:var(--hc);font-weight:500">💀 Hamlet</td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr><tr><td style="color:var(--ac);font-weight:500">👑 Admin</td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr></tbody></table></div>
+      <div class="card" style="max-width:420px"><div class="cardt"><div class="lft"><i class="fas fa-rotate-left"></i>Factory Reset</div></div><p style="font-size:.87rem;color:var(--muted);margin-bottom:1rem">Restore all passwords to their original defaults.</p><button class="btn" style="background:linear-gradient(135deg,#c0392b,#922b21);color:#fff;font-weight:600;border:none;cursor:pointer" onclick="resetAllPw()"><i class="fas fa-trash-restore"></i>Reset All to Defaults</button><div class="notice nok" id="rAllOk"><i class="fas fa-circle-check"></i> All passwords restored!</div></div>
     </div>
   </div>
+
+  <!-- FOOTER (consistent across all pages) -->
   <footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%;">
     <div class="copyright" style="text-align: center;">
       <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
@@ -512,20 +466,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </footer>
 </div>
 
-<div class="mov" id="mOv" onclick="if(event.target===this)closeM()">
-  <div class="mbox">
-    <div class="mhd"><div class="mtitle" id="mTitle">—</div><button class="mclose" onclick="closeM()"><i class="fas fa-times"></i></button></div>
-    <div class="mbody" id="mBody"></div>
-    <div class="mft" id="mFt"></div>
-  </div>
-</div>
-<div class="cov" id="cOv">
-  <div class="cbox">
-    <div class="ctitle" id="cTitle">Confirm</div>
-    <div class="cmsg" id="cMsg"></div>
-    <div class="cbtns"><button class="btn bd" id="cOk">Confirm</button><button class="btn bx" onclick="closeC()">Cancel</button></div>
-  </div>
-</div>
+<!-- MODALS -->
+<div class="mov" id="mOv" onclick="if(event.target===this)closeM()"><div class="mbox"><div class="mhd"><div class="mtitle" id="mTitle">—</div><button class="mclose" onclick="closeM()"><i class="fas fa-times"></i></button></div><div class="mbody" id="mBody"></div><div class="mft" id="mFt"></div></div></div>
+<div class="cov" id="cOv"><div class="cbox"><div class="ctitle" id="cTitle">Confirm</div><div class="cmsg" id="cMsg"></div><div class="cbtns"><button class="btn bd" id="cOk">Confirm</button><button class="btn bx" onclick="closeC()">Cancel</button></div></div></div>
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -877,7 +820,6 @@ function buildOverall(){
     </tr>`;
   }).join('');
 }
-
 function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
 function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
 
@@ -906,7 +848,7 @@ function renderStudents(){
       list.map(s=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id).join(', ');const sp=stuPoints(s);
         return`<tr><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td style="font-size:.82rem">${s.grade||'—'}</td><td><span class="spts">${sp} pts</span></td><td style="font-size:.76rem;color:var(--muted)">${evNm||'—'}</td><td style="font-size:.76rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditStuModal('${s.id}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>delStudent('${s.id}'))"><i class="fas fa-trash"></i></button></div></td>`:''}</tr>`;
       }).join('')
-    }</tbody></table>`;
+    }</tbody></td>`;
   } else {
     if(!list.length){con.innerHTML=`<div style="padding:2rem;text-align:center;color:var(--muted)">No students found.</div>`;return;}
     con.innerHTML=`<div class="sgrid">${list.map((s,i)=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id);const sp=stuPoints(s);
@@ -1047,7 +989,7 @@ function renderProg(){
           const posChip=pos===1?`<span class="chip ch1">🥇 1st (${ev.pts[0]} pts)</span>`:pos===2?`<span class="chip ch2">🥈 2nd (${ev.pts[1]} pts)</span>`:pos===3?`<span class="chip ch3">🥉 3rd (${ev.pts[2]} pts)</span>`:`<span class="chip chp">—</span>`;
           const gradeBdg=grade?`<span class="gbadge ${gradeClass(grade)}" style="font-size:.8rem;width:30px;height:30px">${grade}</span>`:`<span style="color:var(--muted2)">—</span>`;
           const totalFromThis = (pos>0 ? ev.pts[pos-1] : 0) + (grade && gradeDefPts[grade] ? gradeDefPts[grade] : 0);
-          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}${totalFromThis>0 ? `<span style="font-size:.65rem;color:var(--ok);margin-left:4px;">(${totalFromThis}pts)</span>` : ''}</td><td>${gradeBdg}${grade && gradeDefPts[grade] ? `<span style="font-size:.6rem;color:var(--ok);"> +${gradeDefPts[grade]}</span>` : ''}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
+          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span><td>${posChip}${totalFromThis>0 ? `<span style="font-size:.65rem;color:var(--ok);margin-left:4px;">(${totalFromThis}pts)</span>` : ''}</td><td>${gradeBdg}${grade && gradeDefPts[grade] ? `<span style="font-size:.6rem;color:var(--ok);"> +${gradeDefPts[grade]}</span>` : ''}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
         }).join('')}</tbody>
       </table>`}
     </div>`;
@@ -1139,15 +1081,13 @@ function saveScores(){if(!isAdmin()){alert('Permission denied.');return;}saveAll
 
 function buildGradeDefTable(){
   const el=document.getElementById('gradeDefTable');if(!el)return;
-  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td>`;}).join('')}</tbody></table>`;
+  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span><td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td>`;}).join('')}</tbody></table>`;
   buildGradePreview();
 }
-
 function buildGradePreview(){
   const el=document.getElementById('gradePreview');if(!el)return;
   el.innerHTML=GRADE_OPTS.map(g=>{const pts=gradeDefPts[g]??0;return`<div style="display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)"><span class="gbadge ${gradeClass(g)}" style="font-size:.88rem;width:32px;height:32px;flex-shrink:0">${g}</span><div style="flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.round((pts/10)*100)}%;background:${gradeClass(g)==='gA'?'var(--ok)':gradeClass(g)==='gB'?'var(--oc)':gradeClass(g)==='gC'?'var(--gold)':gradeClass(g)==='gD'?'var(--hc)':'var(--err)'};border-radius:2px;"></div></div><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);min-width:48px;text-align:right">${pts} pts</span></div>`;}).join('');
 }
-
 function saveGradeDef(){if(!isAdmin()){alert('Permission denied.');return;}GRADE_OPTS.forEach(g=>{const id='gdef_'+g.replace('+','p').replace('-','m');const el=document.getElementById(id);if(el)gradeDefPts[g]=parseInt(el.value)||0;});saveAll();buildGradePreview();const n=document.getElementById('gradeDefOk');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
 function resetGradeDef(){if(!isAdmin()){alert('Permission denied.');return;}gradeDefPts={...DEFAULT_GRADE_PTS};saveAll();buildGradeDefTable();}
 
