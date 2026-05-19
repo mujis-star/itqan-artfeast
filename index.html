@@ -392,7 +392,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
       <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Pos Pts + Grade Pts</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
       <div class="twocol">
-        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></table></div>
+        <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></td></div>
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-chart-bar"></i>Points</div></div><div id="ptsBars"></div></div>
       </div>
     </div>
@@ -413,11 +413,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
     <div class="view" id="vProg">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Event Management</div><div class="herot">Programmes</div><div class="heros">Manage all events — assign positions &amp; grades for each team</div></div>
-      <div class="fbar" style="margin-bottom:1.2rem">
-        <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width:220px;padding:.55rem .9rem;font-size:.9rem"><option value="">— Select a Programme —</option></select>
-        <select class="fsel" id="progTeamF" onchange="renderProg()"><option value="">All Teams</option><option value="othello">🎭 Othello</option><option value="macbeth">⚔️ Macbeth</option><option value="hamlet">💀 Hamlet</option></select>
-        <button class="btn bg bsm" id="progAddBtn" onclick="openAddCandModal()" style="display:none"><i class="fas fa-user-plus"></i>Add Candidate</button>
+      
+      <!-- FIXED ALIGNMENT: Programme selector, Team filter, and Add button on same row -->
+      <div class="fbar" style="margin-bottom:1.2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+        <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; flex: 1;">
+          <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width: 250px; padding: 0.55rem 0.9rem; font-size: 0.9rem;">
+            <option value="">— Select a Programme —</option>
+          </select>
+          <select class="fsel" id="progTeamF" onchange="renderProg()" style="min-width: 140px;">
+            <option value="">All Teams</option>
+            <option value="othello">🎭 Othello</option>
+            <option value="macbeth">⚔️ Macbeth</option>
+            <option value="hamlet">💀 Hamlet</option>
+          </select>
+        </div>
+        <button class="btn bg bsm" id="progAddBtn" onclick="openAddCandModal()" style="display: none; white-space: nowrap;">
+          <i class="fas fa-user-plus"></i> Add Candidate
+        </button>
       </div>
+      
       <div id="progContent"><div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div></div>
     </div>
 
@@ -517,9 +531,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import{getFirestore,doc,setDoc,onSnapshot}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-/* ── FIREBASE ── */
 const FB_CFG={apiKey:"AIzaSyAgOLv2xG21CY7ghd3KOhQcfRrWZ34aPGU",authDomain:"zenith-artsfest.firebaseapp.com",projectId:"zenith-artsfest",storageBucket:"zenith-artsfest.firebasestorage.app",messagingSenderId:"506898514611",appId:"1:506898514611:web:0ea13ddd075a020062e6c6"};
 let db=null;
+
 async function initFirebase(){
   try{
     const app=initializeApp(FB_CFG);
@@ -534,61 +548,61 @@ async function initFirebase(){
       if(d.gradeDefPts)gradeDefPts=d.gradeDefPts;
       if(CU)rebuildAll();
     });
-    console.log('✅ Firebase connected — real-time sync active!');
+    console.log('✅ Firebase connected');
   }catch(err){console.error('Firebase error:',err);}
 }
+
 async function saveToFirebase(){
   if(!db || !CU) return;
-  if (CU.username !== 'admin') {
-      console.warn("Cloud synchronization blocked: Non-administrative account session.");
-      return;
-  }
+  if (CU.username !== 'admin') return;
   try{
     await setDoc(doc(db,'zenith','data'),{scores,events:EVENTS,students,eventGrades,gradeDefPts},{merge:true});
   }catch(err){console.error('Firebase save error:',err);}
 }
 
-/* ── DATA ── */
 let EVENTS=[
-  {id:'e01',name:'Vocabulary',          cat:'Academic', pts:[10,7,5],grade:''},
-  {id:'e02',name:'Short Story MLM',     cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e03',name:'Short Story ENG',     cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e04',name:'Short Story ARB',     cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e05',name:'Short Story UR',      cat:'Literary', pts:[10,7,5],grade:''},
-  {id:'e06',name:'Solo Singing',        cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e07',name:'Group Singing',       cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e08',name:'Instrumental',        cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e09',name:'Beatboxing',          cat:'Music',    pts:[10,7,5],grade:''},
-  {id:'e10',name:'Painting',            cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e11',name:'Sketching',           cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e12',name:'Photography',         cat:'Visual',   pts:[10,7,5],grade:''},
-  {id:'e13',name:'Mono Act',            cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e14',name:'Group Skit',          cat:'Stage',    pts:[10,7,5],grade:''},
-  {id:'e15',name:'Mime',                cat:'Stage',    pts:[10,7,5],grade:''},
+  {id:'e01',name:'Vocabulary', cat:'Academic', pts:[10,7,5], grade:''},
+  {id:'e02',name:'Short Story MLM', cat:'Literary', pts:[10,7,5], grade:''},
+  {id:'e03',name:'Short Story ENG', cat:'Literary', pts:[10,7,5], grade:''},
+  {id:'e04',name:'Short Story ARB', cat:'Literary', pts:[10,7,5], grade:''},
+  {id:'e05',name:'Short Story UR', cat:'Literary', pts:[10,7,5], grade:''},
+  {id:'e06',name:'Solo Singing', cat:'Music', pts:[10,7,5], grade:''},
+  {id:'e07',name:'Group Singing', cat:'Music', pts:[10,7,5], grade:''},
+  {id:'e08',name:'Instrumental', cat:'Music', pts:[10,7,5], grade:''},
+  {id:'e09',name:'Beatboxing', cat:'Music', pts:[10,7,5], grade:''},
+  {id:'e10',name:'Painting', cat:'Visual', pts:[10,7,5], grade:''},
+  {id:'e11',name:'Sketching', cat:'Visual', pts:[10,7,5], grade:''},
+  {id:'e12',name:'Photography', cat:'Visual', pts:[10,7,5], grade:''},
+  {id:'e13',name:'Mono Act', cat:'Stage', pts:[10,7,5], grade:''},
+  {id:'e14',name:'Group Skit', cat:'Stage', pts:[10,7,5], grade:''},
+  {id:'e15',name:'Mime', cat:'Stage', pts:[10,7,5], grade:''},
 ];
+
 let students=[
-  {id:'s01',name:'Aisha Rahman',   roll:'OTH-001',team:'othello',grade:'11-A',events:['e01','e06','e13'],note:'Team Captain'},
-  {id:'s02',name:'Rayan Farooq',   roll:'OTH-002',team:'othello',grade:'11-A',events:['e10','e11'],note:'Art Lead'},
-  {id:'s03',name:'Fatima Noor',    roll:'OTH-003',team:'othello',grade:'12-B',events:['e02','e03','e04'],note:'Literary Head'},
-  {id:'s04',name:'Zaid Hussain',   roll:'OTH-004',team:'othello',grade:'10-C',events:['e14','e15'],note:''},
-  {id:'s05',name:'Sara Malik',     roll:'MAC-001',team:'macbeth',grade:'11-A',events:['e06','e07','e08'],note:'Music Head'},
-  {id:'s06',name:'Hamza Qureshi',  roll:'MAC-002',team:'macbeth',grade:'12-C',events:['e13','e14'],note:'Drama Lead'},
-  {id:'s07',name:'Layla Ahmed',    roll:'MAC-003',team:'macbeth',grade:'10-A',events:['e10','e12'],note:'Visual Arts'},
-  {id:'s08',name:'Hana Ibrahim',   roll:'HAM-001',team:'hamlet', grade:'11-B',events:['e09','e06'],note:'Music Lead'},
-  {id:'s09',name:'Yousef Rashid',  roll:'HAM-002',team:'hamlet', grade:'12-B',events:['e13','e14','e15'],note:'Drama Head'},
-  {id:'s10',name:'Amira Shaikh',   roll:'HAM-003',team:'hamlet', grade:'10-A',events:['e05','e02'],note:''},
+  {id:'s01',name:'Aisha Rahman', roll:'OTH-001',team:'othello',grade:'11-A',events:['e01','e06','e13'],note:'Team Captain'},
+  {id:'s02',name:'Rayan Farooq', roll:'OTH-002',team:'othello',grade:'11-A',events:['e10','e11'],note:'Art Lead'},
+  {id:'s03',name:'Fatima Noor', roll:'OTH-003',team:'othello',grade:'12-B',events:['e02','e03','e04'],note:'Literary Head'},
+  {id:'s04',name:'Zaid Hussain', roll:'OTH-004',team:'othello',grade:'10-C',events:['e14','e15'],note:''},
+  {id:'s05',name:'Sara Malik', roll:'MAC-001',team:'macbeth',grade:'11-A',events:['e06','e07','e08'],note:'Music Head'},
+  {id:'s06',name:'Hamza Qureshi', roll:'MAC-002',team:'macbeth',grade:'12-C',events:['e13','e14'],note:'Drama Lead'},
+  {id:'s07',name:'Layla Ahmed', roll:'MAC-003',team:'macbeth',grade:'10-A',events:['e10','e12'],note:'Visual Arts'},
+  {id:'s08',name:'Hana Ibrahim', roll:'HAM-001',team:'hamlet', grade:'11-B',events:['e09','e06'],note:'Music Lead'},
+  {id:'s09',name:'Yousef Rashid', roll:'HAM-002',team:'hamlet', grade:'12-B',events:['e13','e14','e15'],note:'Drama Head'},
+  {id:'s10',name:'Amira Shaikh', roll:'HAM-003',team:'hamlet', grade:'10-A',events:['e05','e02'],note:''},
 ];
+
 const TEAMS=['othello','macbeth','hamlet'];
 const TM={othello:{label:'Team Othello',emoji:'🎭',color:'var(--oc)',pill:'po'},macbeth:{label:'Team Macbeth',emoji:'⚔️',color:'var(--mc)',pill:'pm'},hamlet:{label:'Team Hamlet',emoji:'💀',color:'var(--hc)',pill:'ph'},admin:{label:'Admin',emoji:'👑',color:'var(--ac)',pill:'pa'}};
 const AVMJ=['🎨','🎭','🎶','📸','✏️','🎤','💃','🥁','🎬','📖','🖌️','🎺'];
 const CATCOL={Academic:'var(--ok)',Literary:'var(--gold)',Music:'var(--oc)',Visual:'var(--hc)',Stage:'var(--mc)',General:'var(--muted)'};
 const GRADE_OPTS=['A+','A','A-','B+','B','B-','C+','C','C-','D','F'];
 const DEFAULT_GRADE_PTS={'A+':10,'A':9,'A-':8,'B+':7,'B':6,'B-':5,'C+':4,'C':3,'C-':2,'D':1,'F':0};
+
 function h(s){let x=0;for(let i=0;i<s.length;i++){x=((x<<5)-x)+s.charCodeAt(i);x=x&x;}return Math.abs(x).toString(16);}
 const DC={admin:{username:'admin',hash:h('Admin@Zenith26'),team:'admin'},othello:{username:'othello_team',hash:h('Zenith@Othello'),team:'othello'},macbeth:{username:'macbeth_team',hash:h('Zenith@Macbeth'),team:'macbeth'},hamlet:{username:'hamlet_team',hash:h('Zenith@Hamlet'),team:'hamlet'}};
+
 function defScores(){const s={};EVENTS.forEach(e=>{s[e.id]={othello:0,macbeth:0,hamlet:0};});return s;}
 
-/* ── STATE ── */
 let CU=null,scores={},creds=null,eventGrades={},gradeDefPts={...DEFAULT_GRADE_PTS};
 
 function saveAll(){
@@ -600,15 +614,12 @@ function saveAll(){
   localStorage.setItem('z_gradedef',JSON.stringify(gradeDefPts));
   saveToFirebase();
 }
+
 function loadAll(){
   try{scores=JSON.parse(localStorage.getItem('z_scores')||'null')||defScores();}catch(e){scores=defScores();}
   try{
     const stored=JSON.parse(localStorage.getItem('z_creds')||'null');
-    if(stored&&typeof stored==='object'){
-      creds={...DC,...stored};
-    } else {
-      creds={...DC};
-    }
+    if(stored&&typeof stored==='object'){creds={...DC,...stored};}else{creds={...DC};}
   }catch(e){creds={...DC};}
   try{const ev=JSON.parse(localStorage.getItem('z_events')||'null');if(ev&&ev.length)EVENTS=ev;}catch(e){}
   try{const st=JSON.parse(localStorage.getItem('z_students')||'null');if(st&&st.length)students=st;}catch(e){}
@@ -617,11 +628,7 @@ function loadAll(){
   try{const gd=JSON.parse(localStorage.getItem('z_gradedef')||'null');if(gd)gradeDefPts=gd;}catch(e){}
 }
 
-/* ── COMPUTED ── */
-function gradePts(eid,team){
-  const g=getEG(eid,team);
-  return(g&&gradeDefPts[g]!==undefined)?gradeDefPts[g]:0;
-}
+function gradePts(eid,team){const g=getEG(eid,team);return(g&&gradeDefPts[g]!==undefined)?gradeDefPts[g]:0;}
 function tStats(t){
   let w=0,s2=0,s3=0,tot=0;
   EVENTS.forEach(e=>{
@@ -642,9 +649,8 @@ function gradeBadge(g){return g?`<span class="gbadge ${gradeClass(g)}">${g}</spa
 function getEG(eid,team){return(eventGrades[eid]&&eventGrades[eid][team])||'';}
 function setEG(eid,team,grade){if(!eventGrades[eid])eventGrades[eid]={};eventGrades[eid][team]=grade;}
 
-/* ── AUTH ── */
 function clearStorage(){
-  if(!confirm('This will clear all locally stored data and reset to defaults. Continue?'))return;
+  if(!confirm('This will clear all locally stored data. Continue?'))return;
   ['z_scores','z_creds','z_events','z_students','z_egrades','z_gradedef'].forEach(k=>localStorage.removeItem(k));
   sessionStorage.removeItem('z_u');
   location.reload();
@@ -661,7 +667,6 @@ function doLogin(){
   }
   const hv=h(pass);
   let found=null;
-  
   if(creds){
     for(const k in creds){
       if(creds[k]&&creds[k].username===user&&creds[k].hash===hv){found=creds[k];break;}
@@ -672,7 +677,6 @@ function doLogin(){
       if(DC[k].username===user&&DC[k].hash===hv){found=DC[k];break;}
     }
   }
-  
   if(found){
     CU={team:found.team,username:user};
     sessionStorage.setItem('z_u',JSON.stringify(CU));
@@ -689,7 +693,6 @@ document.getElementById('lgU').addEventListener('keydown',e=>{if(e.key==='Enter'
 function doLogout(){sessionStorage.removeItem('z_u');document.getElementById('pgApp').classList.remove('active');document.getElementById('pgLogin').classList.add('active');document.getElementById('lgU').value='';document.getElementById('lgP').value='';}
 function openApp(){document.getElementById('pgLogin').classList.remove('active');document.getElementById('pgApp').classList.add('active');buildApp();switchView('vDash','Dashboard');}
 
-/* ── BUILD APP ── */
 function buildApp(){
   const{team}=CU,m=TM[team];
   document.getElementById('sbPill').textContent=m.emoji+' '+m.label;
@@ -697,15 +700,13 @@ function buildApp(){
   document.getElementById('tbTeam').textContent=m.label;
   document.getElementById('hEy').textContent=isAdmin()?'Admin Portal':'Welcome, '+m.label;
   document.getElementById('hT').textContent=isAdmin()?'Control Centre':m.label+' Dashboard';
-  document.getElementById('hS').textContent=isAdmin()?'Manage events, students & grades.':'Track your team\'s performance across all events.';
+  document.getElementById('hS').textContent=isAdmin()?'Manage events, students & grades.':'Track your team\'s performance.';
   buildSidebar(team);rebuildAll();
 }
 
 function buildSidebar(team){
   const nav=document.getElementById('sbNav');
-  const externalLinks = [
-    { id: 'external', ic: 'fa-building', lb: 'About ITQAN Union', url: 'https://itqan-friends.vercel.app/', external: true }
-  ];
+  const externalLinks=[{id:'external',ic:'fa-building',lb:'About ITQAN Union',url:'https://itqan-friends.vercel.app/',external:true}];
   const main=[
     {id:'vDash',ic:'fa-gauge',lb:'Dashboard'},
     {id:'vLB',ic:'fa-ranking-star',lb:'Leaderboard'},
@@ -717,48 +718,40 @@ function buildSidebar(team){
     {id:'vGradeDef',ic:'fa-star-half-stroke',lb:'Grade Definitions'},
     {id:'vReset',ic:'fa-users-gear',lb:'Reset Passwords'}
   ]:[];
-  const acc=[
-    {id:'vPw',ic:'fa-key',lb:'Change Password'}
-  ];
-  
-  const getClickHandler = (item) => {
-    if (item.external) {
-      return `window.open('${item.url}', '_blank')`;
-    } else {
-      return `switchView('${item.id}','${item.lb}')`;
-    }
+  const acc=[{id:'vPw',ic:'fa-key',lb:'Change Password'}];
+  const getClickHandler=(item)=>{
+    if(item.external){return`window.open('${item.url}','_blank')`;}
+    else{return`switchView('${item.id}','${item.lb}')`;}
   };
-  
-  nav.innerHTML = `
+  nav.innerHTML=`
     <div class="nsec">Navigation</div>
-    ${main.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
-    ${adm.length ? `<div class="nsec" style="margin-top:.5rem">Admin</div>${adm.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}` : ''}
+    ${main.map(it=>`<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
+    ${adm.length?`<div class="nsec" style="margin-top:.5rem">Admin</div>${adm.map(it=>`<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}`:''}
     <div class="nsec" style="margin-top:.5rem">Information</div>
-    ${externalLinks.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
+    ${externalLinks.map(it=>`<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
     <div class="nsec" style="margin-top:.5rem">Account</div>
-    ${acc.map(it => `<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
+    ${acc.map(it=>`<div class="ni" data-v="${it.id}" onclick="${getClickHandler(it)}"><i class="fas ${it.ic}"></i>${it.lb}</div>`).join('')}
   `;
 }
 
 function buildStats(){
-  const statsRow = document.getElementById('statsRow');
-  if(!statsRow) return;
-  
+  const statsRow=document.getElementById('statsRow');
+  if(!statsRow)return;
   if(isAdmin()){
-    const r = ranked();
-    const done = EVENTS.filter(e => TEAMS.some(t => scores[e.id] && scores[e.id][t] > 0)).length;
-    statsRow.innerHTML = `
+    const r=ranked();
+    const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0)).length;
+    statsRow.innerHTML=`
       <div class="sc"><div class="sclbl">Total Events</div><div class="scval">${EVENTS.length}</div><div class="scnote">scheduled</div></div>
       <div class="sc"><div class="sclbl">Results In</div><div class="scval">${done}</div><div class="scnote">of ${EVENTS.length}</div></div>
       <div class="sc"><div class="sclbl">Students</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div>
-      <div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0]?.team]?.color || 'var(--gold)'}">${TM[r[0]?.team]?.emoji || '🏆'}</div><div class="scnote">${TM[r[0]?.team]?.label || '—'} · ${r[0]?.total || 0}pts</div></div>
+      <div class="sc"><div class="sclbl">Leader</div><div class="scval" style="font-size:1.5rem;color:${TM[r[0]?.team]?.color||'var(--gold)'}">${TM[r[0]?.team]?.emoji||'🏆'}</div><div class="scnote">${TM[r[0]?.team]?.label||'—'} · ${r[0]?.total||0}pts</div></div>
     `;
-  } else if(CU){
-    const s = tStats(CU.team);
-    const r = ranked();
-    const rank = r.findIndex(x => x.team === CU.team) + 1;
-    const myStu = students.filter(x => x.team === CU.team).length;
-    statsRow.innerHTML = `
+  }else if(CU){
+    const s=tStats(CU.team);
+    const r=ranked();
+    const rank=r.findIndex(x=>x.team===CU.team)+1;
+    const myStu=students.filter(x=>x.team===CU.team).length;
+    statsRow.innerHTML=`
       <div class="sc"><div class="sclbl">Total Points</div><div class="scval">${s.total}</div><div class="scnote">accumulated</div></div>
       <div class="sc"><div class="sclbl">1st Places</div><div class="scval" style="color:var(--gold)">${s.won}</div><div class="scnote">gold</div></div>
       <div class="sc"><div class="sclbl">2nd Places</div><div class="scval" style="color:#c0c0c0">${s.sec}</div><div class="scnote">silver</div></div>
@@ -770,14 +763,10 @@ function buildStats(){
 }
 
 function buildStuStats(){
-  const c = {
-    othello: students.filter(s => s.team === 'othello').length,
-    macbeth: students.filter(s => s.team === 'macbeth').length,
-    hamlet: students.filter(s => s.team === 'hamlet').length
-  };
-  const stuStatsRow = document.getElementById('stuStatsRow');
+  const c={othello:students.filter(s=>s.team==='othello').length,macbeth:students.filter(s=>s.team==='macbeth').length,hamlet:students.filter(s=>s.team==='hamlet').length};
+  const stuStatsRow=document.getElementById('stuStatsRow');
   if(stuStatsRow){
-    stuStatsRow.innerHTML = `
+    stuStatsRow.innerHTML=`
       <div class="sc"><div class="sclbl">Total</div><div class="scval">${students.length}</div><div class="scnote">registered</div></div>
       <div class="sc"><div class="sclbl">🎭 Othello</div><div class="scval" style="color:var(--oc)">${c.othello}</div><div class="scnote">members</div></div>
       <div class="sc"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${c.macbeth}</div><div class="scnote">members</div></div>
@@ -789,13 +778,12 @@ function buildStuStats(){
 function buildLBBars(){const el=document.getElementById('lbBars'),r=ranked(),mx=maxPts(),rc=['var(--gold)','#c0c0c0','#cd7f32'];el.innerHTML=r.map((x,i)=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${rc[i]||'var(--muted2)'}"></div></div></div>`).join('');}
 function buildEvGlance(){const el=document.getElementById('evGlance');const done=EVENTS.filter(e=>TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));const pend=EVENTS.filter(e=>!TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0));el.innerHTML=[...done.slice(0,5),...pend.slice(0,4)].map(e=>{const d=TEAMS.some(t=>scores[e.id]&&scores[e.id][t]>0);return`<div class="evitem"><div class="evdot" style="background:${d?CATCOL[e.cat]||'var(--muted2)':'var(--muted2)'}"></div><span class="evname">${e.name}</span><span class="evcat">${d?'✓ Done':'Pending'}</span></div>`;}).join('');}
 
-/* ── EVENTS ── */
 function buildBtns(){
   const eb=document.getElementById('evBtns');if(eb)eb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddEventModal()"><i class="fas fa-plus"></i>Add Event</button>`:'';
   const sb=document.getElementById('stuBtns');if(sb)sb.innerHTML=isAdmin()?`<button class="btn bg bsm" onclick="openAddStuModal()"><i class="fas fa-user-plus"></i>Add Student</button>`:'';
   const cf=document.getElementById('evCatF');if(cf){cf.innerHTML=`<option value="">All Categories</option>`+uniqCats().map(c=>`<option value="${c}">${c}</option>`).join('');}
-  const pb=document.getElementById('progAddBtn');if(pb)pb.style.display='none';
 }
+
 function renderEvents(){
   const q=(document.getElementById('evSearch')?.value||'').toLowerCase(),cat=document.getElementById('evCatF')?.value||'';
   const list=EVENTS.filter(e=>(e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q))&&(!cat||e.cat===cat));
@@ -812,10 +800,11 @@ function renderEvents(){
       <td id="eg_${e.id}">${gradeBadge(e.grade||'')}</td>
       <td style="${adm?'':'display:none'}"><div style="display:flex;gap:4px;flex-wrap:wrap">
         <button class="btn bo bsm" onclick="inlineEditEv('${e.id}')"><i class="fas fa-pen"></i>Edit</button>
-        <button class="btn bd bsm" onclick="confirmDel('Delete Event','Delete <b>${e.name}</b>? This cannot be undone.',()=>delEvent('${e.id}'))"><i class="fas fa-trash"></i></button>
+        <button class="btn bd bsm" onclick="confirmDel('Delete Event','Delete <b>${e.name}</b>?',()=>delEvent('${e.id}'))"><i class="fas fa-trash"></i></button>
       </div></td>
     </tr>`).join('');
 }
+
 function inlineEditEv(eid){
   if(!isAdmin()){alert('Permission denied.');return;}
   const e=EVENTS.find(x=>x.id===eid);if(!e)return;
@@ -829,6 +818,7 @@ function inlineEditEv(eid){
   document.getElementById('er_'+eid).classList.add('editing');
   document.querySelector(`#er_${eid} td:last-child`).innerHTML=`<div style="display:flex;gap:4px"><button class="btn bp bsm" onclick="saveInlineEv('${eid}')"><i class="fas fa-check"></i>Save</button><button class="btn bx bsm" onclick="renderEvents()"><i class="fas fa-times"></i></button></div>`;
 }
+
 function saveInlineEv(eid){
   if(!isAdmin()){alert('Permission denied.');return;}
   const e=EVENTS.find(x=>x.id===eid);if(!e)return;
@@ -842,12 +832,14 @@ function saveInlineEv(eid){
   e.grade=document.getElementById('ieg_'+eid).value||'';
   saveAll();rebuildAll();
 }
+
 function delEvent(eid){
   if(!isAdmin()){alert('Permission denied.');return;}
   EVENTS=EVENTS.filter(e=>e.id!==eid);delete scores[eid];
   students.forEach(s=>{s.events=s.events.filter(x=>x!==eid);});
   saveAll();rebuildAll();
 }
+
 function openAddEventModal(){
   if(!isAdmin()){alert('Permission denied.');return;}
   openM('Add New Event',`
@@ -855,8 +847,9 @@ function openAddEventModal(){
     <div class="mrow2"><div class="mfld"><label>1st Place Points</label><input id="mEp1" type="number" min="0" value="10"></div><div class="mfld"><label>2nd Place Points</label><input id="mEp2" type="number" min="0" value="7"></div></div>
     <div class="mfld"><label>3rd Place Points</label><input id="mEp3" type="number" min="0" value="5"></div>
     <div class="mfld"><label>Grade (optional)</label><select id="mEg"><option value="">— No Grade</option><option value="A">A — Excellent</option><option value="B">B — Good</option><option value="C">C — Average</option><option value="D">D — Below Average</option><option value="F">F — Fail</option></select></div>`,
-  `<button class="btn bg" onclick="submitAddEvent()"><i class="fas fa-plus"></i>Add Event</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+    `<button class="btn bg" onclick="submitAddEvent()"><i class="fas fa-plus"></i>Add Event</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
+
 function submitAddEvent(){
   if(!isAdmin()){alert('Permission denied.');return;}
   const n=document.getElementById('mEn').value.trim();let cat=document.getElementById('mEc').value;
@@ -868,7 +861,6 @@ function submitAddEvent(){
   saveAll();rebuildAll();closeM();
 }
 
-/* ── LEADERBOARD ── */
 function buildOverall(){
   const r=ranked();
   document.getElementById('overallTb').innerHTML=r.map((x,i)=>{
@@ -885,10 +877,10 @@ function buildOverall(){
     </tr>`;
   }).join('');
 }
-function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`</tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
+
+function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
 function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
 
-/* ── STUDENTS ── */
 function stuPoints(s){
   let tot=0;
   s.events.forEach(eid=>{
@@ -899,6 +891,7 @@ function stuPoints(s){
   });
   return tot;
 }
+
 function renderStudents(){
   const q=(document.getElementById('stuSearch')?.value||'').toLowerCase();
   const tf=document.getElementById('stuTeamF')?.value||'';
@@ -921,14 +914,17 @@ function renderStudents(){
     }).join('')}</div>`;
   }
 }
+
 function teamOpts(sel=''){return TEAMS.map(t=>`<option value="${t}" ${t===sel?'selected':''}>${TM[t].emoji} ${TM[t].label}</option>`).join('');}
 function evCheckboxes(sel=[]){return`<div class="evchk">`+EVENTS.map(e=>`<label><input type="checkbox" value="${e.id}" ${sel.includes(e.id)?'checked':''}>${e.name}</label>`).join('')+`</div>`;}
 function getChecked(){return EVENTS.filter(e=>{const el=document.querySelector(`input[type=checkbox][value="${e.id}"]`);return el&&el.checked;}).map(e=>e.id);}
+
 function openAddStuModal(){
   if(!isAdmin()){alert('Permission denied.');return;}
   openM('Add Student',`<div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" placeholder="e.g. Aisha Rahman"></div><div class="mfld"><label>Roll No</label><input id="mSr" placeholder="e.g. OTH-007"></div></div><div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select team…</option>${teamOpts()}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" placeholder="e.g. 11-A"></div></div><div class="mfld"><label>Events Participating</label>${evCheckboxes()}</div><div class="mfld"><label>Role / Note (optional)</label><input id="mSno" placeholder="e.g. Team Captain, Dance Lead…"></div>`,
-  `<button class="btn bg" onclick="submitAddStu()"><i class="fas fa-user-plus"></i>Add Student</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+    `<button class="btn bg" onclick="submitAddStu()"><i class="fas fa-user-plus"></i>Add Student</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
+
 function submitAddStu(){
   if(!isAdmin()){alert('Permission denied.');return;}
   const n=document.getElementById('mSn').value.trim(),r=document.getElementById('mSr').value.trim(),t=document.getElementById('mSt').value;
@@ -936,51 +932,35 @@ function submitAddStu(){
   students.push({id:'s'+Date.now(),name:n,roll:r,team:t,grade:document.getElementById('mSg').value.trim(),events:getChecked(),note:document.getElementById('mSno').value.trim()});
   saveAll();buildStuStats();renderStudents();closeM();
 }
+
 function openEditStuModal(sid){
   if(!isAdmin()){alert('Permission denied.');return;}
   const s=students.find(x=>x.id===sid);if(!s)return;
   openM('Edit Student',`<div class="mrow2"><div class="mfld"><label>Full Name</label><input id="mSn" value="${s.name}"></div><div class="mfld"><label>Roll No</label><input id="mSr" value="${s.roll}"></div></div><div class="mrow2"><div class="mfld"><label>Team</label><select id="mSt"><option value="">Select…</option>${teamOpts(s.team)}</select></div><div class="mfld"><label>Grade / Class</label><input id="mSg" value="${s.grade||''}"></div></div><div class="mfld"><label>Events Participating</label>${evCheckboxes(s.events)}</div><div class="mfld"><label>Role / Note</label><input id="mSno" value="${s.note||''}"></div>`,
-  `<button class="btn bg" onclick="submitEditStu('${sid}')"><i class="fas fa-save"></i>Save Changes</button><button class="btn bd" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>{delStudent('${sid}');closeM();})"><i class="fas fa-trash"></i>Delete</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+    `<button class="btn bg" onclick="submitEditStu('${sid}')"><i class="fas fa-save"></i>Save Changes</button><button class="btn bd" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>{delStudent('${sid}');closeM();})"><i class="fas fa-trash"></i>Delete</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
+
 function delStudent(sid){
-  if(!isAdmin()){
-    alert('Permission denied.');
-    return;
-  }
+  if(!isAdmin()){alert('Permission denied.');return;}
   students = students.filter(x => x.id !== sid);
   localStorage.setItem('z_students', JSON.stringify(students));
-  saveToFirebase().then(() => {
-    buildStuStats();
-    renderStudents();
-  }).catch(err => {
-    console.error("Failed to delete student from cloud:", err);
-    location.reload();
-  });
+  saveToFirebase().then(() => {buildStuStats(); renderStudents();}).catch(err => {location.reload();});
 }
+
 function submitEditStu(sid){
-  if(!isAdmin()){
-    alert('Permission denied.');
-    return;
-  }
+  if(!isAdmin()){alert('Permission denied.');return;}
   const s = students.find(x => x.id === sid);
   if(!s) return;
-  
   s.name = document.getElementById('mSn').value.trim() || s.name;
   s.roll = document.getElementById('mSr').value.trim() || s.roll;
   s.team = document.getElementById('mSt').value || s.team;
   s.grade = document.getElementById('mSg').value.trim();
   s.note = document.getElementById('mSno').value.trim();
   s.events = getChecked();
-  
   localStorage.setItem('z_students', JSON.stringify(students));
-  saveToFirebase().then(() => {
-    buildStuStats();
-    renderStudents();
-    closeM();
-  });
+  saveToFirebase().then(() => {buildStuStats(); renderStudents(); closeM();});
 }
 
-/* ── PROGRAMMES ── */
 function buildProgSel(){
   const sel=document.getElementById('progEvSel');
   if(!sel)return;
@@ -996,27 +976,22 @@ function renderProg(){
   const tf=document.getElementById('progTeamF')?.value||'';
   const addBtn = document.getElementById('progAddBtn');
   if(addBtn) addBtn.style.display = (eid && eid !== 'ALL' && isAdmin()) ? 'inline-flex' : 'none';
-  
   const con=document.getElementById('progContent');
   if(!eid){
     con.innerHTML=`<div style="padding:3rem;text-align:center;color:var(--muted)"><i class="fas fa-calendar-days" style="font-size:2rem;margin-bottom:.8rem;display:block;opacity:.3"></i>Select a programme above to manage its candidates</div>`;
     return;
   }
-
   if(eid === 'ALL'){
     renderAllPrograms(tf);
     return;
   }
-
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   let cands=students.filter(s=>s.events.includes(eid) && (!tf || s.team===tf));
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
   const countO=students.filter(s=>s.events.includes(eid)&&s.team==='othello').length;
   const countM=students.filter(s=>s.events.includes(eid)&&s.team==='macbeth').length;
   const countH=students.filter(s=>s.events.includes(eid)&&s.team==='hamlet').length;
-  
   const currentScores = scores[eid] || {othello:0, macbeth:0, hamlet:0};
-  
   con.innerHTML=`
     <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.2rem">
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">Total</div><div class="scval">${countO+countM+countH}</div><div class="scnote">participants</div></div>
@@ -1024,7 +999,6 @@ function renderProg(){
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">⚔️ Macbeth</div><div class="scval" style="color:var(--mc)">${countM}</div><div class="scnote">participants</div></div>
       <div class="sc" style="min-width:100px;padding:.9rem .8rem"><div class="sclbl">💀 Hamlet</div><div class="scval" style="color:var(--hc)">${countH}</div><div class="scnote">participants</div></div>
     </div>
-    
     ${isAdmin() ? `
     <div class="card" style="margin-bottom:1rem;background:linear-gradient(135deg, rgba(0,240,255,0.05), transparent);">
       <div class="cardt"><div class="lft"><i class="fas fa-trophy"></i>🏆 Set Winners & Grades for ${ev.name}</div></div>
@@ -1062,7 +1036,6 @@ function renderProg(){
       </div>
     </div>
     ` : ''}
-    
     <div class="card" style="margin-bottom:0">
       <div class="cardt"><div class="lft"><i class="fas fa-users"></i>Participants — ${ev.name}</div></div>
       ${cands.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted)"><i class="fas fa-user-slash" style="margin-right:6px"></i>No participants registered${tf?' in this team':''}</div>`:`
@@ -1074,7 +1047,7 @@ function renderProg(){
           const posChip=pos===1?`<span class="chip ch1">🥇 1st (${ev.pts[0]} pts)</span>`:pos===2?`<span class="chip ch2">🥈 2nd (${ev.pts[1]} pts)</span>`:pos===3?`<span class="chip ch3">🥉 3rd (${ev.pts[2]} pts)</span>`:`<span class="chip chp">—</span>`;
           const gradeBdg=grade?`<span class="gbadge ${gradeClass(grade)}" style="font-size:.8rem;width:30px;height:30px">${grade}</span>`:`<span style="color:var(--muted2)">—</span>`;
           const totalFromThis = (pos>0 ? ev.pts[pos-1] : 0) + (grade && gradeDefPts[grade] ? gradeDefPts[grade] : 0);
-          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}${totalFromThis>0 ? `<span style="font-size:.65rem;color:var(--ok);margin-left:4px;">(${totalFromThis}pts)</span>` : ''}</td> <td>${gradeBdg}${grade && gradeDefPts[grade] ? `<span style="font-size:.6rem;color:var(--ok);"> +${gradeDefPts[grade]}</span>` : ''}</td> <td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
+          return`<tr><td style="color:var(--muted2)">${i+1}</td><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td>${posChip}${totalFromThis>0 ? `<span style="font-size:.65rem;color:var(--ok);margin-left:4px;">(${totalFromThis}pts)</span>` : ''}</td><td>${gradeBdg}${grade && gradeDefPts[grade] ? `<span style="font-size:.6rem;color:var(--ok);"> +${gradeDefPts[grade]}</span>` : ''}</td><td style="font-size:.77rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditCandModal('${s.id}','${eid}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>removeCand('${s.id}','${eid}'))"><i class="fas fa-user-minus"></i></button></div></td>`:''}</tr>`;
         }).join('')}</tbody>
       </table>`}
     </div>`;
@@ -1084,112 +1057,45 @@ function renderAllPrograms(teamFilter){
   const con = document.getElementById('progContent');
   const tf = teamFilter || '';
   const grouped = {};
-  
-  EVENTS.forEach(e => {
-    if(!grouped[e.cat]) grouped[e.cat] = [];
-    grouped[e.cat].push(e);
-  });
-  
-  let html = `<div class="hero" style="margin-bottom:1rem">
-    <div class="heroey">📊 Complete Overview</div>
-    <div class="herot">All Programs</div>
-    <div class="heros">View all events with scores, grades, and participants</div>
-  </div>`;
-  
+  EVENTS.forEach(e => {if(!grouped[e.cat]) grouped[e.cat] = []; grouped[e.cat].push(e);});
+  let html = `<div class="hero" style="margin-bottom:1rem"><div class="heroey">📊 Complete Overview</div><div class="herot">All Programs</div><div class="heros">View all events with scores, grades, and participants</div></div>`;
   const totalEvents = EVENTS.length;
   const completedEvents = EVENTS.filter(e => TEAMS.some(t => (scores[e.id] || {})[t] > 0)).length;
   const totalStudents = students.filter(s => !tf || s.team === tf).length;
-  
-  html += `
-    <div class="srow" style="margin-bottom:1.2rem">
-      <div class="sc"><div class="sclbl">Total Events</div><div class="scval">${totalEvents}</div><div class="scnote">scheduled</div></div>
-      <div class="sc"><div class="sclbl">Completed</div><div class="scval" style="color:var(--ok)">${completedEvents}</div><div class="scnote">results declared</div></div>
-      <div class="sc"><div class="sclbl">Participants</div><div class="scval" style="color:var(--gold)">${totalStudents}</div><div class="scnote">registered students</div></div>
-    </div>
-  `;
-  
+  html += `<div class="srow" style="margin-bottom:1.2rem"><div class="sc"><div class="sclbl">Total Events</div><div class="scval">${totalEvents}</div><div class="scnote">scheduled</div></div><div class="sc"><div class="sclbl">Completed</div><div class="scval" style="color:var(--ok)">${completedEvents}</div><div class="scnote">results declared</div></div><div class="sc"><div class="sclbl">Participants</div><div class="scval" style="color:var(--gold)">${totalStudents}</div><div class="scnote">registered students</div></div></div>`;
   for(const [category, events] of Object.entries(grouped)){
-    html += `<div class="card" style="margin-bottom:1.5rem">
-      <div class="cardt"><div class="lft"><i class="fas fa-folder-open"></i>${category}</div></div>`;
-    
+    html += `<div class="card" style="margin-bottom:1.5rem"><div class="cardt"><div class="lft"><i class="fas fa-folder-open"></i>${category}</div></div>`;
     for(const event of events){
       let participants = students.filter(s => s.events.includes(event.id) && (!tf || s.team === tf));
-      
-      html += `<div style="margin-bottom:1.5rem; border-left: 3px solid var(--gold); padding-left: 1rem;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.5rem;">
-          <h4 style="color:var(--gold); font-family:'Playfair Display',serif; font-size:1.1rem;">🎯 ${event.name}</h4>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">`;
-      
+      html += `<div style="margin-bottom:1.5rem; border-left: 3px solid var(--gold); padding-left: 1rem;"><div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.5rem;"><h4 style="color:var(--gold); font-family:'Playfair Display',serif; font-size:1.1rem;">🎯 ${event.name}</h4><div style="display:flex; gap:0.5rem; flex-wrap:wrap;">`;
       for(const team of TEAMS){
         const pos = (scores[event.id] || {})[team] || 0;
         const grade = getEG(event.id, team);
         const gradePoints = grade && gradeDefPts[grade] ? gradeDefPts[grade] : 0;
         const positionPoints = pos > 0 ? event.pts[pos-1] : 0;
         const totalPoints = positionPoints + gradePoints;
-        
-        let positionText = '';
-        if(pos === 1) positionText = `🥇 1st (${positionPoints} pts)`;
-        else if(pos === 2) positionText = `🥈 2nd (${positionPoints} pts)`;
-        else if(pos === 3) positionText = `🥉 3rd (${positionPoints} pts)`;
-        else positionText = '— No position —';
-        
-        html += `<div style="background:var(--bg3); border-radius:8px; padding:0.4rem 0.8rem; border-left:2px solid ${TM[team].color}">
-          <span style="color:${TM[team].color}; font-weight:600;">${TM[team].emoji} ${TM[team].label}</span><br>
-          <span style="font-size:0.7rem;">${positionText}</span>
-          ${grade ? `<br><span style="font-size:0.65rem; color:var(--ok);">Grade: ${grade} (+${gradePoints} pts)</span>` : ''}
-          ${totalPoints > 0 ? `<br><span class="pts" style="font-size:0.7rem;">Total: ${totalPoints} pts</span>` : ''}
-        </div>`;
+        let positionText = pos===1?`🥇 1st (${positionPoints} pts)`:pos===2?`🥈 2nd (${positionPoints} pts)`:pos===3?`🥉 3rd (${positionPoints} pts)`:'— No position —';
+        html += `<div style="background:var(--bg3); border-radius:8px; padding:0.4rem 0.8rem; border-left:2px solid ${TM[team].color}"><span style="color:${TM[team].color}; font-weight:600;">${TM[team].emoji} ${TM[team].label}</span><br><span style="font-size:0.7rem;">${positionText}</span>${grade?`<br><span style="font-size:0.65rem; color:var(--ok);">Grade: ${grade} (+${gradePoints} pts)</span>`:''}${totalPoints>0?`<br><span class="pts" style="font-size:0.7rem;">Total: ${totalPoints} pts</span>`:''}</div>`;
       }
-      
       html += `</div></div>`;
-      
       if(participants.length > 0){
-        html += `<div style="margin-top:0.5rem;">
-          <div style="font-size:0.75rem; color:var(--muted); margin-bottom:0.5rem;">
-            <i class="fas fa-users"></i> Participants (${participants.length}):
-          </div>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">`;
-        
+        html += `<div style="margin-top:0.5rem;"><div style="font-size:0.75rem; color:var(--muted); margin-bottom:0.5rem;"><i class="fas fa-users"></i> Participants (${participants.length}):</div><div style="display:flex; flex-wrap:wrap; gap:0.5rem;">`;
         for(const student of participants){
-          html += `<div style="background:rgba(255,255,255,0.05); border-radius:6px; padding:0.3rem 0.7rem; font-size:0.8rem;">
-            <span style="font-weight:500;">${student.name}</span>
-            <span style="color:var(--muted); font-size:0.7rem;"> (${student.roll})</span>
-            ${student.note ? `<br><span style="font-size:0.65rem; color:var(--gold);">📌 ${student.note}</span>` : ''}
-          </div>`;
+          html += `<div style="background:rgba(255,255,255,0.05); border-radius:6px; padding:0.3rem 0.7rem; font-size:0.8rem;"><span style="font-weight:500;">${student.name}</span><span style="color:var(--muted); font-size:0.7rem;"> (${student.roll})</span>${student.note?`<br><span style="font-size:0.65rem; color:var(--gold);">📌 ${student.note}</span>`:''}</div>`;
         }
-        
         html += `</div></div>`;
       } else {
-        html += `<div style="margin-top:0.5rem; padding:0.5rem; background:rgba(0,0,0,0.2); border-radius:6px; text-align:center;">
-          <span style="font-size:0.75rem; color:var(--muted);"><i class="fas fa-user-slash"></i> No participants registered yet</span>
-          ${isAdmin() ? `<button class="btn bsm btn-outline" style="margin-left:0.5rem; padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="document.getElementById('progEvSel').value='${event.id}'; renderProg(); openAddCandModal();">+ Add Participant</button>` : ''}
-        </div>`;
+        html += `<div style="margin-top:0.5rem; padding:0.5rem; background:rgba(0,0,0,0.2); border-radius:6px; text-align:center;"><span style="font-size:0.75rem; color:var(--muted);"><i class="fas fa-user-slash"></i> No participants registered yet</span>${isAdmin()?`<button class="btn bsm btn-outline" style="margin-left:0.5rem; padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="document.getElementById('progEvSel').value='${event.id}'; renderProg(); openAddCandModal();">+ Add Participant</button>`:''}</div>`;
       }
-      
       html += `</div>`;
     }
-    
     html += `</div>`;
   }
   con.innerHTML = html;
 }
 
-window.updateProgScore = function(eid, team, pos){
-  if(!isAdmin()){alert('Permission denied.');return;}
-  if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};
-  scores[eid][team]=parseInt(pos);
-  saveAll();
-  renderProg();
-  rebuildAll();
-};
-
-window.updateProgGrade = function(eid, team, grade){
-  if(!isAdmin()){alert('Permission denied.');return;}
-  setEG(eid,team,grade);
-  saveAll();
-  renderProg();
-  rebuildAll();
-};
+window.updateProgScore = function(eid, team, pos){if(!isAdmin()){alert('Permission denied.');return;}if(!scores[eid])scores[eid]={othello:0,macbeth:0,hamlet:0};scores[eid][team]=parseInt(pos);saveAll();renderProg();rebuildAll();};
+window.updateProgGrade = function(eid, team, grade){if(!isAdmin()){alert('Permission denied.');return;}setEG(eid,team,grade);saveAll();renderProg();rebuildAll();};
 
 function openAddCandModal(){
   if(!isAdmin()){alert('Permission denied.');return;}
@@ -1197,36 +1103,19 @@ function openAddCandModal(){
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   const eligible=students.filter(s=>!s.events.includes(eid));
   if(!eligible.length){alert('All students are already in this programme.');return;}
-  openM(`Add Participant — ${ev.name}`,`
-    <div class="mfld"><label>Select Student</label><select id="mCstu" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;"><option value="">— Select a student —</option>${eligible.map(s=>`<option value="${s.id}">${s.name} (${s.roll}) · ${TM[s.team].emoji} ${TM[s.team].label}</option>`).join('')}</select></div>
-    <div class="mrow2">
-      <div class="mfld"><label>Position (optional)</label><select id="mCpos"><option value="0">— Not assigned</option><option value="1">🥇 1st Place (${ev.pts[0]} pts)</option><option value="2">🥈 2nd Place (${ev.pts[1]} pts)</option><option value="3">🥉 3rd Place (${ev.pts[2]} pts)</option></select></div>
-      <div class="mfld"><label>Grade (optional)</label><select id="mCgrade"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}">${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}</select></div>
-    </div>
-    <div class="mfld"><label>Role / Note (optional)</label><input id="mCnote" placeholder="e.g. Soloist, Lead Actor…"></div>`,
-  `<button class="btn bg" onclick="submitAddCand('${eid}')"><i class="fas fa-user-plus"></i>Add to Programme</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+  openM(`Add Participant — ${ev.name}`,`<div class="mfld"><label>Select Student</label><select id="mCstu" style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;"><option value="">— Select a student —</option>${eligible.map(s=>`<option value="${s.id}">${s.name} (${s.roll}) · ${TM[s.team].emoji} ${TM[s.team].label}</option>`).join('')}</select></div><div class="mrow2"><div class="mfld"><label>Position (optional)</label><select id="mCpos"><option value="0">— Not assigned</option><option value="1">🥇 1st Place (${ev.pts[0]} pts)</option><option value="2">🥈 2nd Place (${ev.pts[1]} pts)</option><option value="3">🥉 3rd Place (${ev.pts[2]} pts)</option></select></div><div class="mfld"><label>Grade (optional)</label><select id="mCgrade"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}">${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}</select></div></div><div class="mfld"><label>Role / Note (optional)</label><input id="mCnote" placeholder="e.g. Soloist, Lead Actor…"></div>`,`<button class="btn bg" onclick="submitAddCand('${eid}')"><i class="fas fa-user-plus"></i>Add to Programme</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
 
 function submitAddCand(eid){
   if(!isAdmin()){alert('Permission denied.');return;}
-  const sid=document.getElementById('mCstu').value;
-  if(!sid){alert('Please select a student.');return;}
-  const s=students.find(x=>x.id===sid);
-  if(!s)return;
+  const sid=document.getElementById('mCstu').value;if(!sid){alert('Please select a student.');return;}
+  const s=students.find(x=>x.id===sid);if(!s)return;
   if(!s.events.includes(eid)) s.events.push(eid);
-  const note=document.getElementById('mCnote').value.trim();
-  if(note) s.note=note;
+  const note=document.getElementById('mCnote').value.trim();if(note) s.note=note;
   const pos=parseInt(document.getElementById('mCpos').value)||0;
-  if(pos>0){
-    if(!scores[eid]) scores[eid]={othello:0,macbeth:0,hamlet:0};
-    scores[eid][s.team]=pos;
-  }
-  const grade=document.getElementById('mCgrade').value;
-  if(grade) setEG(eid,s.team,grade);
-  saveAll();
-  rebuildAll();
-  renderProg();
-  closeM();
+  if(pos>0){if(!scores[eid]) scores[eid]={othello:0,macbeth:0,hamlet:0};scores[eid][s.team]=pos;}
+  const grade=document.getElementById('mCgrade').value;if(grade) setEG(eid,s.team,grade);
+  saveAll();rebuildAll();renderProg();closeM();
 }
 
 function openEditCandModal(sid,eid){
@@ -1234,14 +1123,7 @@ function openEditCandModal(sid,eid){
   const s=students.find(x=>x.id===sid);if(!s)return;
   const ev=EVENTS.find(e=>e.id===eid);if(!ev)return;
   const pos=(scores[eid]||{})[s.team]||0;const curGrade=getEG(eid,s.team)||'';
-  openM(`Edit Participant — ${s.name}`,`
-    <div class="mfld"><label>Programme</label><input value="${ev.name}" disabled style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;"></div>
-    <div class="mrow2">
-      <div class="mfld"><label>Position</label><select id="mCpos"><option value="0" ${pos===0?'selected':''}>— Not assigned</option><option value="1" ${pos===1?'selected':''}>🥇 1st Place (${ev.pts[0]} pts)</option><option value="2" ${pos===2?'selected':''}>🥈 2nd Place (${ev.pts[1]} pts)</option><option value="3" ${pos===3?'selected':''}>🥉 3rd Place (${ev.pts[2]} pts)</option></select></div>
-      <div class="mfld"><label>Grade</label><select id="mCgrade"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===curGrade?'selected':''}>${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}</select></div>
-    </div>
-    <div class="mfld"><label>Role / Note</label><input id="mCnote" value="${s.note||''}"></div>`,
-  `<button class="btn bg" onclick="submitEditCand('${sid}','${eid}')"><i class="fas fa-save"></i>Save</button><button class="btn bd" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>{removeCand('${sid}','${eid}');closeM();})"><i class="fas fa-user-minus"></i>Remove</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
+  openM(`Edit Participant — ${s.name}`,`<div class="mfld"><label>Programme</label><input value="${ev.name}" disabled style="width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;"></div><div class="mrow2"><div class="mfld"><label>Position</label><select id="mCpos"><option value="0" ${pos===0?'selected':''}>— Not assigned</option><option value="1" ${pos===1?'selected':''}>🥇 1st Place (${ev.pts[0]} pts)</option><option value="2" ${pos===2?'selected':''}>🥈 2nd Place (${ev.pts[1]} pts)</option><option value="3" ${pos===3?'selected':''}>🥉 3rd Place (${ev.pts[2]} pts)</option></select></div><div class="mfld"><label>Grade</label><select id="mCgrade"><option value="">— No Grade</option>${GRADE_OPTS.map(g=>`<option value="${g}" ${g===curGrade?'selected':''}>${g} ${gradeDefPts[g]?`(+${gradeDefPts[g]} pts)`:''}</option>`).join('')}</select></div></div><div class="mfld"><label>Role / Note</label><input id="mCnote" value="${s.note||''}"></div>`,`<button class="btn bg" onclick="submitEditCand('${sid}','${eid}')"><i class="fas fa-save"></i>Save</button><button class="btn bd" onclick="confirmDel('Remove Candidate','Remove <b>${s.name}</b> from <b>${ev.name}</b>?',()=>{removeCand('${sid}','${eid}');closeM();})"><i class="fas fa-user-minus"></i>Remove</button><button class="btn bx" onclick="closeM()">Cancel</button>`);
 }
 
 function submitEditCand(sid,eid){
@@ -1255,46 +1137,27 @@ function submitEditCand(sid,eid){
 function removeCand(sid,eid){if(!isAdmin()){alert('Permission denied.');return;}const s=students.find(x=>x.id===sid);if(!s)return;s.events=s.events.filter(x=>x!==eid);saveAll();rebuildAll();renderProg();}
 function saveScores(){if(!isAdmin()){alert('Permission denied.');return;}saveAll();rebuildAll();const n=document.getElementById('saveNotice');if(n){n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}}
 
-/* ── GRADE DEFINITIONS ── */
 function buildGradeDefTable(){
   const el=document.getElementById('gradeDefTable');if(!el)return;
-  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td></tr>`;}).join('')}</tbody></table>`;
+  el.innerHTML=`<table class="dt"><thead><tr><th>Grade</th><th>Description</th><th>Points</th></tr></thead><tbody>${GRADE_OPTS.map(g=>{const desc=g==='A+'?'Outstanding':g==='A'?'Excellent':g==='A-'?'Very Good':g==='B+'?'Good Plus':g==='B'?'Good':g==='B-'?'Above Average':g==='C+'?'Average Plus':g==='C'?'Average':g==='C-'?'Below Average':g==='D'?'Poor':'Fail';return`<tr><td><span class="gbadge ${gradeClass(g)}" style="font-size:.9rem;width:34px;height:34px">${g}</span></td><td style="font-size:.83rem;color:var(--muted)">${desc}</td><td><input class="ie" id="gdef_${g.replace('+','p').replace('-','m')}" type="number" min="0" max="100" value="${gradeDefPts[g]??0}" style="width:70px;text-align:center"></td>`;}).join('')}</tbody></table>`;
   buildGradePreview();
 }
+
 function buildGradePreview(){
   const el=document.getElementById('gradePreview');if(!el)return;
   el.innerHTML=GRADE_OPTS.map(g=>{const pts=gradeDefPts[g]??0;return`<div style="display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)"><span class="gbadge ${gradeClass(g)}" style="font-size:.88rem;width:32px;height:32px;flex-shrink:0">${g}</span><div style="flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.round((pts/10)*100)}%;background:${gradeClass(g)==='gA'?'var(--ok)':gradeClass(g)==='gB'?'var(--oc)':gradeClass(g)==='gC'?'var(--gold)':gradeClass(g)==='gD'?'var(--hc)':'var(--err)'};border-radius:2px;"></div></div><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);min-width:48px;text-align:right">${pts} pts</span></div>`;}).join('');
 }
-function saveGradeDef(){
-  if(!isAdmin()){alert('Permission denied.');return;}
-  GRADE_OPTS.forEach(g=>{const id='gdef_'+g.replace('+','p').replace('-','m');const el=document.getElementById(id);if(el)gradeDefPts[g]=parseInt(el.value)||0;});
-  saveAll();buildGradePreview();const n=document.getElementById('gradeDefOk');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);
-}
+
+function saveGradeDef(){if(!isAdmin()){alert('Permission denied.');return;}GRADE_OPTS.forEach(g=>{const id='gdef_'+g.replace('+','p').replace('-','m');const el=document.getElementById(id);if(el)gradeDefPts[g]=parseInt(el.value)||0;});saveAll();buildGradePreview();const n=document.getElementById('gradeDefOk');n.style.display='flex';setTimeout(()=>n.style.display='none',3000);}
 function resetGradeDef(){if(!isAdmin()){alert('Permission denied.');return;}gradeDefPts={...DEFAULT_GRADE_PTS};saveAll();buildGradeDefTable();}
 
-/* ── MODAL / CONFIRM ── */
 function openM(title,body,footer){document.getElementById('mTitle').textContent=title;document.getElementById('mBody').innerHTML=body;document.getElementById('mFt').innerHTML=footer;document.getElementById('mOv').classList.add('open');}
 function closeM(){document.getElementById('mOv').classList.remove('open');}
 function confirmDel(title,msg,onOk){document.getElementById('cTitle').textContent=title;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOk').onclick=()=>{onOk();closeC();};document.getElementById('cOv').classList.add('open');}
 function closeC(){document.getElementById('cOv').classList.remove('open');}
 
-function rebuildAll(){
-  buildStats();
-  buildLBBars();
-  buildEvGlance();
-  buildOverall();
-  buildEvRes();
-  buildPtsBars();
-  buildBtns();
-  renderEvents();
-  buildStuStats();
-  renderStudents();
-  buildProgSel();
-  if(document.getElementById('progEvSel')?.value) renderProg();
-  buildGradeDefTable();
-}
+function rebuildAll(){buildStats();buildLBBars();buildEvGlance();buildOverall();buildEvRes();buildPtsBars();buildBtns();renderEvents();buildStuStats();renderStudents();buildProgSel();if(document.getElementById('progEvSel')?.value) renderProg();buildGradeDefTable();}
 
-/* ── PASSWORD ── */
 function toggleEye(id,btn){const el=document.getElementById(id),ic=btn.querySelector('i');el.type=el.type==='password'?'text':'password';ic.className=el.type==='text'?'fas fa-eye-slash':'fas fa-eye';}
 function chkStr(val){const f=document.getElementById('strFill'),l=document.getElementById('strLbl');if(!val){f.style.width='0%';l.textContent='';return;}let sc=0;if(val.length>=6)sc++;if(val.length>=10)sc++;if(/[A-Z]/.test(val))sc++;if(/[0-9]/.test(val))sc++;if(/[^A-Za-z0-9]/.test(val))sc++;const lv=[{w:'20%',bg:'#e74c3c',t:'Very weak'},{w:'40%',bg:'#e67e22',t:'Weak'},{w:'60%',bg:'#f1c40f',t:'Fair'},{w:'80%',bg:'#2ecc71',t:'Strong'},{w:'100%',bg:'#27ae60',t:'Very strong'}];const lx=lv[Math.min(sc-1,4)]||lv[0];f.style.width=lx.w;f.style.background=lx.bg;l.textContent=lx.t;l.style.color=lx.bg;}
 function clearPw(){['cpCur','cpNew','cpCfm'].forEach(id=>{const e=document.getElementById(id);if(e){e.value='';e.type='password';}});document.getElementById('strFill').style.width='0%';document.getElementById('strLbl').textContent='';document.getElementById('pwOk').style.display='none';document.getElementById('pwErr').style.display='none';}
@@ -1303,43 +1166,15 @@ function doChangePw(){const cur=document.getElementById('cpCur').value,nw=docume
 function adminReset(team){if(!isAdmin()){alert('Permission denied.');return;}const inp=document.getElementById('rp_'+team),val=inp.value.trim();if(!val||val.length<4){inp.style.borderColor='rgba(240,90,90,.5)';setTimeout(()=>inp.style.borderColor='',2000);return;}creds[team].hash=h(val);saveAll();inp.value='';const st=document.getElementById('rs_'+team);st.style.display='inline';setTimeout(()=>st.style.display='none',3000);}
 function resetAllPw(){if(!isAdmin()){alert('Permission denied.');return;}for(const k in DC)creds[k].hash=DC[k].hash;saveAll();const n=document.getElementById('rAllOk');n.style.display='flex';setTimeout(()=>n.style.display='none',4000);}
 
-/* ── MOBILE SIDEBAR ── */
-function toggleSidebar(){
-  const sb=document.querySelector('.sb');
-  const hb=document.getElementById('hamburger');
-  const ov=document.getElementById('sbOverlay');
-  if(!sb)return;
-  const open=sb.classList.toggle('open');
-  hb.classList.toggle('open',open);
-  ov.classList.toggle('show',open);
-  document.body.style.overflow=open?'hidden':'';
-}
-function closeSidebar(){
-  const sb=document.querySelector('.sb');
-  const hb=document.getElementById('hamburger');
-  const ov=document.getElementById('sbOverlay');
-  if(!sb)return;
-  sb.classList.remove('open');
-  hb.classList.remove('open');
-  ov.classList.remove('show');
-  document.body.style.overflow='';
-}
-function switchView(id,title){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');
-  document.getElementById('tbTitle').textContent=title;
-  closeSidebar();
-  if(id === 'vProg') buildProgSel();
-}
+function toggleSidebar(){const sb=document.querySelector('.sb');const hb=document.getElementById('hamburger');const ov=document.getElementById('sbOverlay');if(!sb)return;const open=sb.classList.toggle('open');hb.classList.toggle('open',open);ov.classList.toggle('show',open);document.body.style.overflow=open?'hidden':'';}
+function closeSidebar(){const sb=document.querySelector('.sb');const hb=document.getElementById('hamburger');const ov=document.getElementById('sbOverlay');if(!sb)return;sb.classList.remove('open');hb.classList.remove('open');ov.classList.remove('show');document.body.style.overflow='';}
+function switchView(id,title){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelector(`.ni[data-v="${id}"]`)?.classList.add('active');document.getElementById('tbTitle').textContent=title;closeSidebar();if(id === 'vProg') buildProgSel();}
 
 Object.assign(window,{doLogin,doLogout,switchView,toggleEye,chkStr,doChangePw,clearPw,adminReset,resetAllPw,inlineEditEv,saveInlineEv,confirmDel,delEvent,openAddEventModal,submitAddEvent,openAddStuModal,submitAddStu,openEditStuModal,submitEditStu,delStudent,renderEvents,renderStudents,renderProg,openAddCandModal,submitAddCand,openEditCandModal,submitEditCand,removeCand,updateProgScore,updateProgGrade,saveScores,saveGradeDef,resetGradeDef,closeM,closeC,toggleSidebar,closeSidebar,clearStorage});
 
 loadAll();
 initFirebase();
 try{const sv=JSON.parse(sessionStorage.getItem('z_u')||'null');if(sv){CU=sv;openApp();}}catch(e){}
-
 document.getElementById('hamburger').addEventListener('click',toggleSidebar);
 document.getElementById('sbOverlay').addEventListener('click',closeSidebar);
 </script>
