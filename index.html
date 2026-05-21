@@ -469,23 +469,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 
   <!-- FOOTER -->
-  <footer style="margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%;">
-    <div class="copyright" style="text-align: center;">
-      <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
-        <div style="width: 30px; height: 30px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-          <i class="fas fa-crown" style="color: #0a0a0f; font-size: 0.9rem;"></i>
-        </div>
-        <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">
-          © 2026 ZENITH Arts Fest. Organized by 
-          <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
-            <i class="fas fa-users"></i> ITQAN Union
-          </a>. All Rights Reserved.
-        </p>
+<!-- FOOTER - MOVED OUTSIDE #pgApp FOR PROPER ALIGNMENT -->
+<footer style="padding: 1.5rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); width: 100%; text-align: center; margin-top: auto;">
+  <div class="copyright">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <div style="width: 30px; height: 30px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-crown" style="color: #0a0a0f; font-size: 0.9rem;"></i>
       </div>
+      <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">
+        © 2026 ZENITH Arts Fest. Organized by 
+        <a href="https://itqan-friends.vercel.app/" target="_blank" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">
+          <i class="fas fa-users"></i> ITQAN Union
+        </a>. All Rights Reserved.
+      </p>
     </div>
-  </footer>
-</div>
-
+  </div>
+</footer>
 <!-- MODALS -->
 <div class="mov" id="mOv" onclick="if(event.target===this)closeM()"><div class="mbox"><div class="mhd"><div class="mtitle" id="mTitle">—</div><button class="mclose" onclick="closeM()"><i class="fas fa-times"></i></button></div><div class="mbody" id="mBody"></div><div class="mft" id="mFt"></div></div></div>
 <div class="cov" id="cOv"><div class="cbox"><div class="ctitle" id="cTitle">Confirm</div><div class="cmsg" id="cMsg"></div><div class="cbtns"><button class="btn bd" id="cOk">Confirm</button><button class="btn bx" onclick="closeC()">Cancel</button></div></div></div>
