@@ -373,14 +373,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="card">
         <div class="cardt"><div class="lft"><i class="fas fa-calendar-days"></i>Event Directory</div><div id="evBtns"></div></div>
         <div class="fbar"><input class="finp" placeholder="🔍  Search events…" id="evSearch" oninput="renderEvents()"><select class="fsel" id="evCatF" onchange="renderEvents()"><option value="">All Categories</option></select></div>
-        <table class="dt"><thead><tr><th>#</th><th>Event Name</th><th>Category</th><th>1st Pts</th><th>2nd Pts</th><th>3rd Pts</th><th>Grade</th><th id="evActH">Actions</th></tr></thead><tbody id="evTbody"></tbody></table>
+        <table class="dt"><thead><tr><th>#</th><th>Event Name</th><th>Category</th><th>1st Pts</th><th>2nd Pts</th><th>3rd Pts</th><th>Grade</th><th id="evActH">Actions</th></tr></thead><tbody id="evTbody"></tbody><table>
       </div>
     </div>
 
     <!-- LEADERBOARD VIEW -->
     <div class="view" id="vLB">
       <div class="hero" style="margin-bottom:1.4rem"><div class="heroey">Rankings</div><div class="herot">Live Leaderboard</div><div class="heros">Updated as results come in</div></div>
-      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Pos Pts + Grade Pts</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></td></div>
+      <div class="card"><div class="cardt"><div class="lft"><i class="fas fa-ranking-star"></i>Team Standings</div></div><table class="dt"><thead><tr><th>Rank</th><th>Team</th><th>Won</th><th>2nd</th><th>3rd</th><th>Pos Pts + Grade Pts</th><th>Total</th></tr></thead><tbody id="overallTb"></tbody></table></div>
       <div class="twocol">
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-medal"></i>Event Results</div></div><table class="dt"><thead><tr><th>Event</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody id="evResTb"></tbody></table></div>
         <div class="card" style="margin-bottom:0"><div class="cardt"><div class="lft"><i class="fas fa-chart-bar"></i>Points</div></div><div id="ptsBars"></div></div>
@@ -409,6 +409,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; flex: 1;">
           <select class="fsel" id="progEvSel" onchange="renderProg()" style="min-width: 250px; padding: 0.55rem 0.9rem; font-size: 0.9rem;">
             <option value="">— Select a Programme —</option>
+            <option value="e01">Vocabulary (Academic)</option>
+            <option value="e02">Short Story MLM (Literary)</option>
+            <option value="e03">Short Story ENG (Literary)</option>
+            <option value="e04">Short Story ARB (Literary)</option>
+            <option value="e05">Short Story UR (Literary)</option>
+            <option value="e06">Solo Singing (Music)</option>
+            <option value="e07">Group Singing (Music)</option>
+            <option value="e08">Instrumental (Music)</option>
+            <option value="e09">Beatboxing (Music)</option>
+            <option value="e10">Painting (Visual)</option>
+            <option value="e11">Sketching (Visual)</option>
+            <option value="e12">Photography (Visual)</option>
+            <option value="e13">Mono Act (Stage)</option>
+            <option value="e14">Group Skit (Stage)</option>
+            <option value="e15">Mime (Stage)</option>
+            <option value="ALL">📋 ALL PROGRAMS (View All)</option>
           </select>
           <select class="fsel" id="progTeamF" onchange="renderProg()" style="min-width: 140px;">
             <option value="">All Teams</option>
@@ -442,10 +458,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <!-- RESET PASSWORDS VIEW -->
     <div class="view" id="vReset">
       <div class="hero"><div class="heroey">Admin · Security</div><div class="herot">Reset Passwords</div><div class="heros">Change any team account password instantly</div></div>
-      <div class="card" style="margin-bottom:1.4rem"><div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div><table class="rtbl"><thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></tr></thead><tbody><tr><td style="color:var(--oc);font-weight:500">🎭 Othello</td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
-      <tr><td style="color:var(--mc);font-weight:500">⚔️ Macbeth</td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
-      <tr><td style="color:var(--hc);font-weight:500">💀 Hamlet</td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr>
-      <tr><td style="color:var(--ac);font-weight:500">👑 Admin</td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr>
+      <div class="card" style="margin-bottom:1.4rem"><div class="cardt"><div class="lft"><i class="fas fa-users-gear"></i>Team Passwords</div></div><table class="rtbl"><thead><tr><th>Team</th><th>Username</th><th>New Password</th><th></th></td></thead><tbody>
+        <tr><td style="color:var(--oc);font-weight:500">🎭 Othello</td><td><code style="font-size:.8rem;color:var(--muted)">othello_team</code></td><td><input class="ri" type="password" id="rp_othello" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('othello')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_othello">✓</span></td></tr>
+        <tr><td style="color:var(--mc);font-weight:500">⚔️ Macbeth</td><td><code style="font-size:.8rem;color:var(--muted)">macbeth_team</code></td><td><input class="ri" type="password" id="rp_macbeth" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('macbeth')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_macbeth">✓</span></td></tr>
+        <tr><td style="color:var(--hc);font-weight:500">💀 Hamlet</td><td><code style="font-size:.8rem;color:var(--muted)">hamlet_team</code></td><td><input class="ri" type="password" id="rp_hamlet" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('hamlet')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_hamlet">✓</span></td></tr>
+        <tr><td style="color:var(--ac);font-weight:500">👑 Admin</td><td><code style="font-size:.8rem;color:var(--muted)">admin</code></td><td><input class="ri" type="password" id="rp_admin" placeholder="New password"></td><td><button class="btn bg bsm" onclick="adminReset('admin')"><i class="fas fa-key"></i>Reset</button><span class="rstatus" id="rs_admin">✓</span></td></tr>
       </tbody></table></div>
       <div class="card" style="max-width:420px"><div class="cardt"><div class="lft"><i class="fas fa-rotate-left"></i>Factory Reset</div></div><p style="font-size:.87rem;color:var(--muted);margin-bottom:1rem">Restore all passwords to their original defaults.</p><button class="btn" style="background:linear-gradient(135deg,#c0392b,#922b21);color:#fff;font-weight:600;border:none;cursor:pointer" onclick="resetAllPw()"><i class="fas fa-trash-restore"></i>Reset All to Defaults</button><div class="notice nok" id="rAllOk"><i class="fas fa-circle-check"></i> All passwords restored!</div></div>
     </div>
@@ -749,7 +766,7 @@ function renderEvents(){
         <button class="btn bo bsm" onclick="inlineEditEv('${e.id}')"><i class="fas fa-pen"></i>Edit</button>
         <button class="btn bd bsm" onclick="confirmDel('Delete Event','Delete <b>${e.name}</b>?',()=>delEvent('${e.id}'))"><i class="fas fa-trash"></i></button>
       </div></td>
-    <tr>`).join('');
+    </tr>`).join('');
 }
 
 function inlineEditEv(eid){
@@ -825,7 +842,7 @@ function buildOverall(){
   }).join('');
 }
 function buildEvRes(){document.getElementById('evResTb').innerHTML=EVENTS.map(e=>{const gt=p=>TEAMS.find(t=>scores[e.id]&&scores[e.id][t]===p);const fmt=t=>t?`<span style="color:${TM[t].color}">${TM[t].emoji}</span>`:`<span style="color:var(--muted2)">—</span>`;return`<tr><td style="font-style:italic;font-size:.84rem">${e.name}</td><td>${fmt(gt(1))}</td><td>${fmt(gt(2))}</td><td>${fmt(gt(3))}</td></tr>`;}).join('');}
-function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x.team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
+function buildPtsBars(){const r=ranked(),mx=maxPts();document.getElementById('ptsBars').innerHTML=r.map(x=>`<div class="lbrow"><div class="lbmeta"><span class="lbname" style="color:${TM[x].team].color}">${TM[x.team].emoji} ${TM[x.team].label}</span><span class="lbpts">${x.total} pts</span></div><div class="lbtrack"><div class="lbbar" style="width:${Math.round((x.total/mx)*100)}%;background:${TM[x.team].color}"></div></div></div>`).join('');}
 
 function stuPoints(s){
   let tot=0;
@@ -848,7 +865,7 @@ function renderStudents(){
   const clT={othello:'var(--oc)',macbeth:'var(--mc)',hamlet:'var(--hc)'};
   const bgT={othello:'rgba(78,205,196,.1)',macbeth:'rgba(199,125,255,.1)',hamlet:'rgba(247,127,90,.1)'};
   if(mode==='table'){
-    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}</tr></thead><tbody>${
+    con.innerHTML=`<table class="dt"><thead><tr><th>Name</th><th>Roll No</th><th>Team</th><th>Grade</th><th>Points</th><th>Events</th><th>Role/Note</th>${isAdmin()?'<th>Actions</th>':''}</td></thead><tbody>${
       list.map(s=>{const evNm=s.events.map(id=>EVENTS.find(e=>e.id===id)?.name||id).join(', ');const sp=stuPoints(s);
         return`<tr><td style="font-weight:500">${s.name}</td><td style="color:var(--muted);font-size:.82rem">${s.roll}</td><td><span style="color:${clT[s.team]}">${TM[s.team].emoji} ${TM[s.team].label}</span></td><td style="font-size:.82rem">${s.grade||'—'}</td><td><span class="spts">${sp} pts</span></td><td style="font-size:.76rem;color:var(--muted)">${evNm||'—'}</td><td style="font-size:.76rem;color:var(--gold);font-style:italic">${s.note||'—'}</td>${isAdmin()?`<td><div style="display:flex;gap:4px"><button class="btn bo bsm" onclick="openEditStuModal('${s.id}')"><i class="fas fa-pen"></i>Edit</button><button class="btn bd bsm" onclick="confirmDel('Remove Student','Remove <b>${s.name}</b>?',()=>delStudent('${s.id}'))"><i class="fas fa-trash"></i></button></div></td>`:''}</tr>`;
       }).join('')
@@ -909,12 +926,20 @@ function submitEditStu(sid){
 
 function buildProgSel(){
   const sel=document.getElementById('progEvSel');
-  if(!sel)return;
-  const cur=sel.value;
-  sel.innerHTML=`<option value="">— Select a Programme —</option>
-                 <option value="ALL" ${cur==='ALL'?'selected':''}>📋 ALL PROGRAMS (View All)</option>
-                 <option disabled>──────────</option>`+
-                 EVENTS.map(e=>`<option value="${e.id}" ${e.id===cur?'selected':''}>${e.name} (${e.cat})</option>`).join('');
+  if(!sel) return;
+  // Populate dropdown with all events
+  sel.innerHTML = '<option value="">— Select a Programme —</option>';
+  EVENTS.forEach(event => {
+    const option = document.createElement('option');
+    option.value = event.id;
+    option.textContent = `${event.name} (${event.cat})`;
+    sel.appendChild(option);
+  });
+  // Add "ALL PROGRAMS" option
+  const allOption = document.createElement('option');
+  allOption.value = "ALL";
+  allOption.textContent = "📋 ALL PROGRAMS (View All)";
+  sel.appendChild(allOption);
 }
 
 function renderProg(){
@@ -1100,7 +1125,7 @@ function closeM(){document.getElementById('mOv').classList.remove('open');}
 function confirmDel(title,msg,onOk){document.getElementById('cTitle').textContent=title;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOk').onclick=()=>{onOk();closeC();};document.getElementById('cOv').classList.add('open');}
 function closeC(){document.getElementById('cOv').classList.remove('open');}
 
-function rebuildAll(){buildStats();buildLBBars();buildEvGlance();buildOverall();buildEvRes();buildPtsBars();buildBtns();renderEvents();buildStuStats();renderStudents();buildProgSel();if(document.getElementById('progEvSel')?.value) renderProg();buildGradeDefTable();}
+function rebuildAll(){buildStats();buildLBBars();buildEvGlance();buildOverall();buildEvRes();buildPtsBars();buildBtns();renderEvents();buildStuStats();renderStudents();buildProgSel();if(document.getElementById('progEvSel')?.value && document.getElementById('progEvSel').value !== 'ALL') renderProg(); else if(document.getElementById('progEvSel')?.value === 'ALL') renderAllPrograms(); buildGradeDefTable();}
 
 function toggleEye(id,btn){const el=document.getElementById(id),ic=btn.querySelector('i');el.type=el.type==='password'?'text':'password';ic.className=el.type==='text'?'fas fa-eye-slash':'fas fa-eye';}
 function chkStr(val){const f=document.getElementById('strFill'),l=document.getElementById('strLbl');if(!val){f.style.width='0%';l.textContent='';return;}let sc=0;if(val.length>=6)sc++;if(val.length>=10)sc++;if(/[A-Z]/.test(val))sc++;if(/[0-9]/.test(val))sc++;if(/[^A-Za-z0-9]/.test(val))sc++;const lv=[{w:'20%',bg:'#e74c3c',t:'Very weak'},{w:'40%',bg:'#e67e22',t:'Weak'},{w:'60%',bg:'#f1c40f',t:'Fair'},{w:'80%',bg:'#2ecc71',t:'Strong'},{w:'100%',bg:'#27ae60',t:'Very strong'}];const lx=lv[Math.min(sc-1,4)]||lv[0];f.style.width=lx.w;f.style.background=lx.bg;l.textContent=lx.t;l.style.color=lx.bg;}
